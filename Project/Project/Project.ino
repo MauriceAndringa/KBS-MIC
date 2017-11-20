@@ -19,7 +19,7 @@ int main(void)
 	Serial.begin(9600);
 
 	StartScreen SC;
-
+	//LCD.drawText()
     /* Replace with your application code */
     while (1) 
     {
