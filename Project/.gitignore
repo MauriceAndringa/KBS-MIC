@@ -16,11 +16,15 @@
 #Build Results
 *.o
 *.d
+*.a
 *.eep
 *.elf
 *.hex
 *.map
 *.srec
+*.xml
+*.buildinfo
+*.old
 
 #User Specific Files
 *.atsuo
