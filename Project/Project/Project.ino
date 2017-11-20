@@ -27,18 +27,38 @@ int main(void)
 	//Startup sequence
 	functions FC;
 	FC.startTimerScreenBrightness();
-	
-	
-	
-	Serial.begin(9600);
 
+	LCD.begin();
+	LCD.fillScreen(RGB(255,255,255));
+	LCD.touchStartCal();
+
+	int startPressed = 0, highscorePressed = 0;
+	Serial.begin(9600);
 	StartScreen SC;
-	//LCD.drawText()
     /* Replace with your application code */
     while (1) 
     {
 		FC.screenBrightness();
-		
+		while(!startPressed && !highscorePressed){
+			SC.buttonPress();
+			switch(SC.buttonPress()){
+				/*	Debug data
+					case 0:
+					Serial.println("Hello World");
+					break;
+				*/
+				case 1:
+				startPressed = 1;
+				Serial.println("Hello World");
+				break;
+				case 2:
+				highscorePressed = 1;
+			}
+		}
+		/*	Debug data
+			if(startPressed || highscorePressed)
+				Serial.println("Eruit");
+		*/
     }
 }
 

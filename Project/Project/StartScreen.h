@@ -21,6 +21,7 @@ private:
 public:
 	StartScreen();
 	~StartScreen();
+	int buttonPress();
 protected:
 private:
 	StartScreen( const StartScreen &c );
