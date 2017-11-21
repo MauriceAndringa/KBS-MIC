@@ -26,6 +26,8 @@ protected:
 private:
 	StartScreen( const StartScreen &c );
 	StartScreen& operator=( const StartScreen &c );
+	
+	uint8_t OpenBMPFile(char *file, int16_t x, int16_t y);
 
 }; //StartScreen
 

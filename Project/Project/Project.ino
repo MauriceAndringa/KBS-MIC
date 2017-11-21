@@ -8,6 +8,8 @@
 
 #include <avr/io.h>
 #include <MI0283QT9.h>
+#include <SD.h>
+#include <BMPheader.h>
 #include "StartScreen.h"
 #include "functions.h"
 
@@ -17,6 +19,8 @@ MI0283QT9 LCD;
 int main(void)
 {
 	init();
+	int startPressed = 0, highscorePressed = 0;
+	Serial.begin(9600);
 	
 	//PinSetup
 	
@@ -27,20 +31,19 @@ int main(void)
 	//Startup sequence
 	functions FC;
 	FC.startTimerScreenBrightness();
-
+	
+	// LCD setup
 	LCD.begin();
 	LCD.fillScreen(RGB(255,255,255));
 	LCD.touchStartCal();
 
-	int startPressed = 0, highscorePressed = 0;
-	Serial.begin(9600);
 	StartScreen SC;
     /* Replace with your application code */
     while (1) 
     {
 		FC.screenBrightness();
-		while(!startPressed && !highscorePressed){
-			SC.buttonPress();
+		if(startPressed && highscorePressed){
+			SC.buttonPress(); // kan dit met een interrupt. Op welke port komt de touch signal binnen?
 			switch(SC.buttonPress()){
 				/*	Debug data
 					case 0:
@@ -49,7 +52,6 @@ int main(void)
 				*/
 				case 1:
 				startPressed = 1;
-				Serial.println("Hello World");
 				break;
 				case 2:
 				highscorePressed = 1;
