@@ -10,6 +10,8 @@
 #include "GameScreen.h"
 #include "Functions.h"
 
+
+
 // default constructor
 GameScreen::GameScreen()
 {
@@ -18,8 +20,14 @@ GameScreen::GameScreen()
 void GameScreen::terug()
 {
 	if(LCD.touchRead()){
+		int i;	
+		//for(i = 0; i < sizeof(map); i++)
+			//	map[i] = baseMap[i];
+		
+		
 		SC.drawScreen();
 		loaded = 0, startPressed = 0;
+		
 	}
 }
 
@@ -68,13 +76,14 @@ void GameScreen::genValue(float level)
 			map[i] = (int)((double)rand() / ((double)RAND_MAX + 1.0) < level) ? 3 : 2;
 	}
 	
-	for(i = 0; i < sizeof(map); i++){
+	/*for(i = 0; i < sizeof(map); i++){
 		if((i % 13) == 0 && i != 0){
 			Serial.println();
 		}
 		Serial.print(map[i]);
 		
 	}
+	*/
 }
 
 // default destructor

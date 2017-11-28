@@ -17,6 +17,11 @@
 #include "OpenBMPFile.h"
 #include "OpenBMPFile.h"
 
+#define TEST 0.5
+#define EASY 0.7
+#define MEDIUM 0.8
+#define HARD 0.9
+
 MI0283QT9 LCD;
 StartScreen SC;
 GameScreen GC;
@@ -24,6 +29,7 @@ Functions FC;
 OpenBMPFile BMP;
 
 int loaded, startPressed, highscorePressed;
+double level;
 
 void initSD();
 
@@ -32,14 +38,14 @@ int main(void)
 	init();
 	
 	loaded = 0, startPressed = 0, highscorePressed = 0;
-	Serial.begin(9600);
+	//Serial.begin(9600);
 	
 	//PinSetup
 	
 	DDRB |=  (1 <<DDB1);		//Outputpoort van achtergrondlicht
 	DDRC &= ~(1 << DDC0);		//Inputpoort van potmeter (analogPin0)
 	DDRC &= ~(1 << DDC1);
-	PORTC |= (1 <<PORTC0);	//instellen pull-up weerstand
+	PORTC |= (1 <<PORTC0);		//instellen pull-up weerstand
 	
 	//Startup sequence
 	FC.startTimerScreenBrightness();
@@ -58,7 +64,12 @@ int main(void)
 	//StartScreen SC;
 	SC.drawScreen();
 	
-	/* Replace with your application code */
+	//Debug values
+	level = TEST;
+	
+
+	
+	/* Application code */
     while (1) 
     {
 		FC.screenBrightness();
@@ -71,20 +82,22 @@ int main(void)
 					
 				case 1:
 					startPressed = 1;
-					Serial.println("Start button pressed"); // debug data
+					//Serial.println("Start button pressed"); // debug data
 					break;
 				case 2:
-					highscorePressed = 1;
-					Serial.println("Highscore button pressed"); // debug data
+					//highscorePressed = 1;
+					//Serial.println("Highscore button pressed"); // debug data
+					break;
 			}
 		}
 		
 		
 		if(startPressed && !highscorePressed){
 			if(!loaded){
-				Serial.println("Start gamescreen");
-				GC.drawScreen(0.5);
+				//Serial.println("Start gamescreen");
+				GC.drawScreen(level);
 				loaded = 1;
+				//Serial.println("Geladen");
 			}
 			GC.terug();
 		}
