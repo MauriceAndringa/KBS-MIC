@@ -24,6 +24,7 @@ public:
 	~Functions();
 	void startTimerScreenBrightness();
 	void screenBrightness();
+	int readRandom();
 protected:
 private:
 	Functions( const Functions &c );

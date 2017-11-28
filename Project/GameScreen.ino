@@ -8,6 +8,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include "GameScreen.h"
+#include "Functions.h"
 
 // default constructor
 GameScreen::GameScreen()
@@ -60,7 +61,7 @@ void GameScreen::genValue(float level)
 {
 	int i;
 	time_t t;
-	srand((unsigned) time(&t));
+	srand((unsigned) FC.readRandom());
 	
 	for(i = 0; i < sizeof(map); i++){
 		if(!map[i])

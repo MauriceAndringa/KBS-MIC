@@ -47,3 +47,31 @@ void Functions::screenBrightness()
 {
 	OCR1A = readBrightnessPot();
 }
+
+int Functions::readRandom()
+{
+	int rand1, rand2;
+	ADMUX = 0x41;								//Instellen input poort en referentiespanning
+	
+	ADCSRA = (1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0);	//ADCklok=CPUklok/128
+	ADCSRA |= (1<<ADEN);						//ADC inschakelen
+	ADCSRA |= (1<<ADSC);        				//een enkele AD-conversie
+	
+	
+	while (ADCSRA & (1<<ADSC)); 				//wacht op resultaat
+	
+	rand1 = ADC;
+	
+		ADMUX = 0x42;								//Instellen input poort en referentiespanning
+		
+		ADCSRA = (1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0);	//ADCklok=CPUklok/128
+		ADCSRA |= (1<<ADEN);						//ADC inschakelen
+		ADCSRA |= (1<<ADSC);        				//een enkele AD-conversie
+		
+		while (ADCSRA & (1<<ADSC)); 				//wacht op resultaat
+		
+	rand2 = ADC;
+	
+	return (rand2^2)%rand1;
+	
+}
