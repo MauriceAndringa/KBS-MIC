@@ -24,12 +24,12 @@ public:
 	~Functions();
 	void startTimerScreenBrightness();
 	void screenBrightness();
-	int readRandom();
+	uint8_t readRandom();
 protected:
 private:
 	Functions( const Functions &c );
 	Functions& operator=( const Functions &c );
-	int readBrightnessPot();
+	uint8_t readBrightnessPot();
 
 }; //functions
 

@@ -29,7 +29,7 @@ void Functions::startTimerScreenBrightness()
 	TCCR1B |= (1<<CS01);
 }
 
-int Functions::readBrightnessPot()
+uint8_t Functions::readBrightnessPot()
 {
 	ADMUX = 0x40;								//Instellen input poort en referentiespanning
 	
@@ -48,9 +48,9 @@ void Functions::screenBrightness()
 	OCR1A = readBrightnessPot();
 }
 
-int Functions::readRandom()
+uint8_t Functions::readRandom()
 {
-	int rand1, rand2;
+	uint8_t rand1;
 	ADMUX = 0x41;								//Instellen input poort en referentiespanning
 	
 	ADCSRA = (1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0);	//ADCklok=CPUklok/128
@@ -69,9 +69,7 @@ int Functions::readRandom()
 		ADCSRA |= (1<<ADSC);        				//een enkele AD-conversie
 		
 		while (ADCSRA & (1<<ADSC)); 				//wacht op resultaat
-		
-	rand2 = ADC;
 	
-	return (rand2^2)%rand1;
+	return 5;//(ADC^2)%rand1;
 	
 }

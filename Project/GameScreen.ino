@@ -20,7 +20,7 @@ GameScreen::GameScreen()
 void GameScreen::terug()
 {
 	if(LCD.touchRead()){
-		int i;	
+		//int i;	
 		//for(i = 0; i < sizeof(map); i++)
 			//	map[i] = baseMap[i];
 		
@@ -37,8 +37,8 @@ void GameScreen::drawScreen(float level)
 	LCD.fillScreen(RGB(128,128,128));
 	genValue(level);
 	
-	int i;
-	int j = 0, tempy = 0, row = 0, tempx = 0;
+	uint8_t i;
+	uint8_t j = 0, tempy = 0, row = 0, tempx = 0;
 	for(i = 0; i < sizeof(map); i++){
 		tempx = i - (row * 13);
 		
