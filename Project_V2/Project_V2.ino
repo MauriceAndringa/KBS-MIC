@@ -2,11 +2,12 @@
 // INCLUDES
 // Libraries
 #include <MI0283QT9.h>
-//#include <SD.h>
 #include <BMPheader.h> //todo is deze include nodig?
 
 // Header Files
 #include "SystemFunctions.h"
+#include "MainMenu.h"
+#include "Map.h"
 
 // DEFINES
 #define TEST 
@@ -15,10 +16,13 @@
 #define HARD 
 
 // Global Variables
+View currentView	= NONE;
+View requestedView	= MENU;
+
+// Objects
 MI0283QT9 LCD;
-//SystemFunctions SF;
-
-
+MainMenu mainMenu(&LCD, &currentView, &requestedView);
+Map level(&LCD);
 
 //Function declaration
 void initializePins();
@@ -40,19 +44,39 @@ int main (void)
 	// LCD setup
 	LCD.begin();
 	LCD.fillScreen(RGB(255,255,255));
-		
-	// initialize SD-card
-//	initSD();
+	LCD.touchStartCal();
 	
-	//Debugstuff
+	//Debug stuff
 	Serial.begin(9600);
 	
 	for (;;)
 	{
+		// change led brightness if it is changed
 		SystemFunctions::screenBrightness();
 		
+		if(currentView != requestedView){
+			
+			currentView = requestedView;
+			
+			switch(currentView){
+				
+				case MENU:
+					mainMenu.draw();
+					break;
+				
+				case GAME:
+					level.drawMap();
+					break;
+						
+			}
+		}
+
+		mainMenu.listenToTouchInput();
+		//Serial.println(((rand() / RAND_MAX) % 3) + 1);
 		
 	}
+
+	
 	
 	
 }
