@@ -1,4 +1,4 @@
-/* 
+/*
 * SystemFunctions.cpp
 *
 * Created: 29-11-2017 11:09:18
@@ -8,9 +8,13 @@
 
 #include "SystemFunctions.h"
 
+#define NUNCHUCKADRESS 0x52
+
+enum nuchuckResult{ UP = 1, RIGHT, DOWN, LEFT, SELECT };
+
 volatile uint32_t seed;
 volatile int8_t nrot;
-	
+
 ISR(WDT_vect)
 {
 	nrot--;
@@ -31,18 +35,18 @@ SystemFunctions::~SystemFunctions()
 int SystemFunctions::readAnalog(uint8_t pin)
 {
 	if (pin<6)										//Check if pin exists.
-	{	
+	{
 		ADMUX = 0x40;								//Declare Reference
 		ADMUX |= pin;								//Define pin
 		
 
 		ADCSRA |= (1<<ADSC);        				//Single AD-conversion
-	
+		
 		while (ADCSRA & (1<<ADSC)); 				//Wait for result
 		
 		return ADC;
-	} else 
-		return 0;									//Error value
+	} else
+	return 0;									//Error value
 }
 
 void SystemFunctions::screenBrightness()
@@ -79,4 +83,50 @@ uint32_t SystemFunctions::getRandomSeed()
 {
 	SystemFunctions::createRandomSeed();
 	return seed;
+}
+
+uint8_t SystemFunctions::readNunchuck()
+{
+	
+	
+	enum nuchuckResult result;
+	static uint8_t buffer[6];
+	uint8_t i=0;
+	
+	Wire.requestFrom (0x52, 6);     // request data from nunchuck
+	while (Wire.available ()) {
+		// receive byte as an integer
+		buffer[i] = decodeNunchuck(Wire.read());
+		i++;
+	}
+	
+	sendRequest();
+	
+	if (buffer[1]>200)
+	result = UP;
+	else if (buffer[1]<50)
+	result = DOWN;
+	else if (buffer[0]> 200)
+	result = RIGHT;
+	else if (buffer[0] < 50)
+	result = LEFT;
+	else if (!((buffer[5] >> 0) & 1))
+	result = SELECT;		// Z-button
+	
+	return result; //failure
+	
+}
+
+
+char SystemFunctions::decodeNunchuck(char x)
+{
+	x = (x ^ 0x17) + 0x17;
+	return x;
+}
+
+void SystemFunctions::sendRequest()
+{
+	Wire.beginTransmission(NUNCHUCKADRESS);   // transmit to Nunchcuk adress
+	Wire.write(0x00);
+	Wire.endTransmission();
 }

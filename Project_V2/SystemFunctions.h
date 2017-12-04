@@ -28,6 +28,7 @@ class SystemFunctions
 public:
 	static void screenBrightness();
 	static uint32_t getRandomSeed();
+	static uint8_t readNunchuck();
 	SystemFunctions();
 	~SystemFunctions();
 
@@ -35,6 +36,8 @@ protected:
 private:
 	static int readAnalog(uint8_t pin);
 	static void createRandomSeed();
+	static char decodeNunchuck(char x);
+	static void sendRequest();
 
 	SystemFunctions( const SystemFunctions &c );
 	SystemFunctions& operator=( const SystemFunctions &c );

@@ -2,6 +2,8 @@
 // INCLUDES
 // Libraries
 #include <MI0283QT9.h>
+//#include <BMPheader.h> //todo is deze include nodig?
+#include <Wire.h>
 
 // Header Files
 #include "SystemFunctions.h"
@@ -32,6 +34,7 @@ Map level(&LCD);
 //Function declaration
 void initializePins();
 void initializeRegisters();
+void initializeNunchuck();
 
 //Code
 int main (void)
@@ -47,6 +50,9 @@ int main (void)
 	//Initialize registers
 	initializeRegisters();
 	
+	//Initialize nunchuck communication
+	initializeNunchuck();
+	
 	// LCD setup
 	LCD.begin();
 	LCD.fillScreen(RGB(255,255,255));
@@ -59,6 +65,7 @@ int main (void)
 	{
 		// change led brightness if it is changed
 		SystemFunctions::screenBrightness();
+		Serial.println (SystemFunctions::readNunchuck());
 		
 		// check if the the requested view has changed
 		if(currentView != requestedView){
@@ -112,5 +119,14 @@ void initializeRegisters()
 	TCCR1A |= (1<<COM0A1);						
 	TCCR1A |= (1<<WGM01)|(1<<WGM00);
 	TCCR1B |= (1<<CS01);
+}
+
+void initializeNunchuck()
+{
+	Wire.begin();
+	Wire.beginTransmission(0x52);     // transmit to device 0x52
+	Wire.write(0x40);            // sends memory address
+	Wire.write(0x00);            // sends sent a zero.
+	Wire.endTransmission();     // stop transmitting
 }
 
