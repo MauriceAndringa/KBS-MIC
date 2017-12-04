@@ -2,18 +2,11 @@
 // INCLUDES
 // Libraries
 #include <MI0283QT9.h>
-#include <BMPheader.h> //todo is deze include nodig?
 
 // Header Files
 #include "SystemFunctions.h"
 #include "MainMenu.h"
 #include "Map.h"
-
-// DEFINES
-#define TEST 
-#define EASY 
-#define MEDIUM 
-#define HARD 
 
 // Global Variables
 View currentView	= NONE;
@@ -31,8 +24,9 @@ void initializeRegisters();
 //Code
 int main (void)
 {
-	//Startup sequence
+	float difficulty = 0.7;
 	
+	//Startup sequence
 	init();
 	
 	//Initialize pins
@@ -54,25 +48,28 @@ int main (void)
 		// change led brightness if it is changed
 		SystemFunctions::screenBrightness();
 		
+		// check if the the requested view has changed
 		if(currentView != requestedView){
 			
 			currentView = requestedView;
 			
+			// decide which view to draw
 			switch(currentView){
 				
+				// draw the main menu
 				case MENU:
 					mainMenu.draw();
 					break;
 				
+				// draw the screen
 				case GAME:
-					level.drawMap();
+					level.drawMap(difficulty);
 					break;
 						
 			}
 		}
 
 		mainMenu.listenToTouchInput();
-		//Serial.println(((rand() / RAND_MAX) % 3) + 1);
 		
 	}
 
