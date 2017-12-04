@@ -7,6 +7,10 @@
 #include "SystemFunctions.h"
 #include "MainMenu.h"
 #include "Map.h"
+#include "Player.h"
+
+// define if the microcontroller is a slave or master
+#define IS_SLAVE 0
 
 // Global Variables
 View currentView	= NONE;
@@ -16,6 +20,14 @@ View requestedView	= MENU;
 MI0283QT9 LCD;
 MainMenu mainMenu(&LCD, &currentView, &requestedView);
 Map level(&LCD);
+
+#if (IS_SLAVE == 0)
+	Player internalPlayer({25, 25, 0, 0}, &LCD);
+	Player externalPlayer({225, 185, 0,0}, &LCD);
+#else
+	Player internalPlayer({225, 185, 0, 0}, &LCD);
+	Player externalPlayer({25, 25, 0, 0}, &LCD);
+#endif
 
 //Function declaration
 void initializePins();
@@ -68,13 +80,17 @@ int main (void)
 						
 			}
 		}
+		
+		if(currentView == GAME){
+			internalPlayer.drawPlayer();
+			externalPlayer.drawPlayer();
+			delay(250);
+			internalPlayer.moveRight();
+		}
 
 		mainMenu.listenToTouchInput();
 		
 	}
-
-	
-	
 	
 }
 

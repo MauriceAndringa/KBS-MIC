@@ -15,18 +15,20 @@
 #define COLOUR_DESTROYABLE RGB(64,16,10)
 #define COLOUR_GRID RGB(0,0,0)
 
+typedef enum{
+	PILLAR,
+	DESTROYABLE,
+	ROAD
+} BLOCK_TYPE;
+
 class Map
 {
-//variables
-public:
-protected:
-private:
-
-//functions
 public:
 	Map(MI0283QT9 *lcdPointer);
+	Map();
 	~Map();
 	void drawMap(float difficulty);
+	void updateChunk(uint8_t x, uint8_t y);
 protected:
 private:
 	Map( const Map &c );

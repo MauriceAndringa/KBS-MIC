@@ -86,7 +86,11 @@ void Map::drawMap(float difficulty)
 			y = 20 * row;
 			j = 0;
 		} 
-	}	
+	}
+}
+
+void Map::updateChunk(uint8_t x, uint8_t y){
+	lcdPointer->fillRect(x,y,10,10, RGB(91,90,90));
 }
 
 // default destructor
