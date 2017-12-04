@@ -15,12 +15,6 @@
 #define COLOUR_DESTROYABLE RGB(64,16,10)
 #define COLOUR_GRID RGB(0,0,0)
 
-typedef enum{
-	PILLAR,
-	DESTROYABLE,
-	ROAD
-} BLOCK_TYPE;
-
 class Map
 {
 public:
