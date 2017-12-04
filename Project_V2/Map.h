@@ -10,9 +10,10 @@
 #ifndef __MAP_H__
 #define __MAP_H__
 #define BLOCK_SIZE 20
-#define COLOUR_PILLAR RGB(0,0,0)
+#define COLOUR_PILLAR RGB(51, 49, 49)
 #define COLOUR_ROAD RGB(91,90,90)
 #define COLOUR_DESTROYABLE RGB(64,16,10)
+#define COLOUR_GRID RGB(0,0,0)
 
 class Map
 {
@@ -25,7 +26,7 @@ private:
 public:
 	Map(MI0283QT9 *lcdPointer);
 	~Map();
-	void drawMap();
+	void drawMap(float difficulty);
 protected:
 private:
 	Map( const Map &c );
@@ -34,7 +35,7 @@ private:
 	
 	// array level is used to generate a random level
 	uint8_t level[143];
-	uint32_t seed;
+	//uint32_t seed;
 }; //Map
 
 #endif //__MAP_H__

@@ -10,12 +10,6 @@
 #include "MainMenu.h"
 #include "Map.h"
 
-// DEFINES
-#define TEST 
-#define EASY 
-#define MEDIUM 
-#define HARD 
-
 // Global Variables
 View currentView	= NONE;
 View requestedView	= MENU;
@@ -33,8 +27,9 @@ void initializeNunchuck();
 //Code
 int main (void)
 {
-	//Startup sequence
+	float difficulty = 0.7;
 	
+	//Startup sequence
 	init();
 	
 	//Initialize pins
@@ -60,25 +55,28 @@ int main (void)
 		SystemFunctions::screenBrightness();
 		Serial.println (SystemFunctions::readNunchuck());
 		
+		// check if the the requested view has changed
 		if(currentView != requestedView){
 			
 			currentView = requestedView;
 			
+			// decide which view to draw
 			switch(currentView){
 				
+				// draw the main menu
 				case MENU:
 					mainMenu.draw();
 					break;
 				
+				// draw the screen
 				case GAME:
-					level.drawMap();
+					level.drawMap(difficulty);
 					break;
 						
 			}
 		}
 
 		mainMenu.listenToTouchInput();
-		//Serial.println(((rand() / RAND_MAX) % 3) + 1);
 		
 	}
 

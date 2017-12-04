@@ -8,7 +8,7 @@
 
 #ifndef __SYSTEMFUNCTIONS_H__
 #define __SYSTEMFUNCTIONS_H__
-#define randomSeed(s) srandom(s)
+//#define randomSeed(s) srandom(s)
 
 #include <avr/interrupt.h>
 #include <avr/wdt.h>

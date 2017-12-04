@@ -39,11 +39,17 @@ void MainMenu::listenToTouchInput()
 			// check if button start is pressed
 			if(lcdPointer->touchY() >= 150 && lcdPointer->touchY() <= 180){
 				
+				for(int i = 60; i >= 57; i--){
+					lcdPointer->drawRect(i, (i + 90), 200, 30, RGB(255,0,0));
+				}
 				*requestedViewPointer = GAME;
 				
 				// check if highscore button is pressed
 			} else if(lcdPointer->touchY() >= 200 && lcdPointer->touchY() <= 230){
 				
+				for(int i = 60; i >= 57; i--){
+					lcdPointer->drawRect(i, (i + 140), 200, 30, RGB(255,0,0));
+				}
 				*requestedViewPointer = HIGHSCORE;
 				
 			}
