@@ -26,6 +26,8 @@ public:
 	
 	void drawPlayer();
 	void move(uint8_t direction);
+	uint8_t getLocationX();
+	uint8_t getLocationY();
 protected:
 private:
 	Player( const Player &c );

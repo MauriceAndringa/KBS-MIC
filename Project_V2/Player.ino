@@ -28,6 +28,16 @@ void Player::drawPlayer()
 	}
 }
 
+uint8_t Player::getLocationX()
+{
+	return location.playerLocX;
+}
+
+uint8_t Player::getLocationY()
+{
+	return location.playerLocY;
+}
+
 void Player::move(uint8_t direction)
 {
 	location.oldPlayerLocX = location.playerLocX;

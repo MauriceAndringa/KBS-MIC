@@ -10,6 +10,7 @@
 #include "MainMenu.h"
 #include "Map.h"
 #include "Player.h"
+#include "Bomb.h"
 
 // define if the microcontroller is a slave or master
 #define IS_SLAVE 0
@@ -24,6 +25,7 @@ uint8_t resultNunchuck;
 MI0283QT9 LCD;
 MainMenu mainMenu(&LCD, &currentView, &requestedView);
 Map level(&LCD);
+Bomb bomb(&LCD);
 
 #if (IS_SLAVE == 0)
 	Player internalPlayer({25, 25, 0, 0}, &LCD, &level);
@@ -63,11 +65,14 @@ int main (void)
 	//Debug stuff
 	Serial.begin(9600);
 	
+	// initialize variables
+	uint8_t locationX;
+	uint8_t locationY;
+	
 	for (;;)
 	{
 		// change led brightness if it is changed
 		SystemFunctions::screenBrightness();
-		Serial.println (SystemFunctions::readNunchuck());
 		
 		// check if the the requested view has changed
 		if(currentView != requestedView){
@@ -97,6 +102,14 @@ int main (void)
 			if (resultNunchuck!= 0)
 			{
 				internalPlayer.move(resultNunchuck);
+				
+				// check if button Z is pushed(button Z returns value 5)
+				if(resultNunchuck == 5){
+					locationX = internalPlayer.getLocationX() + 4;
+					locationY = internalPlayer.getLocationY() + 4;
+					
+					bomb.drawBomb(locationX, locationY);
+				}
 			}
 		}
 
