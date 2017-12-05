@@ -25,11 +25,11 @@ MainMenu mainMenu(&LCD, &currentView, &requestedView);
 Map level(&LCD);
 
 #if (IS_SLAVE == 0)
-	Player internalPlayer({25, 25, 0, 0}, &LCD);
-	Player externalPlayer({225, 185, 0,0}, &LCD);
+	Player internalPlayer({25, 25, 0, 0}, &LCD, &level);
+	Player externalPlayer({225, 185, 0,0}, &LCD, &level);
 #else
-	Player internalPlayer({225, 185, 0, 0}, &LCD);
-	Player externalPlayer({25, 25, 0, 0}, &LCD);
+	Player internalPlayer({225, 185, 0, 0}, &LCD, &level);
+	Player externalPlayer({25, 25, 0, 0}, &LCD, &level);
 #endif
 
 //Function declaration

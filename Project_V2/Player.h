@@ -21,7 +21,7 @@ typedef struct {
 class Player
 {
 public:
-	Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer);
+	Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointer);
 	~Player();
 	
 	void drawPlayer();
@@ -38,6 +38,7 @@ private:
 	PLAYER_LOCATION location;
 	
 	MI0283QT9 *lcdPointer;
+	Map *levelPointer;
 
 }; //Player
 

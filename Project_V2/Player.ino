@@ -12,10 +12,11 @@
 #define GRID 20;
 
 // default constructor
-Player::Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer)
+Player::Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointer)
 {
 	Player::location = location;
 	Player::lcdPointer = lcdPointer;
+	Player::levelPointer = levelPointer;
 } //Player
 
 void Player::drawPlayer()
@@ -23,7 +24,7 @@ void Player::drawPlayer()
 	lcdPointer->fillRect(location.playerLocX, location.playerLocY, 10, 10, RGB(255,0,0));
 	
 	if(location.oldPlayerLocX != 0 && location.oldPlayerLocY != 0){
-		level.updateChunk(location.oldPlayerLocX, location.oldPlayerLocY);
+		levelPointer->updateChunk(location.oldPlayerLocX, location.oldPlayerLocY);
 	}
 }
 
