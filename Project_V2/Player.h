@@ -12,10 +12,9 @@
 #include <stdint.h>
 
 typedef struct {
-	uint8_t playerLocX;
-	uint8_t playerLocY;
-	uint8_t oldPlayerLocX;
-	uint8_t oldPlayerLocY;
+	uint8_t playerLoc;
+	uint8_t newPlayerLoc;
+	uint8_t oldPlayerLoc;
 } PLAYER_LOCATION;
 
 class Player
@@ -34,6 +33,8 @@ private:
 	void moveRight();
 	void moveDown();
 	void moveLeft();
+	uint8_t pixelX(uint8_t loc);
+	uint8_t pixelY(uint8_t loc);
 	
 	PLAYER_LOCATION location;
 	

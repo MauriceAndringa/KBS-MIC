@@ -21,6 +21,7 @@ public:
 	Map(MI0283QT9 *lcdPointer);
 	Map();
 	~Map();
+	
 	void drawMap(float difficulty);
 	void updateChunk(uint8_t x, uint8_t y);
 	uint8_t checkLocation(uint8_t location);

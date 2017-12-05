@@ -26,11 +26,11 @@ MainMenu mainMenu(&LCD, &currentView, &requestedView);
 Map level(&LCD);
 
 #if (IS_SLAVE == 0)
-	Player internalPlayer({25, 25, 0, 0}, &LCD, &level);
-	Player externalPlayer({225, 185, 0,0}, &LCD, &level);
+	Player internalPlayer({14, 0, 14}, &LCD, &level);
+	Player externalPlayer({128, 0, 128}, &LCD, &level);
 #else
-	Player internalPlayer({225, 185, 0, 0}, &LCD, &level);
-	Player externalPlayer({25, 25, 0, 0}, &LCD, &level);
+	Player internalPlayer({128, 0, 128}, &LCD, &level);
+	Player externalPlayer({14, 0, 14}, &LCD, &level);
 #endif
 
 //Function declaration
@@ -85,18 +85,21 @@ int main (void)
 				// draw the screen
 				case GAME:
 					level.drawMap(difficulty);
+					internalPlayer.drawPlayer();
+					externalPlayer.drawPlayer();
 					break;
 						
 			}
 		}
 		
 		if(currentView == GAME){
-			internalPlayer.drawPlayer();
-			externalPlayer.drawPlayer();
 			resultNunchuck = SystemFunctions::readNunchuck();
-			if (resultNunchuck!= 0)
+			if (resultNunchuck!= 0&&resultNunchuck!=5)
 			{
 				internalPlayer.move(resultNunchuck);
+			} else if (resultNunchuck == 5)
+			{
+				//hier bom plaatsen
 			}
 		}
 

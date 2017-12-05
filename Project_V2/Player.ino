@@ -21,17 +21,15 @@ Player::Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointe
 
 void Player::drawPlayer()
 {
-	lcdPointer->fillRect(location.playerLocX, location.playerLocY, 10, 10, RGB(255,0,0));
 	
-	if(location.oldPlayerLocX != 0 && location.oldPlayerLocY != 0){
-		levelPointer->updateChunk(location.oldPlayerLocX, location.oldPlayerLocY);
-	}
+	levelPointer->updateChunk(pixelX(location.oldPlayerLoc), pixelY(location.oldPlayerLoc));
+	lcdPointer->fillRect(pixelX(location.playerLoc), pixelY(location.playerLoc), 10, 10, RGB(255,0,0));
+	
 }
 
 void Player::move(uint8_t direction)
 {
-	location.oldPlayerLocX = location.playerLocX;
-	location.oldPlayerLocY = location.playerLocY;
+	location.oldPlayerLoc = location.playerLoc;
 	switch (direction)
 	{
 		case 1:
@@ -43,34 +41,48 @@ void Player::move(uint8_t direction)
 		case 3:
 		moveDown();
 		break;
-		case 4: 
+		case 4:
 		moveLeft();
 		break;
 	}
+	if(levelPointer->checkLocation(location.newPlayerLoc)){
+		location.playerLoc = location.newPlayerLoc;
+		drawPlayer();
+	}
+	
 }
 
 void Player::moveUp()
 {
-	location.playerLocY += GRID;
+	location.newPlayerLoc = location.playerLoc-13;
 }
 
 void Player::moveRight()
 {
-	location.playerLocX += GRID;
+	location.newPlayerLoc = location.playerLoc+1;
 }
 
 void Player::moveDown()
 {
 
-	location.playerLocY -= GRID;
+	location.newPlayerLoc = location.playerLoc+13;
 }
 
 void Player::moveLeft()
 {
 
-	location.playerLocX -= GRID;
+	location.newPlayerLoc = location.playerLoc-1;
 }
 
+uint8_t Player::pixelX(uint8_t loc)
+{
+	return 5+(loc%13)*GRID;
+}
+
+uint8_t Player::pixelY(uint8_t loc)
+{
+	return 5+(loc/13)*GRID;	
+}
 
 // default destructor
 Player::~Player()
