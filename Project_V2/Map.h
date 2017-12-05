@@ -23,6 +23,7 @@ public:
 	~Map();
 	void drawMap(float difficulty);
 	void updateChunk(uint8_t x, uint8_t y);
+	uint8_t checkLocation(uint8_t location);
 protected:
 private:
 	Map( const Map &c );

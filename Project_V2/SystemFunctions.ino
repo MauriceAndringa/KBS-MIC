@@ -7,6 +7,7 @@
 
 
 #include "SystemFunctions.h"
+#include "Map.h"
 
 #define NUNCHUCKADRESS 0x52
 
@@ -116,7 +117,6 @@ uint8_t SystemFunctions::readNunchuck()
 	return result; //failure
 	
 }
-
 
 char SystemFunctions::decodeNunchuck(char x)
 {

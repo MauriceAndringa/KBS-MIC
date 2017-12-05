@@ -17,6 +17,7 @@
 // Global Variables
 View currentView	= NONE;
 View requestedView	= MENU;
+uint8_t resultNunchuck;
 
 
 // Objects
@@ -92,8 +93,11 @@ int main (void)
 		if(currentView == GAME){
 			internalPlayer.drawPlayer();
 			externalPlayer.drawPlayer();
-			SystemFunctions::readNunchuck();
-			Player.move(SystemFunctions::readNunchuck());
+			resultNunchuck = SystemFunctions::readNunchuck();
+			if (resultNunchuck!= 0)
+			{
+				internalPlayer.move(resultNunchuck);
+			}
 		}
 
 		mainMenu.listenToTouchInput();

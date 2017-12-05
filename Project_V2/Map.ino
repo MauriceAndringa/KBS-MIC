@@ -93,6 +93,12 @@ void Map::updateChunk(uint8_t x, uint8_t y){
 	lcdPointer->fillRect(x,y,10,10, RGB(91,90,90));
 }
 
+uint8_t Map::checkLocation(uint8_t location)
+{
+	return level[location]==2?1:0;
+	
+}
+
 // default destructor
 Map::~Map()
 {
