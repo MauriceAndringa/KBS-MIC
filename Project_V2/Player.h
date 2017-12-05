@@ -25,11 +25,15 @@ public:
 	~Player();
 	
 	void drawPlayer();
-	void moveRight();
+	void move(uint8_t direction);
 protected:
 private:
 	Player( const Player &c );
 	Player& operator=( const Player &c );
+	void moveUp();
+	void moveRight();
+	void moveDown();
+	void moveLeft();
 	
 	PLAYER_LOCATION location;
 	

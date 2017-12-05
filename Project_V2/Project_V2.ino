@@ -18,6 +18,7 @@
 View currentView	= NONE;
 View requestedView	= MENU;
 
+
 // Objects
 MI0283QT9 LCD;
 MainMenu mainMenu(&LCD, &currentView, &requestedView);
@@ -91,8 +92,8 @@ int main (void)
 		if(currentView == GAME){
 			internalPlayer.drawPlayer();
 			externalPlayer.drawPlayer();
-			delay(250);
-			internalPlayer.moveRight();
+			SystemFunctions::readNunchuck();
+			Player.move(SystemFunctions::readNunchuck());
 		}
 
 		mainMenu.listenToTouchInput();

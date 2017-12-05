@@ -9,6 +9,8 @@
 #include "Player.h"
 #include "Map.h"
 
+#define GRID 20;
+
 // default constructor
 Player::Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer)
 {
@@ -25,15 +27,53 @@ void Player::drawPlayer()
 	}
 }
 
-void Player::moveRight()
+void Player::move(uint8_t direction)
 {
 	location.oldPlayerLocX = location.playerLocX;
 	location.oldPlayerLocY = location.playerLocY;
-	
-	location.playerLocX += 20;
+	switch (direction)
+	{
+		case 1:
+		moveUp();
+		break;
+		case 2:
+		moveRight();
+		break;
+		case 3:
+		moveDown();
+		break;
+		case 4: 
+		moveLeft();
+		break;
+	}
 }
+
+void Player::moveUp()
+{
+	location.playerLocY += GRID;
+}
+
+void Player::moveRight()
+{
+	location.playerLocX += GRID;
+}
+
+void Player::moveDown()
+{
+
+	location.playerLocY -= GRID;
+}
+
+void Player::moveLeft()
+{
+
+	location.playerLocX -= GRID;
+}
+
 
 // default destructor
 Player::~Player()
 {
 } //~Player
+
+
