@@ -107,8 +107,8 @@ int main (void)
 				
 				// check if button Z is pushed(button Z returns value 5)
 				if(resultNunchuck == 5){
-					locationX = internalPlayer.getLocationX() + 4;
-					locationY = internalPlayer.getLocationY() + 4;
+					locationX = internalPlayer.getLocationX();// + 4;
+					locationY = internalPlayer.getLocationY();// + 4;
 					
 					bomb.drawBomb(locationX, locationY);
 				}
