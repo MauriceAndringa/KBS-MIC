@@ -16,7 +16,7 @@ Bomb::Bomb(MI0283QT9 *lcdPointer)
 
 void Bomb::drawBomb(uint8_t x, uint8_t y)
 {
-	lcdPointer->fillCircle(x, y, 4, RGB(255,0,255));
+	lcdPointer->fillCircle(x + 4, y + 4, 4, RGB(255,0,255));
 }
 
 // default destructor

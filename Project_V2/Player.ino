@@ -43,17 +43,16 @@ void Player::move(uint8_t direction)
 	switch (direction)
 	{
 		case 1:
-		moveUp();
-		break;
+			moveUp();
+			break;
 		case 2:
-		moveRight();
-		break;
+			moveRight();
+			break;
 		case 3:
-		moveDown();
-		break;
+			moveDown();
+			break;
 		case 4:
-		moveLeft();
-		break;
+			moveLeft(); 
 	}
 	if(levelPointer->checkLocation(location.newPlayerLoc)){
 		location.playerLoc = location.newPlayerLoc;

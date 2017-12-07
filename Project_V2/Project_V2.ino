@@ -24,8 +24,8 @@ uint8_t resultNunchuck;
 // Objects
 MI0283QT9 LCD;
 MainMenu mainMenu(&LCD, &currentView, &requestedView);
-Map level(&LCD);
 Bomb bomb(&LCD);
+Map level(&LCD, &bomb);
 
 #if (IS_SLAVE == 0)
 	Player internalPlayer({14, 0, 14}, &LCD, &level);
@@ -107,8 +107,10 @@ int main (void)
 				
 				// check if button Z is pushed(button Z returns value 5)
 				if(resultNunchuck == 5){
-					locationX = internalPlayer.getLocationX() + 4;
-					locationY = internalPlayer.getLocationY() + 4;
+					locationX = internalPlayer.getLocationX();
+					locationY = internalPlayer.getLocationY();
+					
+					level.updateLevel(locationX, locationY, 4);
 					
 					bomb.drawBomb(locationX, locationY);
 				}
