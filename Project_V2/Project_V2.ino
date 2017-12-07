@@ -44,6 +44,8 @@ void initializeNunchuck();
 int main (void)
 {
 	float difficulty = 0.7;
+	unsigned long internalPlayerDropBombTimer; // keeps the time when the bomb is dropped for internalPlayer
+	uint8_t bombDropped; // this variable checks if a bomb dropped and hasn't exploded yet.
 	
 	//Startup sequence
 	init();
@@ -66,8 +68,8 @@ int main (void)
 	Serial.begin(9600);
 	
 	// initialize variables
-	uint8_t locationX;
-	uint8_t locationY;
+	uint8_t internalBomblocationX;
+	uint8_t internalBomblocationY;
 	
 	for (;;)
 	{
@@ -107,15 +109,24 @@ int main (void)
 				
 				// check if button Z is pushed(button Z returns value 5)
 				if(resultNunchuck == 5){
-					locationX = internalPlayer.getLocationX();
-					locationY = internalPlayer.getLocationY();
+					internalPlayerDropBombTimer = millis();
+					internalBomblocationX = internalPlayer.getLocationX();
+					internalBomblocationY = internalPlayer.getLocationY();
 					
-					level.updateLevel(locationX, locationY, 4);
-					
-					bomb.drawBomb(locationX, locationY);
+					level.updateLevel(internalBomblocationX, internalBomblocationY, 4);
+					bombDropped = 1;
+					//bomb.drawBomb(internalBomblocationX, internalBomblocationY);
 				}
+				
+			if(millis() >= internalPlayerDropBombTimer + 3000 && bombDropped){
+				Serial.println("Bomb exploding");
+				level.updateLevel(internalBomblocationX, internalBomblocationY, 2);
+				bombDropped = 0;
+			}
 			
 		}
+		
+		
 
 		mainMenu.listenToTouchInput();
 		

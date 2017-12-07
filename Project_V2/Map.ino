@@ -90,29 +90,27 @@ void Map::drawMap(float difficulty)
 	}
 }
 
-void Map::updateChunk(uint8_t x, uint8_t y){
+void Map::updateChunk(uint8_t x, uint8_t y)
+{
 	lcdPointer->fillRect(x,y,10,10, RGB(91,90,90));
 	
-	if(level[calculateArrayLocation(x - 5, y - 5)] == 4)
+	if(level[calculateArrayLocation(x, y)] == 4)
 		bombPointer->drawBomb(x, y);
 }
 
 void Map::updateLevel(uint8_t x, uint8_t y, uint8_t value)
 {
-	Serial.print("location is: ");Serial.print(x);Serial.println(y);
-	level[calculateArrayLocation(x - 5, y - 5)] = value;
+	level[calculateArrayLocation(x, y)] = value;
+	Map::updateChunk(x,y);
 }
 
 uint8_t Map::calculateArrayLocation(uint8_t x, uint8_t y)
 {
-	return (x + (13 * y)) / 20;
+	return ((x - 5) + (13 * (y - 5))) / 20;
 }
 
 uint8_t Map::checkLocation(uint8_t location)
 {
-	if(level[location] == 4){
-		Serial.print(location); Serial.print(" "); Serial.println(level[location]);
-	}
 	return level[location]==2?1:0;
 	
 }
