@@ -96,20 +96,14 @@ void Map::drawMap(float difficulty)
 
 void Map::updateChunk(uint8_t loc)
 {
-	uint8_t *xP = (uint8_t *)malloc(sizeof(uint8_t));
-	uint8_t *yP = (uint8_t *)malloc(sizeof(uint8_t));
-	
-	xP = SystemFunctions::calcX(loc);
-	yP = SystemFunctions::calcY(loc); 
-	lcdPointer->fillRect(xP + 5,yP + 5,10,10, RGB(91,90,90));
+	uint8_t x = SystemFunctions::calcX(loc);
+	uint8_t y = SystemFunctions::calcY(loc); 
+	lcdPointer->fillRect(x + 5,y + 5,10,10, RGB(91,90,90));
 	
 	if(level[loc] == 4){
 		bombPointer->drawBomb(loc);
 	}else if(level[loc] == 5)
-		lcdPointer->drawRect(xP,yP,10,5,RGB(255,0,255));
-		
-	free(&xP);
-	free(&yP);
+		lcdPointer->drawRect(x,y,10,5,RGB(255,0,255));
 }
 
 void Map::updateLevel(uint8_t loc, uint8_t value)
