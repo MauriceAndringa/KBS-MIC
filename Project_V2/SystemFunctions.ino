@@ -88,10 +88,8 @@ uint32_t SystemFunctions::getRandomSeed()
 
 uint8_t SystemFunctions::readNunchuck()
 {
-	
-	
-	enum nuchuckResult result;
-	static uint8_t buffer[6];
+	uint8_t result = 0;
+	uint8_t buffer[6];
 	uint8_t i=0;
 	
 	Wire.requestFrom (0x52, 6);     // request data from nunchuck
@@ -104,18 +102,17 @@ uint8_t SystemFunctions::readNunchuck()
 	sendRequest();
 	
 	if (buffer[1]>200)
-	result = UP;
+	result = 1;
 	else if (buffer[1]<50)
-	result = DOWN;
+	result = 3;
 	else if (buffer[0]> 200)
-	result = RIGHT;
+	result = 2;
 	else if (buffer[0] < 50)
-	result = LEFT;
+	result = 4;
 	else if (!((buffer[5] >> 0) & 1))
-	result = SELECT;		// Z-button
-	
-	return result;
-	
+	result = 5;		// Z-button
+
+	return result;	
 }
 
 uint8_t SystemFunctions::calcX(uint8_t loc)

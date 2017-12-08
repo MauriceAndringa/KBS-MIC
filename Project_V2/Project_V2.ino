@@ -80,7 +80,7 @@ int main (void)
 		// change led brightness if it is changed
 		SystemFunctions::screenBrightness();
 		
-		Serial.print("current view: ");Serial.print(currentView);Serial.print(" Requested view: "); Serial.println(requestedView);
+		//Serial.print("current view: ");Serial.print(currentView);Serial.print(" Requested view: "); Serial.println(requestedView);
 		// check if the the requested view has changed
 		if(currentView != requestedView){
 			
@@ -106,9 +106,11 @@ int main (void)
 		
 		if(currentView == GAME){
 			resultNunchuck = SystemFunctions::readNunchuck();
-			if (resultNunchuck!= 0&&resultNunchuck!=5)
+			
+			if (resultNunchuck != 0 && resultNunchuck != 5)
 			{
 				internalPlayer.move(resultNunchuck);
+				Serial.println("move");
 
 			} else 
 				
@@ -130,6 +132,10 @@ int main (void)
 			// check if the effect is ready to be removed
 			if(millis() >= internalBombEffectTimer + 500 && readyForEffect == 1){
 				level.updateLevel(internalBomblocation, 2);
+			}
+			Serial.print(resultNunchuck);
+			if(resultNunchuck > 0){
+				Serial.println(resultNunchuck);
 			}
 		}
 		

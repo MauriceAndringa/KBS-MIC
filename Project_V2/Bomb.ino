@@ -16,16 +16,10 @@ Bomb::Bomb(MI0283QT9 *lcdPointer)
 
 void Bomb::drawBomb(uint8_t loc)
 {
-	uint8_t *xP = (uint8_t *)malloc(sizeof(uint8_t));
-	uint8_t *yP = (uint8_t *)malloc(sizeof(uint8_t));
+	uint8_t x = SystemFunctions::calcX(loc);
+	uint8_t y = SystemFunctions::calcY(loc);
 	
-	xP = SystemFunctions::calcX(loc);
-	yP = SystemFunctions::calcY(loc);
-	
-	lcdPointer->fillCircle(xP + 9, yP + 9, 4, RGB(255,0,255));
-	
-	free(&xP);
-	free(&yP);
+	lcdPointer->fillCircle(x + 9, y + 9, 4, RGB(255,0,255));
 }
 
 void Bomb::explodeBomb(uint8_t loc)
