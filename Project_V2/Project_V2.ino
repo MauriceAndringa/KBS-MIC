@@ -1,4 +1,3 @@
-
 // INCLUDES
 // Libraries
 #include <MI0283QT9.h>
@@ -10,6 +9,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "Bomb.h"
+#include "Highscore.h"
 
 // define if the microcontroller is a slave or master
 #define IS_SLAVE 0
@@ -23,6 +23,7 @@ View requestedView	= MENU;
 // Objects
 MI0283QT9 LCD;
 MainMenu mainMenu(&LCD, &currentView, &requestedView);
+Highscore highscore(&LCD, &currentView, &requestedView);
 Bomb bomb(&LCD);
 Map level(&LCD, &bomb);
 
@@ -99,7 +100,9 @@ int main (void)
 					level.drawMap(difficulty);
 					internalPlayer.drawPlayer();
 					externalPlayer.drawPlayer();
-					//break; 
+					break; 
+				// case HIGHSCORE:
+				
 						
 			}
 		}
@@ -131,6 +134,10 @@ int main (void)
 			if(millis() >= internalBombEffectTimer + 500 && readyForEffect == 1){
 				level.updateLevel(internalBomblocation, 2);
 			}
+		}
+		if (currentView == HIGHSCORE)
+		{
+			
 		}
 		
 		

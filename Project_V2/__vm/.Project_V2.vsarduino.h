@@ -23,7 +23,7 @@ int main (void);
 #include "pins_arduino.h" 
 #include "Arduino.h"
 #include "Project_V2.ino"
-#include "Bomb.ino"
+#include "Highscore.ino"
 #include "MainMenu.ino"
 #include "Map.ino"
 #include "Player.ino"
