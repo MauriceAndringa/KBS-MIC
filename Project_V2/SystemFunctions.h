@@ -14,6 +14,8 @@
 #include <avr/wdt.h>
 #include <util/atomic.h>
 
+#define GRID 20
+
 // enum for the possible screens
 typedef enum{
 	MENU,
@@ -29,6 +31,8 @@ public:
 	static void screenBrightness();
 	static uint32_t getRandomSeed();
 	static uint8_t readNunchuck();
+	static uint8_t calcX(uint8_t loc);
+	static uint8_t calcY(uint8_t loc);
 	SystemFunctions();
 	~SystemFunctions();
 

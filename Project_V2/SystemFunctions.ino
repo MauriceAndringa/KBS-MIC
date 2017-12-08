@@ -114,8 +114,18 @@ uint8_t SystemFunctions::readNunchuck()
 	else if (!((buffer[5] >> 0) & 1))
 	result = SELECT;		// Z-button
 	
-	return result; //failure
+	return result;
 	
+}
+
+uint8_t SystemFunctions::calcX(uint8_t loc)
+{
+	return loc%13*GRID;
+}
+
+uint8_t SystemFunctions::calcY(uint8_t loc)
+{
+	return loc/13*GRID;
 }
 
 char SystemFunctions::decodeNunchuck(char x)

@@ -23,13 +23,13 @@ class Map
 {
 public:
 	Map(MI0283QT9 *lcdPointer, Bomb *bombPointer);
-	Map();
+	//Map();
 	~Map();
 	
 	void drawMap(float difficulty);
-	void updateChunk(uint8_t x, uint8_t y);
+	void updateChunk(uint8_t loc);
 	uint8_t checkLocation(uint8_t location);
-	void updateLevel(uint8_t x, uint8_t y, uint8_t value);
+	void updateLevel(uint8_t loc, uint8_t value);
 protected:
 private:
 	Map( const Map &c );
@@ -37,7 +37,7 @@ private:
 	MI0283QT9 *lcdPointer;
 	Bomb *bombPointer;
 	
-	uint8_t calculateArrayLocation(uint8_t x, uint8_t y);
+	//uint8_t calculateArrayLocation(uint8_t x, uint8_t y);
 	
 	// array level is used to generate a random level
 	uint8_t level[143];

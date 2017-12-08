@@ -2,7 +2,6 @@
 // INCLUDES
 // Libraries
 #include <MI0283QT9.h>
-//#include <BMPheader.h> //todo is deze include nodig?
 #include <Wire.h>
 
 // Header Files
@@ -18,7 +17,7 @@
 // Global Variables
 View currentView	= NONE;
 View requestedView	= MENU;
-uint8_t resultNunchuck;
+//uint8_t resultNunchuck; //TODO remove if useless
 
 
 // Objects
@@ -43,9 +42,18 @@ void initializeNunchuck();
 //Code
 int main (void)
 {
-	float difficulty = 0.7;
-	unsigned long internalPlayerDropBombTimer; // keeps the time when the bomb is dropped for internalPlayer
-	uint8_t bombDropped; // this variable checks if a bomb dropped and hasn't exploded yet.
+	// initialize variables
+	uint8_t internalBomblocation;
+	uint8_t externalBombLocation;
+	uint8_t bombDropped = 0; // this variable keeps check if a bomb dropped and hasn't exploded yet.
+	uint8_t readyForEffect = 0;
+	uint8_t resultNunchuck;
+	//uint8_t internalBomblocationX; // TODO remove if useless
+	//uint8_t internalBomblocationY; // TODO remove if useless
+	float			difficulty = 0.7;
+	unsigned long	internalPlayerDropBombTimer; // keeps the time when the bomb is dropped for internalPlayer
+	unsigned long	internalBombEffectTimer;
+	
 	
 	//Startup sequence
 	init();
@@ -67,15 +75,12 @@ int main (void)
 	//Debug stuff
 	Serial.begin(9600);
 	
-	// initialize variables
-	uint8_t internalBomblocationX;
-	uint8_t internalBomblocationY;
-	
 	for (;;)
 	{
 		// change led brightness if it is changed
 		SystemFunctions::screenBrightness();
 		
+		Serial.print("current view: ");Serial.print(currentView);Serial.print(" Requested view: "); Serial.println(requestedView);
 		// check if the the requested view has changed
 		if(currentView != requestedView){
 			
@@ -94,7 +99,7 @@ int main (void)
 					level.drawMap(difficulty);
 					internalPlayer.drawPlayer();
 					externalPlayer.drawPlayer();
-					break;
+					//break; 
 						
 			}
 		}
@@ -108,22 +113,24 @@ int main (void)
 			} else 
 				
 				// check if button Z is pushed(button Z returns value 5)
-				if(resultNunchuck == 5){
+				if(resultNunchuck == 5 && !bombDropped){
 					internalPlayerDropBombTimer = millis();
-					internalBomblocationX = internalPlayer.getLocationX();
-					internalBomblocationY = internalPlayer.getLocationY();
+					internalBomblocation = internalPlayer.getLocation();
 					
-					level.updateLevel(internalBomblocationX, internalBomblocationY, 4);
+					level.updateLevel(internalBomblocation, 4);
 					bombDropped = 1;
-					//bomb.drawBomb(internalBomblocationX, internalBomblocationY);
 				}
-				
+			// check if the bomb is ready to explode
 			if(millis() >= internalPlayerDropBombTimer + 3000 && bombDropped){
-				Serial.println("Bomb exploding");
-				level.updateLevel(internalBomblocationX, internalBomblocationY, 2);
+				bomb.explodeBomb(internalBomblocation);
+				internalBombEffectTimer = millis();
 				bombDropped = 0;
+				readyForEffect = 1;
 			}
-			
+			// check if the effect is ready to be removed
+			if(millis() >= internalBombEffectTimer + 500 && readyForEffect == 1){
+				level.updateLevel(internalBomblocation, 2);
+			}
 		}
 		
 		

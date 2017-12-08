@@ -9,6 +9,8 @@
 #ifndef __BOMB_H__
 #define __BOMB_H__
 
+//#include "Map.h"
+
 
 class Bomb
 {
@@ -16,7 +18,8 @@ public:
 	Bomb(MI0283QT9 *lcdPointer);
 	~Bomb();
 	
-	void drawBomb(uint8_t x, uint8_t y);
+	void drawBomb(uint8_t loc);
+	void explodeBomb(uint8_t loc);
 protected:
 private:
 	Bomb( const Bomb &c );

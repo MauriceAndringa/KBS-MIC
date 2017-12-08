@@ -29,6 +29,10 @@ Map::Map(MI0283QT9 *lcdPointer, Bomb *bombPointer)
 	Map::bombPointer = bombPointer;
 } //Map
 
+//Map::Map()
+//{
+//} //Map
+
 void Map::drawMap(float difficulty)
 {
 	lcdPointer->fillScreen(RGB(0,0,0));
@@ -90,24 +94,34 @@ void Map::drawMap(float difficulty)
 	}
 }
 
-void Map::updateChunk(uint8_t x, uint8_t y)
+void Map::updateChunk(uint8_t loc)
 {
-	lcdPointer->fillRect(x,y,10,10, RGB(91,90,90));
+	uint8_t *xP = (uint8_t *)malloc(sizeof(uint8_t));
+	uint8_t *yP = (uint8_t *)malloc(sizeof(uint8_t));
 	
-	if(level[calculateArrayLocation(x, y)] == 4)
-		bombPointer->drawBomb(x, y);
+	xP = SystemFunctions::calcX(loc);
+	yP = SystemFunctions::calcY(loc); 
+	lcdPointer->fillRect(xP + 5,yP + 5,10,10, RGB(91,90,90));
+	
+	if(level[loc] == 4){
+		bombPointer->drawBomb(loc);
+	}else if(level[loc] == 5)
+		lcdPointer->drawRect(xP,yP,10,5,RGB(255,0,255));
+		
+	free(&xP);
+	free(&yP);
 }
 
-void Map::updateLevel(uint8_t x, uint8_t y, uint8_t value)
+void Map::updateLevel(uint8_t loc, uint8_t value)
 {
-	level[calculateArrayLocation(x, y)] = value;
-	Map::updateChunk(x,y);
+	level[loc] = value;
+	Map::updateChunk(loc);
 }
 
-uint8_t Map::calculateArrayLocation(uint8_t x, uint8_t y)
+/*uint8_t Map::calculateArrayLocation(uint8_t x, uint8_t y)
 {
 	return ((x - 5) + (13 * (y - 5))) / 20;
-}
+}*/
 
 uint8_t Map::checkLocation(uint8_t location)
 {

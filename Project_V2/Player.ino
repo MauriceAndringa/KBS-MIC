@@ -21,20 +21,16 @@ Player::Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointe
 
 void Player::drawPlayer()
 {
-	
-	levelPointer->updateChunk(pixelX(location.oldPlayerLoc), pixelY(location.oldPlayerLoc));
-	lcdPointer->fillRect(pixelX(location.playerLoc), pixelY(location.playerLoc), 10, 10, RGB(255,0,0));
+	//Serial.print("current view: ");Serial.println(currentView);
+	//delay(250);
+	levelPointer->updateChunk(location.oldPlayerLoc);
+	lcdPointer->fillRect(SystemFunctions::calcX(location.playerLoc) + 5, SystemFunctions::calcY(location.playerLoc) + 5, 10, 10, RGB(255,0,0));
 	
 }
 
-uint8_t Player::getLocationX()
+uint8_t Player::getLocation()
 {
-	return pixelX(location.playerLoc);
-}
-
-uint8_t Player::getLocationY()
-{
-	return pixelY(location.playerLoc);
+	return location.playerLoc;
 }
 
 void Player::move(uint8_t direction)
@@ -73,13 +69,11 @@ void Player::moveRight()
 
 void Player::moveDown()
 {
-
 	location.newPlayerLoc = location.playerLoc+13;
 }
 
 void Player::moveLeft()
 {
-
 	location.newPlayerLoc = location.playerLoc-1;
 }
 
