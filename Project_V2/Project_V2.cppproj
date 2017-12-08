@@ -34,11 +34,13 @@
         <documentation help="" />
         <offline-documentation help="" />
         <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.25.0" />
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.26.0" />
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
     <preserveEEPROM>true</preserveEEPROM>
+    <ResetRule>0</ResetRule>
+    <EraseKey />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -54,7 +56,7 @@
     <ListValues>
       <Value>__AVR_ATmega328p__</Value>
       <Value>__AVR_ATmega328P__</Value>
-      <Value>ARDUINO=10804</Value>
+      <Value>ARDUINO=10801</Value>
       <Value>ARDUINO_MAIN</Value>
       <Value>F_CPU=16000000L</Value>
       <Value>__AVR__</Value>
@@ -65,15 +67,15 @@
   <avrgcc.compiler.directories.IncludePaths>
     <ListValues>
       <Value>../../../Project_V2</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries/MI0283QT9</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries/GraphicsLib</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/MI0283QT9</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/GraphicsLib</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries/digitalWriteFast</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/digitalWriteFast</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries</Value>
+      <Value>C:/Users/wsvdy/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/</Value>
@@ -94,7 +96,7 @@
     <ListValues>
       <Value>__AVR_ATmega328p__</Value>
       <Value>__AVR_ATmega328P__</Value>
-      <Value>ARDUINO=10804</Value>
+      <Value>ARDUINO=10801</Value>
       <Value>ARDUINO_MAIN</Value>
       <Value>F_CPU=16000000L</Value>
       <Value>__AVR__</Value>
@@ -105,15 +107,15 @@
   <avrgcccpp.compiler.directories.IncludePaths>
     <ListValues>
       <Value>../../../Project_V2</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries/MI0283QT9</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries/GraphicsLib</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/MI0283QT9</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/GraphicsLib</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries/digitalWriteFast</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/digitalWriteFast</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries</Value>
+      <Value>C:/Users/wsvdy/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/</Value>
@@ -131,9 +133,9 @@
   <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
 </AvrGccCpp>
     </ToolchainSettings>
-    <VMSETTING_IncludePaths>../../../Project_V2;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Users/Erwin/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.2/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.3/include;C:/Users/Erwin/Documents/Arduino/libraries/GraphicsLib;C:/Users/Erwin/Documents/Arduino/libraries/MI0283QT9;C:/Program Files (x86)/Arduino/libraries/SD/src;C:/Program Files (x86)/Arduino/libraries/SD/src/utility;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src;C:/Users/Erwin/Documents/Arduino/libraries/digitalWriteFast;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility;</VMSETTING_IncludePaths>
+    <VMSETTING_IncludePaths>../../../Project_V2;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Users/Erwin/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.2/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.3/include;C:/Users/Erwin/Documents/Arduino/libraries/GraphicsLib;C:/Users/Erwin/Documents/Arduino/libraries/MI0283QT9;C:/Program Files (x86)/Arduino/libraries/SD/src;C:/Program Files (x86)/Arduino/libraries/SD/src/utility;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src;C:/Users/Erwin/Documents/Arduino/libraries/digitalWriteFast;C:/Program Files (x86)/Arduino/libraries/MI0283QT9;C:/Program Files (x86)/Arduino/libraries/GraphicsLib;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src;C:/Program Files (x86)/Arduino/libraries/digitalWriteFast;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility;C:/Users/wsvdy/Documents/Arduino/libraries;</VMSETTING_IncludePaths>
     <VisualMicroSettings>
-      <VisualMicroSettings xmlns="">
+      <VisualMicroSettings>
         <arduino.upload.port>COM3</arduino.upload.port>
       </VisualMicroSettings>
     </VisualMicroSettings>
@@ -152,7 +154,7 @@
     <ListValues>
       <Value>__AVR_ATmega328p__</Value>
       <Value>__AVR_ATmega328P__</Value>
-      <Value>ARDUINO=10804</Value>
+      <Value>ARDUINO=10801</Value>
       <Value>ARDUINO_MAIN</Value>
       <Value>F_CPU=16000000L</Value>
       <Value>__AVR__</Value>
@@ -163,15 +165,15 @@
   <avrgcc.compiler.directories.IncludePaths>
     <ListValues>
       <Value>../../../Project_V2</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries/MI0283QT9</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries/GraphicsLib</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/MI0283QT9</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/GraphicsLib</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries/digitalWriteFast</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/digitalWriteFast</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries</Value>
+      <Value>C:/Users/wsvdy/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/</Value>
@@ -192,7 +194,7 @@
     <ListValues>
       <Value>__AVR_ATmega328p__</Value>
       <Value>__AVR_ATmega328P__</Value>
-      <Value>ARDUINO=10804</Value>
+      <Value>ARDUINO=10801</Value>
       <Value>ARDUINO_MAIN</Value>
       <Value>F_CPU=16000000L</Value>
       <Value>__AVR__</Value>
@@ -203,15 +205,15 @@
   <avrgcccpp.compiler.directories.IncludePaths>
     <ListValues>
       <Value>../../../Project_V2</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries/MI0283QT9</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries/GraphicsLib</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/MI0283QT9</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/GraphicsLib</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries/digitalWriteFast</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/digitalWriteFast</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries</Value>
-      <Value>C:/Users/Erwin/Documents/Arduino/libraries</Value>
+      <Value>C:/Users/wsvdy/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/</Value>
@@ -229,26 +231,20 @@
   <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
 </AvrGccCpp>
     </ToolchainSettings>
-    <VMSETTING_IncludePaths>../../../Project_V2;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Users/Erwin/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.2/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.3/include;C:/Users/Erwin/Documents/Arduino/libraries/GraphicsLib;C:/Users/Erwin/Documents/Arduino/libraries/MI0283QT9;C:/Program Files (x86)/Arduino/libraries/SD/src;C:/Program Files (x86)/Arduino/libraries/SD/src/utility;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src;C:/Users/Erwin/Documents/Arduino/libraries/digitalWriteFast;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility;</VMSETTING_IncludePaths>
+    <VMSETTING_IncludePaths>../../../Project_V2;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Users/Erwin/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.2/include;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.9.3/include;C:/Users/Erwin/Documents/Arduino/libraries/GraphicsLib;C:/Users/Erwin/Documents/Arduino/libraries/MI0283QT9;C:/Program Files (x86)/Arduino/libraries/SD/src;C:/Program Files (x86)/Arduino/libraries/SD/src/utility;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/SPI/src;C:/Users/Erwin/Documents/Arduino/libraries/digitalWriteFast;C:/Program Files (x86)/Arduino/libraries/MI0283QT9;C:/Program Files (x86)/Arduino/libraries/GraphicsLib;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src;C:/Program Files (x86)/Arduino/libraries/digitalWriteFast;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/src/utility;C:/Users/wsvdy/Documents/Arduino/libraries;</VMSETTING_IncludePaths>
     <VisualMicroSettings>
-      <VisualMicroSettings xmlns="">
+      <VisualMicroSettings>
         <arduino.upload.port>COM3</arduino.upload.port>
       </VisualMicroSettings>
     </VisualMicroSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="MainMenu.ino">
+    <None Include="MainMenu.ino">
       <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Player.h">
+    </None>
+    <None Include="Map.ino">
       <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Map.ino">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="__vm\.Project_V2.vsarduino.h">
-      <SubType>compile</SubType>
-    </Compile>
+    </None>
     <None Include="Player.ino">
       <SubType>compile</SubType>
     </None>
@@ -260,16 +256,28 @@
     <Folder Include="__vm\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bomb.ino">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Bomb.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="MainMenu.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Map.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Player.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="SystemFunctions.ino">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="SystemFunctions.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="__vm\.Project_V2.vsarduino.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
