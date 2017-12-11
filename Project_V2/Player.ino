@@ -21,11 +21,8 @@ Player::Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointe
 
 void Player::drawPlayer()
 {
-	//Serial.print("current view: ");Serial.println(currentView);
-	//delay(250);
 	levelPointer->updateChunk(location.oldPlayerLoc);
 	lcdPointer->fillRect(SystemFunctions::calcX(location.playerLoc) + 5, SystemFunctions::calcY(location.playerLoc) + 5, 10, 10, RGB(255,0,0));
-	
 }
 
 uint8_t Player::getLocation()
@@ -50,7 +47,7 @@ void Player::move(uint8_t direction)
 		case 4:
 			moveLeft(); 
 	}
-	if(levelPointer->checkLocation(location.newPlayerLoc)){
+	if(levelPointer->checkLocation(location.newPlayerLoc) == 2){ // check if the location is a path to walk on location.
 		location.playerLoc = location.newPlayerLoc;
 		drawPlayer();
 	}
@@ -75,16 +72,6 @@ void Player::moveDown()
 void Player::moveLeft()
 {
 	location.newPlayerLoc = location.playerLoc-1;
-}
-
-uint8_t Player::pixelX(uint8_t loc)
-{
-	return 5+(loc%13)*GRID;
-}
-
-uint8_t Player::pixelY(uint8_t loc)
-{
-	return 5+(loc/13)*GRID;	
 }
 
 // default destructor

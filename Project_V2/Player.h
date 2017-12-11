@@ -34,8 +34,6 @@ private:
 	void moveRight();
 	void moveDown();
 	void moveLeft();
-	uint8_t pixelX(uint8_t loc);
-	uint8_t pixelY(uint8_t loc);
 	
 	PLAYER_LOCATION location;
 	

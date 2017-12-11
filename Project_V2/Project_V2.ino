@@ -46,8 +46,8 @@ int main (void)
 	// initialize variables
 	uint8_t internalBomblocation;
 	uint8_t externalBombLocation;
-	uint8_t bombDropped = 0; // this variable keeps check if a bomb dropped and hasn't exploded yet.
-	uint8_t readyForEffect = 0;
+	uint8_t bombDropped = 0; // this variable keeps check if a bomb dropped.
+	uint8_t readyForEffect = 0; // this vaiable checks if the bomb animation is ready to be shown.
 	uint8_t resultNunchuck;
 	//uint8_t internalBomblocationX; // TODO remove if useless
 	//uint8_t internalBomblocationY; // TODO remove if useless
@@ -113,7 +113,6 @@ int main (void)
 			if (resultNunchuck != 0 && resultNunchuck != 5)
 			{
 				internalPlayer.move(resultNunchuck);
-				Serial.println("move");
 
 			} else 
 				
@@ -126,19 +125,17 @@ int main (void)
 					bombDropped = 1;
 				}
 			// check if the bomb is ready to explode
-			if(millis() >= internalPlayerDropBombTimer + 3000 && bombDropped){
+			if(millis() >= internalPlayerDropBombTimer + 3000 && bombDropped && !readyForEffect){
 				bomb.explodeBomb(internalBomblocation);
 				internalBombEffectTimer = millis();
-				bombDropped = 0;
 				readyForEffect = 1;
 			}
 			// check if the effect is ready to be removed
 			if(millis() >= internalBombEffectTimer + 500 && readyForEffect == 1){
-				level.updateLevel(internalBomblocation, 2);
-			}
-			Serial.print(resultNunchuck);
-			if(resultNunchuck > 0){
-				Serial.println(resultNunchuck);
+				bomb.removeAnimation(internalBomblocation);
+				//level.updateLevel(internalBomblocation, 2);
+				bombDropped = 0;
+				readyForEffect = 0;
 			}
 		}
 		if (currentView == HIGHSCORE)

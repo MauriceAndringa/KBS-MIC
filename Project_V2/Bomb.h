@@ -10,6 +10,9 @@
 #define __BOMB_H__
 
 //#include "Map.h"
+#define BOMBANIMANTION 5
+#define DESTRUCTEBLE 3
+#define WALKWAY 2
 
 
 class Bomb
@@ -20,6 +23,7 @@ public:
 	
 	void drawBomb(uint8_t loc);
 	void explodeBomb(uint8_t loc);
+	void removeAnimation(uint8_t loc);
 protected:
 private:
 	Bomb( const Bomb &c );

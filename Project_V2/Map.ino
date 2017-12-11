@@ -98,12 +98,12 @@ void Map::updateChunk(uint8_t loc)
 {
 	uint8_t x = SystemFunctions::calcX(loc);
 	uint8_t y = SystemFunctions::calcY(loc); 
-	lcdPointer->fillRect(x + 5,y + 5,10,10, RGB(91,90,90));
+	lcdPointer->fillRect(x+1,y+1,18,18, RGB(91,90,90));
 	
-	if(level[loc] == 4){
+	if(level[loc] == 4) // draw the bom on this location
 		bombPointer->drawBomb(loc);
-	}else if(level[loc] == 5)
-		lcdPointer->drawRect(x,y,10,5,RGB(255,0,255));
+	else if(level[loc] == 5) // draw the bomb explode animation
+		lcdPointer->drawRect(x + 5,y + 5,10,5,RGB(255,0,255));
 }
 
 void Map::updateLevel(uint8_t loc, uint8_t value)
@@ -112,15 +112,17 @@ void Map::updateLevel(uint8_t loc, uint8_t value)
 	Map::updateChunk(loc);
 }
 
-/*uint8_t Map::calculateArrayLocation(uint8_t x, uint8_t y)
-{
-	return ((x - 5) + (13 * (y - 5))) / 20;
-}*/
-
 uint8_t Map::checkLocation(uint8_t location)
 {
-	return level[location]==2?1:0;
-	
+	if(level[location] == 1)
+		return 1; // return value 1 to indicate that there is a pillar on this location.
+	else if (level[location] == 2)
+		return 2; // return value 2 to indicate that there is a walk path on this location.
+	else if (level[location] == 3)
+		return 3; // return value 3 to indicate that there is a destructeble object on this location.
+	else if(level[location] == 5)
+		return 5; // return value 5 to indicate that there is a bomb explosion animation on this location.
+	return 0;
 }
 
 // default destructor
