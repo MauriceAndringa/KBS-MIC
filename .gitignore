@@ -326,3 +326,5 @@ __pycache__/
 # End of https://www.gitignore.io/api/atmelstudio,visualstudio
 Project/__vm/.Project.vsarduino.h
 Project/Project.cppproj
+*.cppproj
+Project_V2/__vm/.Project_V2.vsarduino.h
