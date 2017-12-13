@@ -1,15 +1,18 @@
-/* 
-* Player.h
-*
-* Created: 4-12-2017 11:35:12
-* Author: wsvdy
-*/
+/*
+ * Player.h
+ *
+ * Authors: 
+ *			Erwin
+ *			Wesley
+ */
 
 
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
 #include <stdint.h>
+
+#define WALK_DELAY 100
 
 typedef struct {
 	uint8_t playerLoc;
@@ -34,13 +37,13 @@ private:
 	void moveRight();
 	void moveDown();
 	void moveLeft();
-	uint8_t pixelX(uint8_t loc);
-	uint8_t pixelY(uint8_t loc);
 	
 	PLAYER_LOCATION location;
 	
 	MI0283QT9 *lcdPointer;
 	Map *levelPointer;
+	
+	unsigned long walkDelay;
 
 }; //Player
 
