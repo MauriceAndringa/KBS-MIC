@@ -70,9 +70,9 @@ uint8_t SystemFunctions::readNunchuck()
 	else if (buffer[1]<50)			// buffer[0] contains Y data about the joystick
 	result = DOWN;					// buffer[5] contains data about the Z-button
 	else if (buffer[0]> 200)
-	result = LEFT;
-	else if (buffer[0] < 50)
 	result = RIGHT;
+	else if (buffer[0] < 50)
+	result = LEFT;
 	else if (!((buffer[5] >> 0) & 1))
 	result = SELECT;				// Z-button
 
