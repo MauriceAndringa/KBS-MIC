@@ -1,10 +1,9 @@
-/*
- * SystemFunctions.h
- *
- * Authors: 
- *			Erwin
- *			Wesley
- */
+/* 
+* SystemFunctions.h
+*
+* Created: 29-11-2017 11:09:18
+* Author: Erwin
+*/
 
 
 #ifndef __SYSTEMFUNCTIONS_H__

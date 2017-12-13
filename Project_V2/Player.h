@@ -1,10 +1,9 @@
-/*
- * Player.h
- *
- * Authors: 
- *			Erwin
- *			Wesley
- */
+/* 
+* Player.h
+*
+* Created: 4-12-2017 11:35:12
+* Author: wsvdy
+*/
 
 
 #ifndef __PLAYER_H__
