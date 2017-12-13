@@ -30,6 +30,7 @@ private:
 	void draw();
   protected:
   private:
+  char* Highscore::readName(uint8_t place);
 };
 
 #endif _HIGHSCORE_H__

@@ -7,18 +7,8 @@
  */
 
 
-#include "SystemFunctions.h"
-#include "Map.h"
 
-#define NUNCHUCKADRESS 0x52	// nunchuckaddress
-#define GRID 20				// grid size in pixels
-
-#define UP 1
-#define RIGHT 2
-#define DOWN 3
-#define LEFT 4
-#define  SELECT 5 // Declare values for easier understanding of result
-
+// variables
 volatile uint32_t seed;	//values needed for random numbers
 volatile int8_t nrot;
 

@@ -1,20 +1,34 @@
-/* 
-* SystemFunctions.h
-*
-* Created: 29-11-2017 11:09:18
-* Author: Erwin
-*/
+/*
+ * SystemFunctions.h
+ *
+ * Authors: 
+ *			Erwin
+ *			Wesley
+ */
 
 
 #ifndef __SYSTEMFUNCTIONS_H__
 #define __SYSTEMFUNCTIONS_H__
-//#define randomSeed(s) srandom(s)
 
+// libraries
 #include <avr/interrupt.h>
 #include <avr/wdt.h>
 #include <util/atomic.h>
 
-#define GRID 20
+// files
+#include "SystemFunctions.h"
+#include "Map.h"
+
+// Defines
+#define NUNCHUCKADRESS 0x52	// nunchuckaddress
+#define GRID 20				// grid size in pixels
+
+#define UP 1
+#define RIGHT 2
+#define DOWN 3
+#define LEFT 4
+#define SELECT 5 // Declare values for easier understanding of result
+
 
 // enum for the possible screens
 typedef enum{
@@ -40,7 +54,7 @@ protected:
 private:
 	static int readAnalog(uint8_t pin);
 	static void createRandomSeed();
-	static char decodeNunchuck(char x);
+	static uint8_t decodeNunchuck(uint8_t x);
 	static void sendRequest();
 
 	SystemFunctions( const SystemFunctions &c );
