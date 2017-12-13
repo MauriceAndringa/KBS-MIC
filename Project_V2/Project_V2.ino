@@ -11,6 +11,7 @@
 #include "Bomb.h"
 #include "Highscore.h"
 
+
 // define if the microcontroller is a slave or master
 #define IS_SLAVE 0
 
@@ -101,7 +102,9 @@ int main (void)
 					internalPlayer.drawPlayer();
 					externalPlayer.drawPlayer();
 					break; 
-				// case HIGHSCORE:
+				case HIGHSCORE:
+					highscore.draw();
+					break; 
 				
 						
 			}
