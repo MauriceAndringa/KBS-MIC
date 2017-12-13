@@ -30,7 +30,6 @@ private:
 	void draw();
   protected:
   private:
-	char* readName(uint8_t place);
 };
 
 #endif _HIGHSCORE_H__

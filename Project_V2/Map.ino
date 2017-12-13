@@ -1,10 +1,9 @@
-/*
- * Map.ino
- *
- * Authors: 
- *			Erwin
- *			Wesley
- */
+/* 
+* Map.cpp
+*
+* Created: 1-12-2017 15:04:12
+* Author: wsvdy
+*/
 
 #include "Map.h"
 
@@ -98,13 +97,12 @@ void Map::drawMap(float difficulty)
 void Map::updateChunk(uint8_t loc)
 {
 	uint8_t x = SystemFunctions::calcX(loc);
-	uint8_t y = SystemFunctions::calcY(loc);
-	lcdPointer->drawRect(x, y, 20, 20, RGB(0,0,0)); 
+	uint8_t y = SystemFunctions::calcY(loc); 
 	lcdPointer->fillRect(x+1,y+1,18,18, RGB(91,90,90));
 	
-	//if(level[loc] == 4) // draw the bom on this location
-		//bombPointer->drawBomb(loc);
-	if(level[loc] == 5) // draw the bomb explode animation
+	if(level[loc] == 4) // draw the bom on this location
+		bombPointer->drawBomb(loc);
+	else if(level[loc] == 5) // draw the bomb explode animation
 		lcdPointer->drawRect(x + 5,y + 5,10,5,RGB(255,0,255));
 }
 
@@ -124,8 +122,6 @@ uint8_t Map::checkLocation(uint8_t location)
 		return 3; // return value 3 to indicate that there is a destructeble object on this location.
 	else if(level[location] == 5)
 		return 5; // return value 5 to indicate that there is a bomb explosion animation on this location.
-	else if(level[location] == 6)
-		return 6;
 	return 0;
 }
 

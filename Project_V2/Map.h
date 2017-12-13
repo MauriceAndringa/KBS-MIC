@@ -1,14 +1,15 @@
-/*
- * SystemFunctions.ino
- *
- * Authors: 
- *			Erwin
- *			Wesley
- */
+/* 
+* Map.h
+*
+* Created: 1-12-2017 15:04:12
+* Author: wsvdy
+*/
 
 #include <time.h>
 
 #include "Bomb.h"
+
+
 
 #ifndef __MAP_H__
 #define __MAP_H__

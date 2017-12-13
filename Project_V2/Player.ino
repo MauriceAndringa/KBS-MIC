@@ -1,10 +1,9 @@
-/*
- * Player.ino
- *
- * Authors: 
- *			Erwin
- *			Wesley
- */
+/* 
+* Player.cpp
+*
+* Created: 4-12-2017 11:35:12
+* Author: wsvdy
+*/
 
 
 #include "Player.h"
@@ -23,9 +22,7 @@ Player::Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointe
 void Player::drawPlayer()
 {
 	levelPointer->updateChunk(location.oldPlayerLoc);
-	levelPointer->updateLevel(location.oldPlayerLoc, 2);
 	lcdPointer->fillRect(SystemFunctions::calcX(location.playerLoc) + 5, SystemFunctions::calcY(location.playerLoc) + 5, 10, 10, RGB(255,0,0));
-	levelPointer->updateLevel(location.playerLoc, 6);
 }
 
 uint8_t Player::getLocation()
@@ -53,12 +50,11 @@ void Player::move(uint8_t direction)
 			case 4:
 				moveLeft(); 
 		}
-		if(levelPointer->checkLocation(location.newPlayerLoc) == 2 /*|| levelPointer->checkLocation(location.newPlayerLoc) == 6*/){ // check if the location is a path to walk on location.
+		if(levelPointer->checkLocation(location.newPlayerLoc) == 2){ // check if the location is a path to walk on location.
 			location.playerLoc = location.newPlayerLoc;
 			drawPlayer();
 		}
 	}
-	
 }
 
 void Player::moveUp()

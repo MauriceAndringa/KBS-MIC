@@ -1,10 +1,10 @@
-/*
- * MainMenu.ino
- *
- * Authors: 
- *			Erwin
- *			Wesley
- */
+/* 
+* MainMenu.cpp
+*
+* Created: 1-12-2017 13:04:02
+* Author: wsvdy
+*/
+
 
 #include "MainMenu.h"
 
