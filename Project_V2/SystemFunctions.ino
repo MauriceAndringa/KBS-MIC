@@ -1,9 +1,10 @@
 /*
-* SystemFunctions.cpp
-*
-* Created: 29-11-2017 11:09:18
-* Author: Erwin
-*/
+ * SystemFunctions.ino
+ *
+ * Authors: 
+ *			Erwin
+ *			Wesley
+ */
 
 
 #include "SystemFunctions.h"

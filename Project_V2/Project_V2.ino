@@ -1,3 +1,11 @@
+/*
+ * Project_V2.ino
+ *
+ * Authors: 
+ *			Erwin
+ *			Wesley
+ */
+
 // INCLUDES
 // Libraries
 #include <MI0283QT9.h>
@@ -49,6 +57,7 @@ int main (void)
 	uint8_t bombDropped = 0; // this variable keeps check if a bomb dropped.
 	uint8_t readyForEffect = 0; // this vaiable checks if the bomb animation is ready to be shown.
 	uint8_t resultNunchuck;
+	uint8_t test = 0;
 	//uint8_t internalBomblocationX; // TODO remove if useless
 	//uint8_t internalBomblocationY; // TODO remove if useless
 	float			difficulty = 0.7;
@@ -80,8 +89,7 @@ int main (void)
 	{
 		// change led brightness if it is changed
 		SystemFunctions::screenBrightness();
-		
-		//Serial.print("current view: ");Serial.print(currentView);Serial.print(" Requested view: "); Serial.println(requestedView);
+
 		// check if the the requested view has changed
 		if(currentView != requestedView){
 			
@@ -122,12 +130,13 @@ int main (void)
 					internalBomblocation = internalPlayer.getLocation();
 					
 					level.updateLevel(internalBomblocation, 4);
+					bomb.drawBomb(internalBomblocation);
 					bombDropped = 1;
 				}
 			// check if the bomb is ready to explode
 			if(millis() >= internalPlayerDropBombTimer + 3000 && bombDropped && !readyForEffect){
-				bomb.explodeBomb(internalBomblocation);
 				internalBombEffectTimer = millis();
+				bomb.explodeBomb(internalBomblocation);
 				readyForEffect = 1;
 			}
 			// check if the effect is ready to be removed
@@ -142,11 +151,8 @@ int main (void)
 		{
 			
 		}
-		
-		
-
-		mainMenu.listenToTouchInput();
-		
+		if(currentView == MENU)
+			mainMenu.listenToTouchInput();
 	}
 	
 }

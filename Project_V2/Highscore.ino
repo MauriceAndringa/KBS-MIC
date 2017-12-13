@@ -1,9 +1,10 @@
 /*
-* Highscore.h
-*
-* Created: 8-12-2017
-* Author: Erwin Jacobs
-*/
+ * Highscore.ino
+ *
+ * Authors: 
+ *			Erwin
+ *			Wesley
+ */
 
 #include "SystemFunctions.h"
 #include "Highscore.h"
