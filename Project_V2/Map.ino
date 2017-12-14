@@ -112,8 +112,9 @@ void Map::updateChunk(uint8_t loc)
 	
 	if(level[loc] == 4) // draw the bom on this location
 		bombPointer->drawBomb(loc);
-	else if(level[loc] == 5) // draw the bomb explode animation
-		lcdPointer->drawRect(x + 5,y + 5,10,5,RGB(255,0,255));
+	//else if(level[loc] == 5) // draw the bomb explode animation
+		//bombPointer->drawBombAni(loc);
+		//lcdPointer->drawRect(x + 5,y + 5,10,5,RGB(255,0,255));
 }
 
 
@@ -124,7 +125,7 @@ void Map::updateChunk(uint8_t loc)
 void Map::updateLevel(uint8_t loc, uint8_t value)
 {
 	level[loc] = value;		// change old value in new value
-	Map::updateChunk(loc);	// call update Chunk
+	//Map::updateChunk(loc);	// call update Chunk
 }
 
 /*

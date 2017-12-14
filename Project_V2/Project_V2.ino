@@ -108,6 +108,8 @@ int main (void)
 		}
 		
 		if(currentView == GAME){
+			internalPlayer.drawPlayer();
+			externalPlayer.drawPlayer();
 			resultNunchuck = SystemFunctions::readNunchuck();
 			
 			if (resultNunchuck != 0 && resultNunchuck != 5)
@@ -122,6 +124,7 @@ int main (void)
 					internalBomblocation = internalPlayer.getLocation();
 					
 					level.updateLevel(internalBomblocation, 4);
+					bomb.drawBomb(internalBomblocation);
 					bombDropped = 1;
 				}
 			// check if the bomb is ready to explode

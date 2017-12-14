@@ -21,7 +21,7 @@ Player::Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointe
 
 void Player::drawPlayer()
 {
-	levelPointer->updateChunk(location.oldPlayerLoc);
+	//levelPointer->updateChunk(location.oldPlayerLoc);
 	lcdPointer->fillRect(SystemFunctions::calcX(location.playerLoc) + 5, SystemFunctions::calcY(location.playerLoc) + 5, 10, 10, RGB(255,0,0));
 }
 
@@ -52,7 +52,8 @@ void Player::move(uint8_t direction)
 		}
 		if(levelPointer->checkLocation(location.newPlayerLoc) == 2){ // check if the location is a path to walk on location.
 			location.playerLoc = location.newPlayerLoc;
-			drawPlayer();
+			levelPointer->updateChunk(location.oldPlayerLoc);
+			//drawPlayer();
 		}
 	}
 }
