@@ -5,14 +5,18 @@
 * Author: wsvdy
 */
 
+#ifndef __MAP_H__
+#define __MAP_H__
+
+// libraries
 #include <time.h>
 
 #include "Bomb.h"
+#include "Map.h"
 
 
 
-#ifndef __MAP_H__
-#define __MAP_H__
+// defines
 #define BLOCK_SIZE 20
 #define COLOUR_PILLAR RGB(51, 49, 49)
 #define COLOUR_ROAD RGB(91,90,90)
@@ -28,8 +32,8 @@ public:
 	
 	void drawMap(float difficulty);
 	void updateChunk(uint8_t loc);
-	uint8_t checkLocation(uint8_t location);
 	void updateLevel(uint8_t loc, uint8_t value);
+	uint8_t checkLocation(uint8_t location);
 protected:
 private:
 	Map( const Map &c );
