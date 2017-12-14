@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Atmel Studio Solution File, Format Version 11.00
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Infrared", "Infrared.cppproj", "{411B0CC5-AEE1-4A24-8374-B079BC6E91CC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{411B0CC5-AEE1-4A24-8374-B079BC6E91CC}.Debug|AVR.ActiveCfg = Debug|AVR
+		{411B0CC5-AEE1-4A24-8374-B079BC6E91CC}.Debug|AVR.Build.0 = Debug|AVR
+		{411B0CC5-AEE1-4A24-8374-B079BC6E91CC}.Release|AVR.ActiveCfg = Release|AVR
+		{411B0CC5-AEE1-4A24-8374-B079BC6E91CC}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
