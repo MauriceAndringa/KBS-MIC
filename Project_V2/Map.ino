@@ -5,7 +5,7 @@
 * Author: wsvdy
 */
 
-
+#include "Map.h"
 
 // baselevel is a shell which is used to force a few pillars and empty places in the level
 uint8_t baseLevel[143] = {
@@ -33,17 +33,13 @@ Map::Map(MI0283QT9 *lcdPointer, Bomb *bombPointer)
 	second = 0;
 } //Map
 
-/*
-* functions
-*/
+//Map::Map()
+//{
+//} //Map
 
-/*
-* Function to draw a map
-* input: difficulty level
-*/
 void Map::drawMap(float difficulty)
 {
-	lcdPointer->fillScreen(RGB(0,0,0)); // Make background black
+	lcdPointer->fillScreen(RGB(0,0,0));
 	
 	// generate a random seed and use it to generate randoms values.
 	srand(SystemFunctions::getRandomSeed());
@@ -103,16 +99,10 @@ void Map::drawMap(float difficulty)
 	lcdPointer->drawText(270, 20,"Score:", RGB(0,255,0), RGB(0,0,0), 1);
 }
 
-
-/*
-* update a location in the level on the screen
-* input: location
-*/
 void Map::updateChunk(uint8_t loc)
 {
-	uint8_t x = SystemFunctions::calcX(loc);	//calculate X and Y positions in pixels
+	uint8_t x = SystemFunctions::calcX(loc);
 	uint8_t y = SystemFunctions::calcY(loc); 
-	
 	lcdPointer->fillRect(x+1,y+1,18,18, RGB(91,90,90));
 	
 	if(level[loc] == 4) // draw the bom on this location
@@ -122,13 +112,9 @@ void Map::updateChunk(uint8_t loc)
 		//lcdPointer->drawRect(x + 5,y + 5,10,5,RGB(255,0,255));
 }
 
-
-/*
-* update the level in the level array
-* input: location and value
-*/
 void Map::updateLevel(uint8_t loc, uint8_t value)
 {
+
 	level[loc] = value;		// change old value in new value
 	//Map::updateChunk(loc);	// call update Chunk
 }
@@ -191,8 +177,16 @@ void Map::drawScore(){
 * output: value
 */
 uint8_t Map::checkLocation(uint8_t location)
-{ 
-	 return level[location]<=5?level[location]:0; // check if the location is a value in the 0 to 5 range
+{
+	if(level[location] == 1)
+		return 1; // return value 1 to indicate that there is a pillar on this location.
+	else if (level[location] == 2)
+		return 2; // return value 2 to indicate that there is a walk path on this location.
+	else if (level[location] == 3)
+		return 3; // return value 3 to indicate that there is a destructeble object on this location.
+	else if(level[location] == 5)
+		return 5; // return value 5 to indicate that there is a bomb explosion animation on this location.
+	return 0;
 }
 
 // default destructor

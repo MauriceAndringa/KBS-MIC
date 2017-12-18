@@ -17,8 +17,6 @@
 // Global Variables
 View currentView	= NONE;
 View requestedView	= MENU;
-//uint8_t resultNunchuck; //TODO remove if useless
-
 
 // Objects
 MI0283QT9 LCD;
@@ -26,6 +24,7 @@ MainMenu mainMenu(&LCD, &currentView, &requestedView);
 Highscore highscore(&LCD, &currentView, &requestedView);
 Bomb bomb(&LCD);
 Map level(&LCD, &bomb);
+
 
 #if (IS_SLAVE == 1)
 	Player internalPlayer({14, 0, 14}, &LCD, &level, 1);
@@ -97,20 +96,23 @@ int main (void)
 				
 				// draw the main menu
 				case MENU:
-					mainMenu.draw();
-					break;
+				mainMenu.draw();
+				//Serial.println("menu");
+				break;
 				
 				// draw the screen
 				case GAME:
-					level.drawMap(difficulty);
-					internalPlayer.drawPlayer();
-					externalPlayer.drawPlayer();
-					break; 
+				level.drawMap(difficulty);
+				internalPlayer.drawPlayer();
+				externalPlayer.drawPlayer();
+				//Serial.println("spel");
+				break;
 				
 				// draw the highscore screen
 				case HIGHSCORE:
-					highscore.draw();
-					break; 	
+				highscore.draw();
+				//Serial.println("scores");
+				break;
 			}
 		}
 		
@@ -126,8 +128,8 @@ int main (void)
 			{
 				internalPlayer.move(resultNunchuck);
 
-			} else 
-				
+			} else
+			
 				// check if button Z is pushed(button Z returns value 5)
 				if(resultNunchuck == 5 && !bombDropped){
 					internalPlayerDropBombTimer = millis();
@@ -158,12 +160,13 @@ int main (void)
 		}
 		if (currentView == HIGHSCORE)
 		{
-			
+			highscore.listenToTouchInput();
 		}
 		
-		
-		if(currentView == MENU)
+		if (currentView == MENU)
+		{
 			mainMenu.listenToTouchInput();
+		}
 	}
 	
 }
@@ -183,7 +186,7 @@ void initializeRegisters()
 	ADCSRA |= (1<<ADEN);						//Enable ADC
 	
 	//PWM register
-	TCCR1A |= (1<<COM0A1);						
+	TCCR1A |= (1<<COM0A1);
 	TCCR1A |= (1<<WGM01)|(1<<WGM00);
 	TCCR1B |= (1<<CS01);
 }

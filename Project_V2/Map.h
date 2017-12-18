@@ -5,18 +5,14 @@
 * Author: wsvdy
 */
 
-#ifndef __MAP_H__
-#define __MAP_H__
-
-// libraries
 #include <time.h>
 
 #include "Bomb.h"
-#include "Map.h"
 
 
 
-// defines
+#ifndef __MAP_H__
+#define __MAP_H__
 #define BLOCK_SIZE 20
 #define COLOUR_PILLAR RGB(51, 49, 49)
 #define COLOUR_ROAD RGB(91,90,90)
@@ -37,6 +33,7 @@ public:
 	void updateTimer();
 	void drawScore();
 	uint8_t checkLocation(uint8_t location);
+	void updateLevel(uint8_t loc, uint8_t value);
 protected:
 private:
 	Map( const Map &c );
