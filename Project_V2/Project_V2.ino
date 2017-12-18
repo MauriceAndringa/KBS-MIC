@@ -12,7 +12,7 @@
 #include "Highscore.h"
 
 // define if the microcontroller is a slave or master
-#define IS_SLAVE 0
+#define IS_SLAVE 1
 
 // Global Variables
 View currentView	= NONE;
@@ -26,11 +26,11 @@ Bomb bomb(&LCD);
 Map level(&LCD, &bomb);
 
 #if (IS_SLAVE == 0)
-	Player internalPlayer({14, 0, 14}, &LCD, &level);
-	Player externalPlayer({128, 0, 128}, &LCD, &level);
+Player internalPlayer({14, 0, 14}, &LCD, &level, 1);
+Player externalPlayer({128, 0, 128}, &LCD, &level, 0);
 #else
-	Player internalPlayer({128, 0, 128}, &LCD, &level);
-	Player externalPlayer({14, 0, 14}, &LCD, &level);
+Player internalPlayer({128, 0, 128}, &LCD, &level, 1);
+Player externalPlayer({14, 0, 14}, &LCD, &level, 0);
 #endif
 
 //Function declaration
@@ -46,6 +46,7 @@ int main (void)
 	uint8_t externalBombLocation;
 	uint8_t bombDropped = 0;	// this variable keeps check if a bomb dropped.
 	uint8_t readyForEffect = 0; // this vaiable checks if the bomb animation is ready to be shown.
+	uint32_t doNotDraw = 0; // this variables is a timer that stops the redraw of the player for 0.5 sec unless the player moves
 	uint8_t resultNunchuck;
 	float			difficulty = 0.7;
 	unsigned long	internalPlayerDropBombTimer; // keeps the time when the bomb is dropped for internalPlayer
@@ -88,45 +89,54 @@ int main (void)
 				
 				// draw the main menu
 				case MENU:
-					mainMenu.draw();
-					//Serial.println("menu");
-					break;
+				mainMenu.draw();
+				//Serial.println("menu");
+				break;
 				
 				// draw the screen
 				case GAME:
-					level.drawMap(difficulty);
-					internalPlayer.drawPlayer();
-					externalPlayer.drawPlayer();
-					//Serial.println("spel");
-					break; 
+				level.drawMap(difficulty);
+				internalPlayer.drawPlayer();
+				externalPlayer.drawPlayer();
+				//Serial.println("spel");
+				break;
+				
+				// draw the highscore screen
 				case HIGHSCORE:
-					highscore.draw();
-					//Serial.println("scores");
-					break; 	
+				highscore.draw();
+				//Serial.println("scores");
+				break;
 			}
 		}
 		
 		if(currentView == GAME){
+			if(millis() >= doNotDraw + 4100){
+				internalPlayer.drawPlayer();
+				externalPlayer.drawPlayer();
+				doNotDraw = 0;
+			}
 			resultNunchuck = SystemFunctions::readNunchuck();
 			
 			if (resultNunchuck != 0 && resultNunchuck != 5)
 			{
 				internalPlayer.move(resultNunchuck);
 
-			} else 
+			} else
+			
+			// check if button Z is pushed(button Z returns value 5)
+			if(resultNunchuck == 5 && !bombDropped){
+				internalPlayerDropBombTimer = millis();
+				doNotDraw = millis();
+				internalBomblocation = internalPlayer.getLocation();
 				
-				// check if button Z is pushed(button Z returns value 5)
-				if(resultNunchuck == 5 && !bombDropped){
-					internalPlayerDropBombTimer = millis();
-					internalBomblocation = internalPlayer.getLocation();
-					
-					level.updateLevel(internalBomblocation, 4);
-					bombDropped = 1;
-				}
+				level.updateLevel(internalBomblocation, 4);
+				bomb.drawBomb(internalBomblocation);
+				bombDropped = 1;
+			}
 			// check if the bomb is ready to explode
 			if(millis() >= internalPlayerDropBombTimer + 3000 && bombDropped && !readyForEffect){
-				bomb.explodeBomb(internalBomblocation);
 				internalBombEffectTimer = millis();
+				bomb.explodeBomb(internalBomblocation);
 				readyForEffect = 1;
 			}
 			// check if the effect is ready to be removed
@@ -144,7 +154,7 @@ int main (void)
 		
 		if (currentView == MENU)
 		{
-		mainMenu.listenToTouchInput();
+			mainMenu.listenToTouchInput();
 		}
 		
 	}
@@ -166,7 +176,7 @@ void initializeRegisters()
 	ADCSRA |= (1<<ADEN);						//Enable ADC
 	
 	//PWM register
-	TCCR1A |= (1<<COM0A1);						
+	TCCR1A |= (1<<COM0A1);
 	TCCR1A |= (1<<WGM01)|(1<<WGM00);
 	TCCR1B |= (1<<CS01);
 }

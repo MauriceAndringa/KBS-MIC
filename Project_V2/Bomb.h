@@ -10,9 +10,10 @@
 #define __BOMB_H__
 
 //#include "Map.h"
-#define BOMBANIMANTION 5
-#define DESTRUCTEBLE 3
+#define NON_DESTRUCTEBLE 1
 #define WALKWAY 2
+#define DESTRUCTEBLE 3
+#define BOMBANIMANTION 5
 
 
 class Bomb
@@ -24,11 +25,12 @@ public:
 	void drawBomb(uint8_t loc);
 	void explodeBomb(uint8_t loc);
 	void removeAnimation(uint8_t loc);
+	void drawBombAni(uint8_t loc);
 protected:
 private:
 	Bomb( const Bomb &c );
 	Bomb& operator=( const Bomb &c );
-	
+
 	MI0283QT9 *lcdPointer;
 
 }; //Bomb

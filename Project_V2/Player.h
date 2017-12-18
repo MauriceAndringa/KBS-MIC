@@ -22,7 +22,7 @@ typedef struct {
 class Player
 {
 public:
-	Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointer);
+	Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointer, bool is_slave);
 	~Player();
 	
 	void drawPlayer();
@@ -43,6 +43,7 @@ private:
 	Map *levelPointer;
 	
 	unsigned long walkDelay;
+	bool is_slave;
 
 }; //Player
 

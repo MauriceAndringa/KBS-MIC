@@ -12,17 +12,22 @@
 #define GRID 20;
 
 // default constructor
-Player::Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointer)
+Player::Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointer, bool is_slave)
 {
 	Player::location = location;
 	Player::lcdPointer = lcdPointer;
 	Player::levelPointer = levelPointer;
+	Player::is_slave = is_slave;
 } //Player
 
 void Player::drawPlayer()
 {
-	levelPointer->updateChunk(location.oldPlayerLoc);
-	lcdPointer->fillRect(SystemFunctions::calcX(location.playerLoc) + 5, SystemFunctions::calcY(location.playerLoc) + 5, 10, 10, RGB(255,0,0));
+	//levelPointer->updateChunk(location.oldPlayerLoc);
+	Serial.println(is_slave);
+	if(is_slave)
+		lcdPointer->fillRect(SystemFunctions::calcX(location.playerLoc) + 5, SystemFunctions::calcY(location.playerLoc) + 5, 10, 10, RGB(255,0,0));
+	else
+		lcdPointer->fillRect(SystemFunctions::calcX(location.playerLoc) + 5, SystemFunctions::calcY(location.playerLoc) + 5, 10, 10, RGB(30,144,255));
 }
 
 uint8_t Player::getLocation()
@@ -52,6 +57,7 @@ void Player::move(uint8_t direction)
 		}
 		if(levelPointer->checkLocation(location.newPlayerLoc) == 2){ // check if the location is a path to walk on location.
 			location.playerLoc = location.newPlayerLoc;
+			levelPointer->updateChunk(location.oldPlayerLoc);
 			drawPlayer();
 		}
 	}
