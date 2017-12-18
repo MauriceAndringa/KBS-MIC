@@ -22,16 +22,18 @@ void Bomb::drawBomb(uint8_t loc)
 	lcdPointer->fillCircle(x + 9, y + 9, 4, RGB(255,0,255));
 }
 
-void Bomb::explodeBomb(uint8_t loc)
+uint32_t Bomb::explodeBomb(uint8_t loc)
 {
 	level.updateLevel(loc, BOMBANIMANTION);
 	drawBombAni(loc);
+	numberOfDestroyed = 0;
 	int i;
 	//check above
 	for(i = -13; i > -27; i -= 13){
 		if(level.checkLocation(loc + i) == NON_DESTRUCTEBLE)
 			break;
 		if(level.checkLocation(loc + i) == DESTRUCTEBLE){
+			numberOfDestroyed++;
 			drawBombAni(loc + i);
 			break;
 		}
@@ -42,6 +44,7 @@ void Bomb::explodeBomb(uint8_t loc)
 		if(level.checkLocation(loc + i) == NON_DESTRUCTEBLE)
 			break;
 		if(level.checkLocation(loc + i) == DESTRUCTEBLE){
+			numberOfDestroyed++;
 			drawBombAni(loc + i);
 			break;
 		}
@@ -52,6 +55,7 @@ void Bomb::explodeBomb(uint8_t loc)
 		if(level.checkLocation(loc + i) == NON_DESTRUCTEBLE)
 			break;
 		if(level.checkLocation(loc + i) == DESTRUCTEBLE){
+			numberOfDestroyed++;
 			drawBombAni(loc + i);
 			break;
 		}
@@ -62,11 +66,14 @@ void Bomb::explodeBomb(uint8_t loc)
 		if(level.checkLocation(loc + i) == NON_DESTRUCTEBLE)
 			break;
 		if(level.checkLocation(loc + i) == DESTRUCTEBLE){
+			numberOfDestroyed++;
 			drawBombAni(loc + i);
 			break;
 		}
 		drawBombAni(loc + i);
 	}
+	Serial.println(numberOfDestroyed);
+	return numberOfDestroyed;
 }
 
 void Bomb::removeAnimation(uint8_t loc)

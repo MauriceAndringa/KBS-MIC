@@ -33,6 +33,9 @@ public:
 	void drawMap(float difficulty);
 	void updateChunk(uint8_t loc);
 	void updateLevel(uint8_t loc, uint8_t value);
+	void drawTimer();
+	void updateTimer();
+	void drawScore();
 	uint8_t checkLocation(uint8_t location);
 protected:
 private:
@@ -45,7 +48,15 @@ private:
 	
 	// array level is used to generate a random level
 	uint8_t level[143];
+	
+	uint8_t minute;
+	uint8_t secondTenth;
+	uint8_t second;
+	uint16_t internalPlayerScore;
+	uint16_t externalPlayerScore;
+	unsigned long readyToRemoveSecondTimer;
 	//uint32_t seed;
+//int second;
 }; //Map
 
 #endif //__MAP_H__

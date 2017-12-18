@@ -27,6 +27,10 @@ Map::Map(MI0283QT9 *lcdPointer, Bomb *bombPointer)
 {
 	Map::lcdPointer = lcdPointer;
 	Map::bombPointer = bombPointer;
+	readyToRemoveSecondTimer = 0;
+	minute = 3;
+	secondTenth = 0;
+	second = 0;
 } //Map
 
 /*
@@ -96,6 +100,7 @@ void Map::drawMap(float difficulty)
 			j = 0;
 		} 
 	}
+	lcdPointer->drawText(270, 20,"Score:", RGB(0,255,0), RGB(0,0,0), 1);
 }
 
 
@@ -126,6 +131,58 @@ void Map::updateLevel(uint8_t loc, uint8_t value)
 {
 	level[loc] = value;		// change old value in new value
 	//Map::updateChunk(loc);	// call update Chunk
+}
+
+/* 
+ * drawTimer 
+ draws the time on screen is minutes and seconds
+ * input:  na
+ * output: na
+ */
+void Map::drawTimer()
+{
+	lcdPointer->drawInteger(270, 10, minute, 10, RGB(0,255,0), RGB(0,0,0), 1);
+	lcdPointer->drawChar(276,10,':',RGB(0,255,0),RGB(0,0,0),1);
+	lcdPointer->drawInteger(284, 10, secondTenth, 10, RGB(0,255,0), RGB(0,0,0), 1);
+	lcdPointer->drawInteger(292, 10, second, 10, RGB(0,255,0), RGB(0,0,0), 1);
+}
+
+void Map::updateTimer()
+{
+	if(minute == 0 && secondTenth == 0 && second == 0){
+		exit(1);		
+	}
+	
+	if(millis() < readyToRemoveSecondTimer + 1000)
+		return;
+	
+	readyToRemoveSecondTimer = millis();
+	if(second > 0){
+		second--;
+		return;
+	}
+	
+	if(secondTenth == 0 && second == 0){
+		secondTenth = 5; second = 9;
+		minute--;
+		return;
+	}
+	
+	if(second == 0){
+		second = 9;
+		secondTenth --;
+		return;
+	}
+	
+	second--;
+}
+
+void Map::drawScore(){
+	//internalPlayerScore = internalPlayer.getScore();
+	//   externalPlayerScore = externalPlayer.getScore();
+	
+	lcdPointer->drawInteger(270, 30, internalPlayer.getScore(), 10, RGB(255,0,0), RGB(0,0,0), 1);
+	lcdPointer->drawInteger(270, 40, externalPlayer.getScore(), 10, RGB(30,144,255), RGB(0,0,0), 1);
 }
 
 /*

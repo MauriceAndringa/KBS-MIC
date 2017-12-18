@@ -12,7 +12,7 @@
 #include "Highscore.h"
 
 // define if the microcontroller is a slave or master
-#define IS_SLAVE 1
+#define IS_SLAVE 0
 
 // Global Variables
 View currentView	= NONE;
@@ -27,7 +27,7 @@ Highscore highscore(&LCD, &currentView, &requestedView);
 Bomb bomb(&LCD);
 Map level(&LCD, &bomb);
 
-#if (IS_SLAVE == 0)
+#if (IS_SLAVE == 1)
 	Player internalPlayer({14, 0, 14}, &LCD, &level, 1);
 	Player externalPlayer({128, 0, 128}, &LCD, &level, 0);
 #else
@@ -46,16 +46,20 @@ int main (void)
 	// initialize variables
 	uint8_t internalBomblocation;
 	uint8_t externalBombLocation;
-	uint8_t bombDropped = 0; // this variable keeps check if a bomb dropped.
+	//uint8_t bombDropped = 0; // this variable keeps check if a bomb dropped.
 	uint8_t readyForEffect = 0; // this vaiable checks if the bomb animation is ready to be shown.
-	uint32_t doNotDraw = 0; // this variables is a timer that stops the redraw of the player for 0.5 sec unless the player moves
+	//uint32_t doNotDrawPlayer = 0; // this variables is a timer that stops the redraw of the player for 0.5 sec unless the player moves
 	uint8_t resultNunchuck;
+	uint32_t score = 0;
 	//uint8_t internalBomblocationX; // TODO remove if useless
 	//uint8_t internalBomblocationY; // TODO remove if useless
 	float			difficulty = 0.7;
 	unsigned long	internalPlayerDropBombTimer; // keeps the time when the bomb is dropped for internalPlayer
 	unsigned long	internalBombEffectTimer;
-	
+	unsigned long	bombDropped = 0;		// this variable keeps check if a bomb dropped.
+	//unsigned long	readyForEffect = 0;		// this variable checks if the bomb animation is ready to be shown.
+	unsigned long	doNotDrawPlayer = 0;	// this variables is a timer that stops the redraw of the player for 0.5 sec unless the player moves
+	unsigned long	removeSecondTimer = 0;	// this variable is a timer that removes a second a second from the screen timer
 	
 	//Startup sequence
 	init();
@@ -111,10 +115,10 @@ int main (void)
 		}
 		
 		if(currentView == GAME){
-			if(millis() >= doNotDraw + 4100){
+			if(millis() >= doNotDrawPlayer + 4100){
 				internalPlayer.drawPlayer();
 				externalPlayer.drawPlayer();
-				doNotDraw = 0;
+				doNotDrawPlayer = 0;
 			}
 			resultNunchuck = SystemFunctions::readNunchuck();
 			
@@ -127,7 +131,7 @@ int main (void)
 				// check if button Z is pushed(button Z returns value 5)
 				if(resultNunchuck == 5 && !bombDropped){
 					internalPlayerDropBombTimer = millis();
-					doNotDraw = millis();
+					doNotDrawPlayer = millis();
 					internalBomblocation = internalPlayer.getLocation();
 					
 					level.updateLevel(internalBomblocation, 4);
@@ -137,7 +141,7 @@ int main (void)
 			// check if the bomb is ready to explode
 			if(millis() >= internalPlayerDropBombTimer + 3000 && bombDropped && !readyForEffect){
 				internalBombEffectTimer = millis();
-				bomb.explodeBomb(internalBomblocation);
+				score = (bomb.explodeBomb(internalBomblocation) * 10000);
 				readyForEffect = 1;
 			}
 			// check if the effect is ready to be removed
@@ -147,6 +151,10 @@ int main (void)
 				bombDropped = 0;
 				readyForEffect = 0;
 			}
+			level.drawTimer();
+			level.updateTimer();
+			internalPlayer.updateScore(&score);
+			level.drawScore();
 		}
 		if (currentView == HIGHSCORE)
 		{
@@ -156,7 +164,6 @@ int main (void)
 		
 		if(currentView == MENU)
 			mainMenu.listenToTouchInput();
-		
 	}
 	
 }

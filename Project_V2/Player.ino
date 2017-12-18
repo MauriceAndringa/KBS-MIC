@@ -18,12 +18,11 @@ Player::Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointe
 	Player::lcdPointer = lcdPointer;
 	Player::levelPointer = levelPointer;
 	Player::is_slave = is_slave;
+	Player::score = 0;
 } //Player
 
 void Player::drawPlayer()
 {
-	//levelPointer->updateChunk(location.oldPlayerLoc);
-	Serial.println(is_slave);
 	if(is_slave)
 		lcdPointer->fillRect(SystemFunctions::calcX(location.playerLoc) + 5, SystemFunctions::calcY(location.playerLoc) + 5, 10, 10, RGB(255,0,0));
 	else
@@ -61,6 +60,16 @@ void Player::move(uint8_t direction)
 			drawPlayer();
 		}
 	}
+}
+
+void Player::updateScore(uint32_t *score)
+{
+	Player::score += *score;
+	*score = 0;
+}
+uint16_t Player::getScore()
+{
+	return Player::score;
 }
 
 void Player::moveUp()
