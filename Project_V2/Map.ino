@@ -114,7 +114,6 @@ void Map::updateChunk(uint8_t loc)
 
 void Map::updateLevel(uint8_t loc, uint8_t value)
 {
-
 	level[loc] = value;		// change old value in new value
 	//Map::updateChunk(loc);	// call update Chunk
 }

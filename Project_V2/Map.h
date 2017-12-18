@@ -33,7 +33,6 @@ public:
 	void updateTimer();
 	void drawScore();
 	uint8_t checkLocation(uint8_t location);
-	void updateLevel(uint8_t loc, uint8_t value);
 protected:
 private:
 	Map( const Map &c );

@@ -143,7 +143,7 @@ int main (void)
 			// check if the bomb is ready to explode
 			if(millis() >= internalPlayerDropBombTimer + 3000 && bombDropped && !readyForEffect){
 				internalBombEffectTimer = millis();
-				score = (bomb.explodeBomb(internalBomblocation) * 10000);
+				score = (bomb.explodeBomb(internalBomblocation) * 10);
 				readyForEffect = 1;
 			}
 			// check if the effect is ready to be removed
