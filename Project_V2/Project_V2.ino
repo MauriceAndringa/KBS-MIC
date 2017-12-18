@@ -17,8 +17,6 @@
 // Global Variables
 View currentView	= NONE;
 View requestedView	= MENU;
-//uint8_t resultNunchuck; //TODO remove if useless
-
 
 // Objects
 MI0283QT9 LCD;
@@ -46,11 +44,9 @@ int main (void)
 	// initialize variables
 	uint8_t internalBomblocation;
 	uint8_t externalBombLocation;
-	uint8_t bombDropped = 0; // this variable keeps check if a bomb dropped.
+	uint8_t bombDropped = 0;	// this variable keeps check if a bomb dropped.
 	uint8_t readyForEffect = 0; // this vaiable checks if the bomb animation is ready to be shown.
 	uint8_t resultNunchuck;
-	//uint8_t internalBomblocationX; // TODO remove if useless
-	//uint8_t internalBomblocationY; // TODO remove if useless
 	float			difficulty = 0.7;
 	unsigned long	internalPlayerDropBombTimer; // keeps the time when the bomb is dropped for internalPlayer
 	unsigned long	internalBombEffectTimer;
@@ -93,6 +89,7 @@ int main (void)
 				// draw the main menu
 				case MENU:
 					mainMenu.draw();
+					//Serial.println("menu");
 					break;
 				
 				// draw the screen
@@ -100,9 +97,11 @@ int main (void)
 					level.drawMap(difficulty);
 					internalPlayer.drawPlayer();
 					externalPlayer.drawPlayer();
+					//Serial.println("spel");
 					break; 
 				case HIGHSCORE:
 					highscore.draw();
+					//Serial.println("scores");
 					break; 	
 			}
 		}
@@ -140,12 +139,13 @@ int main (void)
 		}
 		if (currentView == HIGHSCORE)
 		{
-			
+			highscore.listenToTouchInput();
 		}
 		
-		
-
+		if (currentView == MENU)
+		{
 		mainMenu.listenToTouchInput();
+		}
 		
 	}
 	
