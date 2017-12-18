@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Bomb.h"
 #include "Highscore.h"
+#include "EndScreen.h"
 
 // define if the microcontroller is a slave or master
 #define IS_SLAVE 0
@@ -24,6 +25,7 @@ MainMenu mainMenu(&LCD, &currentView, &requestedView);
 Highscore highscore(&LCD, &currentView, &requestedView);
 Bomb bomb(&LCD);
 Map level(&LCD, &bomb);
+EndScreen endScreen(&LCD);
 
 
 #if (IS_SLAVE == 1)
@@ -38,6 +40,12 @@ Map level(&LCD, &bomb);
 void initializePins();
 void initializeRegisters();
 void initializeNunchuck();
+
+//Variables for functions
+uint8_t minute = 3;
+uint8_t secondTenth = 0;
+uint8_t second = 0;
+unsigned long readyToRemoveSecondTimer;
 
 //Code
 int main (void)
@@ -96,23 +104,24 @@ int main (void)
 				
 				// draw the main menu
 				case MENU:
-				mainMenu.draw();
-				//Serial.println("menu");
-				break;
+					mainMenu.draw();
+					break;
 				
 				// draw the screen
 				case GAME:
-				level.drawMap(difficulty);
-				internalPlayer.drawPlayer();
-				externalPlayer.drawPlayer();
-				//Serial.println("spel");
-				break;
+					level.drawMap(difficulty);
+					internalPlayer.drawPlayer();
+					externalPlayer.drawPlayer();
+					break;
 				
 				// draw the highscore screen
 				case HIGHSCORE:
-				highscore.draw();
-				//Serial.println("scores");
-				break;
+					highscore.draw();
+					break;
+				
+				// draw the end screen
+				case ENDSCREEN:
+					endScreen.draw();
 			}
 		}
 		
@@ -153,10 +162,10 @@ int main (void)
 				bombDropped = 0;
 				readyForEffect = 0;
 			}
-			level.drawTimer();
-			level.updateTimer();
+			drawTimer();
+			updateTimer();
 			internalPlayer.updateScore(&score);
-			level.drawScore();
+			drawScore();
 		}
 		if (currentView == HIGHSCORE)
 		{
@@ -168,7 +177,6 @@ int main (void)
 			mainMenu.listenToTouchInput();
 		}
 	}
-	
 }
 
 // Functions
@@ -200,3 +208,61 @@ void initializeNunchuck()
 	Wire.endTransmission();     // stop transmitting
 }
 
+
+/* 
+ * drawTimer 
+ draws the time on screen is minutes and seconds
+ * input:  na
+ * output: na
+ */
+void drawTimer()
+{
+	LCD.drawInteger(270, 10, minute, 10, RGB(0,255,0), RGB(0,0,0), 1);
+	LCD.drawChar(276,10,':',RGB(0,255,0),RGB(0,0,0),1);
+	LCD.drawInteger(284, 10, secondTenth, 10, RGB(0,255,0), RGB(0,0,0), 1);
+	LCD.drawInteger(292, 10, second, 10, RGB(0,255,0), RGB(0,0,0), 1);
+}
+
+void updateTimer()
+{
+	if(minute == 0 && secondTenth == 0 && second == 0){
+		requestedView = ENDSCREEN;		
+	}
+	
+	if(millis() < readyToRemoveSecondTimer + 1000)
+		return;
+	
+	readyToRemoveSecondTimer = millis();
+	if(second > 0){
+		second--;
+		return;
+	}
+	
+	if(secondTenth == 0 && second == 0){
+		secondTenth = 5; second = 9;
+		minute--;
+		return;
+	}
+	
+	if(second == 0){
+		second = 9;
+		secondTenth --;
+		return;
+	}
+	
+	second--;
+}
+
+void drawScore()
+{
+	LCD.drawInteger(270, 30, internalPlayer.getScore(), 10, RGB(255,0,0), RGB(0,0,0), 1);
+	LCD.drawInteger(270, 40, externalPlayer.getScore(), 10, RGB(30,144,255), RGB(0,0,0), 1);
+}
+
+void drawEndScreen()
+{
+	int i;
+	LCD.fillRect(40, 40, 200, 140, RGB(i,i,i));
+	i++;
+	while(1);
+}

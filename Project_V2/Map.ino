@@ -28,9 +28,9 @@ Map::Map(MI0283QT9 *lcdPointer, Bomb *bombPointer)
 	Map::lcdPointer = lcdPointer;
 	Map::bombPointer = bombPointer;
 	readyToRemoveSecondTimer = 0;
-	minute = 3;
-	secondTenth = 0;
-	second = 0;
+	//minute = 0;
+	//secondTenth = 0;
+	//second = 0;
 } //Map
 
 //Map::Map()
@@ -124,6 +124,7 @@ void Map::updateLevel(uint8_t loc, uint8_t value)
  * input:  na
  * output: na
  */
+/*
 void Map::drawTimer()
 {
 	lcdPointer->drawInteger(270, 10, minute, 10, RGB(0,255,0), RGB(0,0,0), 1);
@@ -168,7 +169,7 @@ void Map::drawScore(){
 	
 	lcdPointer->drawInteger(270, 30, internalPlayer.getScore(), 10, RGB(255,0,0), RGB(0,0,0), 1);
 	lcdPointer->drawInteger(270, 40, externalPlayer.getScore(), 10, RGB(30,144,255), RGB(0,0,0), 1);
-}
+}*/
 
 /*
 * update the level in the level array

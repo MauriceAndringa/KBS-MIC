@@ -36,6 +36,7 @@ typedef enum{
 	GAME,
 	HIGHSCORE,
 	SETTINGS,
+	ENDSCREEN,
 	NONE	
 } View;
 
