@@ -96,7 +96,13 @@ void Map::drawMap(float difficulty)
 			j = 0;
 		} 
 	}
-	lcdPointer->drawText(270, 20,"Score:", RGB(0,255,0), RGB(0,0,0), 1);
+	lcdPointer->drawText(268, 20,"Score:", RGB(0,255,0), RGB(0,0,0), 1);
+	lcdPointer->drawText(270, 35, "You:", RGB(255,0,0), RGB(0,0,0), 1);
+	lcdPointer->drawText(275, 45, "S:", RGB(255,0,0), RGB(0,0,0), 1);
+	lcdPointer->drawText(275, 55, "L:", RGB(255,0,0), RGB(0,0,0), 1);
+	lcdPointer->drawText(270, 70, "Enemy:", RGB(30,144,255), RGB(0,0,0), 1);
+	lcdPointer->drawText(275, 80, "S:", RGB(30,144,255), RGB(0,0,0), 1);
+	lcdPointer->drawText(275, 90, "L:", RGB(30,144,255), RGB(0,0,0), 1);
 }
 
 void Map::updateChunk(uint8_t loc)

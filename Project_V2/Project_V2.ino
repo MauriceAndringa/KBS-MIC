@@ -60,7 +60,7 @@ int main (void)
 	uint32_t score = 0;
 	//uint8_t internalBomblocationX; // TODO remove if useless
 	//uint8_t internalBomblocationY; // TODO remove if useless
-	float			difficulty = 0;//.7;
+	float			difficulty = 0.7;
 	unsigned long	internalPlayerDropBombTimer; // keeps the time when the bomb is dropped for internalPlayer
 	unsigned long	internalBombEffectTimer;
 	unsigned long	bombDropped = 0;		// this variable keeps check if a bomb dropped.
@@ -260,8 +260,11 @@ void updateTimer()
 
 void drawScore()
 {
-	LCD.drawInteger(270, 30, internalPlayer.getScore(), 10, RGB(255,0,0), RGB(0,0,0), 1);
-	LCD.drawInteger(270, 40, externalPlayer.getScore(), 10, RGB(30,144,255), RGB(0,0,0), 1);
+	LCD.drawInteger(290, 45, internalPlayer.getScore(), 10, RGB(255,0,0), RGB(0,0,0), 1);
+	LCD.drawInteger(290, 55, internalPlayer.lives, 10, RGB(255,0,0), RGB(0,0,0), 1);
+	
+	LCD.drawInteger(290, 80, externalPlayer.getScore(), 10, RGB(30,144,255), RGB(0,0,0), 1);
+	LCD.drawInteger(290, 90, externalPlayer.lives, 10, RGB(30,144,255), RGB(0,0,0), 1);
 }
 
 void drawEndScreen()
