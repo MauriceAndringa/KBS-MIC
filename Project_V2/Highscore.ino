@@ -36,8 +36,8 @@ void Highscore::draw()
 	for (i = 1;i<=3;i++)
 	{
 		lcdPointer->drawInteger(35, 60+(20*i), i, 10, RGB(255,255,0), RGB(0,0,0),1);		// print ranking
-		lcdPointer->drawText(60, 60+(20*i), readName(i), RGB(255,255,0), RGB(0,0,0),1);		// print Name
-		lcdPointer->drawText(120, 60+(20*i), readScore(i), RGB(255,255,0), RGB(0,0,0),1);	// print score
+		lcdPointer->drawText(60, 60+(20*i), SystemFunctions::readName(i), RGB(255,255,0), RGB(0,0,0),1);		// print Name
+		lcdPointer->drawText(120, 60+(20*i), SystemFunctions::readScore(i), RGB(255,255,0), RGB(0,0,0),1);	// print score
 	}
 	
 	free(&i); // free memory space of i
@@ -64,6 +64,7 @@ void Highscore::listenToTouchInput()
 * input: ranking in list
 * returns: 3 character long string
 */
+/*
 char* Highscore::readName(uint8_t place)
 {
 	char *result = calloc(4, sizeof(char));
@@ -83,12 +84,13 @@ char* Highscore::readName(uint8_t place)
 	free(&result);
 		
 }
-
+*/
 /*
 * This function reads the EEPROM and returns a 5 character long score
 * input: ranking in list
 * returns: 5 character long string
 */
+/*
 char* Highscore::readScore(uint8_t place)
 {
 	
@@ -115,7 +117,7 @@ char* Highscore::readScore(uint8_t place)
 	free(&result);
 	
 }
-
+*/
 
 
 // default destructor

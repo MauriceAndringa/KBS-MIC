@@ -42,8 +42,8 @@ void initializeRegisters();
 void initializeNunchuck();
 
 //Variables for functions
-uint8_t minute = 3;
-uint8_t secondTenth = 0;
+uint8_t minute = 0;
+uint8_t secondTenth = 3;
 uint8_t second = 0;
 unsigned long readyToRemoveSecondTimer;
 

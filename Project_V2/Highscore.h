@@ -31,8 +31,8 @@ private:
 	void listenToTouchInput();
   protected:
   private:
-  char* readName(uint8_t place);
-  char* readScore(uint8_t place);
+  //char* readName(uint8_t place);
+  //char* readScore(uint8_t place);
 };
 
 #endif _HIGHSCORE_H__

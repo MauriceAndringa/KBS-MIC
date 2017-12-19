@@ -48,6 +48,8 @@ public:
 	static uint8_t readNunchuck();
 	static uint8_t calcX(uint8_t loc);
 	static uint8_t calcY(uint8_t loc);
+	static char* readName(uint8_t place);
+	static char* readScore(uint8_t place);
 	SystemFunctions();
 	~SystemFunctions();
 

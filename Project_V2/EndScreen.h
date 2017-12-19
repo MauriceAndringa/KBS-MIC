@@ -9,6 +9,7 @@
 #ifndef __ENDSCREEN_H__
 #define __ENDSCREEN_H__
 
+#include "SystemFunctions.h"
 
 class EndScreen
 {
@@ -22,7 +23,16 @@ private:
 	EndScreen( const EndScreen &c );
 	EndScreen& operator=( const EndScreen &c );
 	
+	void newHighScore();
+	
 	MI0283QT9	*lcdPointer;
+	
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Debug:
+	bool youLose;
+	// End debug
+	//////////////////////////////////////////////////////////////////////////
 
 }; //EndScreen
 

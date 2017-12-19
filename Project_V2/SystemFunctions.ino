@@ -29,7 +29,7 @@ ISR(WDT_vect)
 */
 
 /*
-* Function to determine te screenbrightnes.
+* Function to determine the screenbrightness.
 */
 void SystemFunctions::screenBrightness()
 {
@@ -97,6 +97,63 @@ uint8_t SystemFunctions::calcX(uint8_t loc)
 uint8_t SystemFunctions::calcY(uint8_t loc)
 {
 	return loc/13*GRID;
+}
+
+/*
+* This function reads the EEPROM and returns a 3 character long name
+* input: ranking in list
+* returns: 3 character long string
+*/
+char* SystemFunctions::readName(uint8_t place)
+{
+	char *result = calloc(4, sizeof(char));
+	uint8_t i;				// declaration of needed variables
+
+	
+	place = (place*10)-10;	// determine memory location
+	
+	for	(i=0; i<=2; i++)	// read the 3 characters
+	{
+		result[i] = (char)eeprom_read_byte((uint8_t*)place+i+1); // save the characters in array
+	}
+	
+	result [4] = NULL;		//end 0
+	
+	return result;			//return the array
+	free(&result);
+	
+}
+
+/*
+* This function reads the EEPROM and returns a 5 character long score
+* input: ranking in list
+* returns: 5 character long string
+*/
+char* SystemFunctions::readScore(uint8_t place)
+{
+	
+	char *result = calloc(6, sizeof(char));
+	uint16_t i;				// declaration of needed variables
+	
+	place = (place*10)-7;	// determine memory location
+	
+	i = (eeprom_read_byte((uint8_t*)place+1)<<8)|(eeprom_read_byte((uint8_t*)place+2)); // combine 2 8bit-bytes into 1 16 bit-byte
+
+	result[0] = (char)(i/10000) + 48;	//turn integer into string
+	i = i%10000;
+	result[1] = (char)(i/1000)	+ 48;
+	i = i%1000;
+	result[2] = (char)(i/100)	+ 48;
+	i = i%100;
+	result[3] =	(char)(i/10)	+ 48;
+	i = i%10;
+	result[4] = (char) i + 48;
+	result[5] = NULL;					//end 0
+
+	
+	return result;			//return the array
+	free(&result);
+	
 }
 
 // default constructor
