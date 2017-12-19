@@ -9,6 +9,7 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
+
 #include <stdint.h>
 
 #define WALK_DELAY 100
@@ -17,6 +18,7 @@ typedef struct {
 	uint8_t playerLoc;
 	uint8_t newPlayerLoc;
 	uint8_t oldPlayerLoc;
+	
 } PLAYER_LOCATION;
 
 class Player
@@ -24,13 +26,15 @@ class Player
 public:
 	Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointer, bool is_slave);
 	~Player();
-	
+		View		*requestedViewPointer;
 	void drawPlayer();
 	void move(uint8_t direction);
 	uint8_t getLocation();
 	void updateScore(uint32_t *score);
 	uint16_t getScore();
+	void killPlayer();
 	
+	uint8_t lives;
 protected:
 private:
 	Player( const Player &c );
@@ -47,6 +51,8 @@ private:
 	unsigned long walkDelay;
 	bool is_slave;
 	uint16_t score;
+	//uint8_t lives;
+
 
 }; //Player
 
