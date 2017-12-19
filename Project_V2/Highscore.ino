@@ -37,7 +37,7 @@ void Highscore::draw()
 	{
 		lcdPointer->drawInteger(35, 60+(20*i), i, 10, RGB(255,255,0), RGB(0,0,0),1);		// print ranking
 		lcdPointer->drawText(60, 60+(20*i), SystemFunctions::readName(i), RGB(255,255,0), RGB(0,0,0),1);		// print Name
-		lcdPointer->drawText(120, 60+(20*i), SystemFunctions::readScore(i), RGB(255,255,0), RGB(0,0,0),1);	// print score
+		lcdPointer->drawText(120, 60+(20*i), SystemFunctions::printScore(i), RGB(255,255,0), RGB(0,0,0),1);	// print score
 	}
 	
 	free(&i); // free memory space of i

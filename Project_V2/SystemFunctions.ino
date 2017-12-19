@@ -129,7 +129,7 @@ char* SystemFunctions::readName(uint8_t place)
 * input: ranking in list
 * returns: 5 character long string
 */
-char* SystemFunctions::readScore(uint8_t place)
+char* SystemFunctions::printScore(uint8_t place)
 {
 	
 	char *result = calloc(6, sizeof(char));
@@ -155,6 +155,22 @@ char* SystemFunctions::readScore(uint8_t place)
 	free(&result);
 	
 }
+
+uint16_t SystemFunctions::readScore(uint8_t place)
+{
+	
+		uint16_t result;				// declaration of needed variables
+	
+	place = (place*10)-7;	// determine memory location
+	
+	result = (eeprom_read_byte((uint8_t*)place+1)<<8)|(eeprom_read_byte((uint8_t*)place+2)); // combine 2 8bit-bytes into 1 16 bit-byte
+
+	
+	return result;			//return the array
+	free(&result);
+	
+}
+
 
 // default constructor
 SystemFunctions::SystemFunctions()

@@ -2,7 +2,7 @@
 * Bomb.cpp
 *
 * Created: 5-12-2017 13:33:25
-* Author: wsvdy
+* Author: wsvdy, Erwin Jacobs
 */
 
 
