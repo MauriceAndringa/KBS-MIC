@@ -13,6 +13,8 @@ EndScreen::EndScreen(MI0283QT9 *lcdPointer)
 {
 	EndScreen::lcdPointer = lcdPointer;
 	youLose = 0;
+	internalPlayerPlace = 0;
+	externalPlayerPlace = 0;
 } //EndScreen
 
 void EndScreen::draw()
@@ -34,40 +36,35 @@ void EndScreen::draw()
 
 void EndScreen::newHighScore()
 {
-	Serial.println(SystemFunctions::readScore(3));
-	Serial.println(internalPlayer.getScore());
-	if(SystemFunctions::readScore(3) > internalPlayer.getScore() && SystemFunctions::readScore(3) > externalPlayer.getScore())
-		// check if the scores are below the lowest high score, if so stop the function
-		return;
-	
-	Serial.println(SystemFunctions::readScore(2));
-	
-	uint8_t internalPlayerPlace = 3, externalPlayerPlace = 3;
-	for(int i = 2; i >= 1; i--){
-		if(SystemFunctions::readScore(i) < internalPlayer.getScore() && SystemFunctions::readScore(i) > externalPlayer.getScore())
+	//SystemFunctions::scoreToEEPROM(130, 1);
+	for(int i = 3; i >= 1; i--){
+		if(SystemFunctions::readScore(i) < internalPlayer.getScore() && SystemFunctions::readScore(i) < externalPlayer.getScore())
 			internalPlayerPlace = i, externalPlayerPlace = i;
 		else if(SystemFunctions::readScore(i) < internalPlayer.getScore())
 			internalPlayerPlace = i;
 		else if (SystemFunctions::readScore(i) < externalPlayer.getScore())
 			externalPlayerPlace = i;
 	}
-	
+
 	if(internalPlayerPlace != externalPlayerPlace){
-		Serial.print("Internal player is on "); Serial.print(internalPlayerPlace); Serial.println(" place.");
-		Serial.print("External player is on "); Serial.print(externalPlayerPlace); Serial.println(" place.");	
+		if(internalPlayerPlace > 0)
+			SystemFunctions::scoreToEEPROM(internalPlayer.getScore(), internalPlayerPlace);
+		
+		if(!externalPlayerPlace > 0)
+			SystemFunctions::scoreToEEPROM(externalPlayer.getScore(), externalPlayerPlace);
 		return;
 	}
 	
 	if(internalPlayer.getScore() > externalPlayer.getScore()){
-		Serial.print("Internal player has a higher score, internal player is on ");
-		Serial.print(internalPlayerPlace); Serial.print(" place and external player is on ");
-		Serial.print(externalPlayerPlace - 1); Serial.println(" place.");
+		SystemFunctions::scoreToEEPROM(internalPlayer.getScore(), internalPlayerPlace);
+		if(externalPlayerPlace + 1 <= 3)
+			SystemFunctions::scoreToEEPROM(externalPlayer.getScore(), externalPlayerPlace + 1);
 	} else {
-		Serial.print("External player has a higher score, external player is on ");
-		Serial.print(externalPlayerPlace); Serial.print(" place and internal player is on ");
-		Serial.print(internalPlayerPlace - 1); Serial.println(" place.");
+		SystemFunctions::scoreToEEPROM(externalPlayer.getScore(), externalPlayerPlace);
+		if(internalPlayerPlace + 1 <= 3)
+			SystemFunctions::scoreToEEPROM(internalPlayer.getScore(), internalPlayerPlace + 1);
 	}
-	return; 
+	return;
 }
 
 // default destructor

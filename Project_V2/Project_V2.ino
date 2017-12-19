@@ -60,7 +60,7 @@ int main (void)
 	uint32_t score = 0;
 	//uint8_t internalBomblocationX; // TODO remove if useless
 	//uint8_t internalBomblocationY; // TODO remove if useless
-	float			difficulty = 0;//.7;
+	float			difficulty = 0.7;//.7;
 	unsigned long	internalPlayerDropBombTimer; // keeps the time when the bomb is dropped for internalPlayer
 	unsigned long	internalBombEffectTimer;
 	unsigned long	bombDropped = 0;		// this variable keeps check if a bomb dropped.

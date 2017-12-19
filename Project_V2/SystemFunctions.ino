@@ -153,7 +153,6 @@ char* SystemFunctions::printScore(uint8_t place)
 	
 	return result;			//return the array
 	free(&result);
-	
 }
 
 uint16_t SystemFunctions::readScore(uint8_t place)
@@ -171,6 +170,17 @@ uint16_t SystemFunctions::readScore(uint8_t place)
 	
 }
 
+void SystemFunctions::scoreToEEPROM(uint8_t score, uint8_t place)
+{
+	uint8_t a, b;
+	place = (place*10)-7;
+	a = (score>>8);
+	b = score;
+	eeprom_write_byte((uint8_t*)place+1, a);
+	eeprom_busy_wait();
+	eeprom_write_byte((uint8_t*)place+2, b);
+	eeprom_busy_wait();
+}
 
 // default constructor
 SystemFunctions::SystemFunctions()

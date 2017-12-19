@@ -51,6 +51,7 @@ public:
 	static char* readName(uint8_t place);
 	static char* printScore(uint8_t place);
 	static uint16_t readScore(uint8_t place);
+	static void scoreToEEPROM(uint8_t score, uint8_t place);
 	SystemFunctions();
 	~SystemFunctions();
 
