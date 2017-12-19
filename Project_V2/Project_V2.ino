@@ -60,7 +60,7 @@ int main (void)
 	uint32_t score = 0;
 	//uint8_t internalBomblocationX; // TODO remove if useless
 	//uint8_t internalBomblocationY; // TODO remove if useless
-	float			difficulty = 0.7;
+	float			difficulty = 0;//.7;
 	unsigned long	internalPlayerDropBombTimer; // keeps the time when the bomb is dropped for internalPlayer
 	unsigned long	internalBombEffectTimer;
 	unsigned long	bombDropped = 0;		// this variable keeps check if a bomb dropped.
@@ -94,6 +94,7 @@ int main (void)
 		SystemFunctions::screenBrightness();
 		
 		//Serial.print("current view: ");Serial.print(currentView);Serial.print(" Requested view: "); Serial.println(requestedView);
+		//Serial.print(internalPlayer.lives);Serial.print("  ");Serial.println(externalPlayer.lives);
 		// check if the the requested view has changed
 		if(currentView != requestedView){
 			
@@ -166,6 +167,10 @@ int main (void)
 			updateTimer();
 			internalPlayer.updateScore(&score);
 			drawScore();
+			if (externalPlayer.lives<=0)
+				requestedView = ENDSCREEN;
+			if (internalPlayer.lives<=0)
+				requestedView = ENDSCREEN;
 		}
 		if (currentView == HIGHSCORE)
 		{

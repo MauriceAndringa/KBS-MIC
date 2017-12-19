@@ -19,6 +19,7 @@ Player::Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointe
 	Player::levelPointer = levelPointer;
 	Player::is_slave = is_slave;
 	Player::score = 0;
+	Player::lives = 3;
 } //Player
 
 void Player::drawPlayer()
@@ -31,6 +32,8 @@ void Player::drawPlayer()
 
 uint8_t Player::getLocation()
 {
+	//Serial.print ("Ploc");
+	//Serial.println(location.playerLoc);
 	return location.playerLoc;
 }
 
@@ -70,6 +73,12 @@ void Player::updateScore(uint32_t *score)
 uint16_t Player::getScore()
 {
 	return Player::score;
+}
+
+//This function takes one live of the players lives
+void Player::killPlayer()
+{
+	Player::lives -= 1;
 }
 
 void Player::moveUp()

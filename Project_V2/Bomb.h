@@ -10,11 +10,11 @@
 #define __BOMB_H__
 
 //#include "Map.h"
-#define NON_DESTRUCTEBLE 1
+#define NON_DESTRUCTABLE 1
 #define WALKWAY 2
-#define DESTRUCTEBLE 3
+#define DESTRUCTABLE 3
 #define PLAYER 4
-#define BOMBANIMANTION 5
+#define BOMB_ANIMATION 5
 
 
 class Bomb
