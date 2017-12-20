@@ -6,7 +6,6 @@
  *			Wesley
  */
 
-
 #include "Bomb.h"
 
 // default constructor
@@ -15,6 +14,11 @@ Bomb::Bomb(MI0283QT9 *lcdPointer)
 	Bomb::lcdPointer = lcdPointer;
 } //Bomb
 
+/*
+ * drawBomb function draws a bomb in the screen
+ * input: uint8_t location
+ * returns: noting
+ */
 void Bomb::drawBomb(uint8_t loc)
 {
 	uint8_t x = SystemFunctions::calcX(loc);
@@ -23,7 +27,12 @@ void Bomb::drawBomb(uint8_t loc)
 	lcdPointer->fillCircle(x + 9, y + 9, 4, RGB(255,0,255));
 }
 
-uint32_t Bomb::explodeBomb(uint8_t loc)
+/*
+ * explodeBomb function checks where the bomb explosion can go and sends this data to another function
+ * input: uint8_t location
+ * returns: uint16_t how many destroyable objects the person destroyed
+ */
+uint16_t Bomb::explodeBomb(uint8_t loc)
 {
 	level.updateLevel(loc, BOMB_ANIMATION);
 	numberOfDestroyed = 0;
@@ -98,6 +107,11 @@ uint32_t Bomb::explodeBomb(uint8_t loc)
 	return numberOfDestroyed;
 }
 
+/*
+ * removeAnimation function removes the explosion animation from the screen
+ * input: uint8_t location
+ * returns: noting
+ */
 void Bomb::removeAnimation(uint8_t loc)
 {	
 	level.updateLevel(loc, WALKWAY);
@@ -140,6 +154,11 @@ void Bomb::removeAnimation(uint8_t loc)
 	}
 }
 
+/*
+ * drawBombani function draws a bomb animation on the screen
+ * input: uint8_t location
+ * returns: noting
+ */
 void Bomb::drawBombAni(uint8_t loc)
 {
 	uint8_t x = SystemFunctions::calcX(loc);

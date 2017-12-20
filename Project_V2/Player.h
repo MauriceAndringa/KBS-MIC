@@ -31,7 +31,7 @@ public:
 	void drawPlayer();
 	void move(uint8_t direction);
 	uint8_t getLocation();
-	void updateScore(uint32_t *score);
+	void updateScore(uint16_t *score);
 	uint16_t getScore();
 	void killPlayer();
 	

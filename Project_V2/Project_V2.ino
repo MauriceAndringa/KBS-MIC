@@ -63,7 +63,7 @@ int main (void)
 	uint8_t internalBomblocation;
 	uint8_t externalBombLocation;
 	uint8_t resultNunchuck;
-	uint32_t score = 0;
+	uint16_t score = 0;
 	float			difficulty = 0.7;
 	unsigned long	internalPlayerDropBombTimer; // keeps the time when the bomb is dropped for internalPlayer
 	unsigned long	internalBombEffectTimer;

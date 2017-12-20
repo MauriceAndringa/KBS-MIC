@@ -19,8 +19,10 @@ Highscore::Highscore(MI0283QT9 *lcdPointer, View *requestedViewPointer)
 } //Highscore Screen
 
 /*
-* This function draws the highscore screen with the highscores
-*/
+ * draw function draws the highscore screen with the highscores
+ * input: nothing
+ * output: nothing
+ */
 void Highscore::draw()
 {
 	uint8_t i;
@@ -45,15 +47,15 @@ void Highscore::draw()
 
 
 /*
-* This function returns to the main menu when the touchscreen is touched
-*/
+ * listenToTouchInput function returns to the main menu when the touchscreen is touched
+ * input: nothing
+ * output: nothing
+ */
 void Highscore::listenToTouchInput()
 {
-	
 	if(lcdPointer->touchRead()){
 		// check if screen is touched
-		*requestedViewPointer = MENU;
-				
+		*requestedViewPointer = MENU;				
 	}
 }
 

@@ -22,6 +22,11 @@ Player::Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointe
 	Player::lives = 3;
 } //Player
 
+/*
+ * drawPlayer function draws the player
+ * input: nothing
+ * returns: noting
+ */
 void Player::drawPlayer()
 {
 	if(is_slave)
@@ -30,11 +35,21 @@ void Player::drawPlayer()
 		lcdPointer->fillRect(SystemFunctions::calcX(location.playerLoc) + 5, SystemFunctions::calcY(location.playerLoc) + 5, 10, 10, RGB(30,144,255));
 }
 
+/*
+ * getLocation function returns the location of the player
+ * input: nothing
+ * returns: noting
+ */
 uint8_t Player::getLocation()
 {
 	return location.playerLoc;
 }
 
+/*
+ * move function checks if the player is allowed to walk and to where
+ * input: uint8_t direction of the movement
+ * returns: noting
+ */
 void Player::move(uint8_t direction)
 {
 	if((walkDelay + WALK_DELAY) < millis()){
@@ -63,37 +78,72 @@ void Player::move(uint8_t direction)
 	}
 }
 
-void Player::updateScore(uint32_t *score)
+/*
+ * updateScore function updates the score of the player
+ * input: uint16_t score as a pointer
+ * returns: noting
+ */
+void Player::updateScore(uint16_t *score)
 {
 	Player::score += *score;
 	*score = 0;
 }
+
+/*
+ * getScore function draws the end screen on the display
+ * input: nothing
+ * returns: uint16_t score of the player
+ */
 uint16_t Player::getScore()
 {
 	return Player::score;
 }
 
-//This function takes one live of the players lives
+/*
+ * KillPlayer function takes one live of the players lives
+ * input: nothing
+ * returns: noting
+ */
 void Player::killPlayer()
 {
 	Player::lives -= 1;
 }
 
+/*
+ * moveUp function moves the player one place up
+ * input: nothing
+ * returns: nothing
+ */
 void Player::moveUp()
 {
 	location.newPlayerLoc = location.playerLoc-13;
 }
 
+/*
+ * moveRight function moves the player one place right
+ * input: nothing
+ * returns: nothing
+ */
 void Player::moveRight()
 {
 	location.newPlayerLoc = location.playerLoc+1;
 }
 
+/*
+ * moveDown function moves the player one place down
+ * input: nothing
+ * returns: nothing
+ */
 void Player::moveDown()
 {
 	location.newPlayerLoc = location.playerLoc+13;
 }
 
+/*
+ * moveLeft function moves the player one place left
+ * input: nothing
+ * returns: nothing
+ */
 void Player::moveLeft()
 {
 	location.newPlayerLoc = location.playerLoc-1;

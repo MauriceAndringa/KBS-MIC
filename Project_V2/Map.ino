@@ -31,6 +31,11 @@ Map::Map(MI0283QT9 *lcdPointer, Bomb *bombPointer)
 	readyToRemoveSecondTimer = 0;
 } //Map
 
+/*
+ * drawMap function draws the game on the display
+ * input: float difficulty
+ * returns: noting
+ */
 void Map::drawMap(float difficulty)
 {
 	lcdPointer->fillScreen(RGB(0,0,0));
@@ -100,6 +105,11 @@ void Map::drawMap(float difficulty)
 	lcdPointer->drawText(275, 90, "L:", RGB(30,144,255), RGB(0,0,0), 1);
 }
 
+/*
+ * updateChunk function redraws the map where the user was
+ * input: uint8_t location
+ * returns: noting
+ */
 void Map::updateChunk(uint8_t loc)
 {
 	uint8_t x = SystemFunctions::calcX(loc);
@@ -111,13 +121,18 @@ void Map::updateChunk(uint8_t loc)
 		bombPointer->drawBomb(loc);
 }
 
+/*
+ * updateLevel function updates the level array
+ * input: uint8_t location and uint_t value
+ * returns: noting
+ */
 void Map::updateLevel(uint8_t loc, uint8_t value)
 {
 	level[loc] = value;		// change old value in new value
 }
 
 /*
-* update the level in the level array
+* checkLocation function return the location value
 * input: location
 * output: value
 */

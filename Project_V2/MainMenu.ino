@@ -16,6 +16,11 @@ MainMenu::MainMenu(MI0283QT9 *lcdPointer, View *requestedViewPointer)
 	MainMenu::requestedViewPointer	= requestedViewPointer;
 } //MainMenu
 
+/*
+ * draw function draws the main menu screen on the display
+ * input: nothing
+ * returns: noting
+ */
 void MainMenu::draw()
 {
 	// make background black
@@ -29,6 +34,11 @@ void MainMenu::draw()
 	lcdPointer->drawText(95, 205, "Highscore", RGB(128,0,128), RGB(255,255,0), 2);
 }
 
+/*
+ * listenToTouchInput function checks if there is a touch input and it if it's on a button, if so change requested view
+ * input: nothing
+ * returns: noting
+ */
 void MainMenu::listenToTouchInput()
 {
 	

@@ -19,6 +19,11 @@ EndScreen::EndScreen(MI0283QT9 *lcdPointer, View *requestedViewPointer)
 	externalPlayerPlace = 0;
 } //EndScreen
 
+/*
+ * draw function draws the end screen on the display
+ * input: nothing
+ * returns: noting
+ */
 void EndScreen::draw()
 {
 	lcdPointer->fillScreen(RGB(0,0,0));
@@ -38,15 +43,24 @@ void EndScreen::draw()
 	newHighScore();
 }
 
+/*
+ * listenToTouchInput function returns to the main menu when the touchscreen is touched
+ * input: nothing
+ * returns: noting
+ */
 void EndScreen::listenToTouchInput()
 {	
 	if(lcdPointer->touchRead()){
 		// check if screen is touched
 		*requestedViewPointer = MENU;
-		
 	}
 }
 
+/*
+ * newHighScore function determents if there is a new high score
+ * input: nothing
+ * returns: noting
+ */
 void EndScreen::newHighScore()
 {
 	for(int i = 3; i >= 1; i--){
