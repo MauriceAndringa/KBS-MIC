@@ -1,9 +1,10 @@
 /* 
-* Player.h
-*
-* Created: 4-12-2017 11:35:12
-* Author: wsvdy
-*/
+ * Player.h
+ *
+ * Authors:
+ *			Erwin
+ *			Wesley
+ */
 
 
 #ifndef __PLAYER_H__
@@ -26,7 +27,7 @@ class Player
 public:
 	Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointer, bool is_slave);
 	~Player();
-		View		*requestedViewPointer;
+	
 	void drawPlayer();
 	void move(uint8_t direction);
 	uint8_t getLocation();
@@ -46,14 +47,12 @@ private:
 	PLAYER_LOCATION location;
 	
 	MI0283QT9 *lcdPointer;
-	Map *levelPointer;
+	Map  *levelPointer;
+	View *requestedViewPointer;
 	
 	unsigned long walkDelay;
 	bool is_slave;
 	uint16_t score;
-	//uint8_t lives;
-
-
 }; //Player
 
 #endif //__PLAYER_H__

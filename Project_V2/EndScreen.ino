@@ -1,9 +1,10 @@
 /* 
-* EndScreen.cpp
-*
-* Created: 18-12-2017 14:45:35
-* Author: wsvdy
-*/
+ * EndScreen.ino
+ *
+ * Authors:
+ *			Erwin
+ *			Wesley
+ */
 
 
 #include "EndScreen.h"
@@ -21,11 +22,13 @@ EndScreen::EndScreen(MI0283QT9 *lcdPointer, View *requestedViewPointer)
 void EndScreen::draw()
 {
 	lcdPointer->fillScreen(RGB(0,0,0));
-	if(youLose)
+	if(internalPlayer.getScore() > externalPlayer.getScore())
 		lcdPointer->drawText(60,5, "YOU WIN!", RGB(255,255,0), RGB(0,0,0), 3);
-	else
+	else if(externalPlayer.getScore() > internalPlayer.getScore())
 		lcdPointer->drawText(60, 5, "YOU LOSE!", RGB(255,255,0), RGB(0,0,0), 3);
-	
+	else
+		lcdPointer->drawText(60, 5, "DRAW!", RGB(255,255,0), RGB(0,0,0), 3);
+
 	lcdPointer->drawText(10, 50, "Your Score was: ", RGB(255,255,0), RGB(0,0,0), 1);
 	lcdPointer->drawInteger(130, 50, internalPlayer.getScore(), 10, RGB(255,255,0), RGB(0,0,0), 1);
 	
@@ -36,8 +39,7 @@ void EndScreen::draw()
 }
 
 void EndScreen::listenToTouchInput()
-{
-	
+{	
 	if(lcdPointer->touchRead()){
 		// check if screen is touched
 		*requestedViewPointer = MENU;
@@ -47,7 +49,6 @@ void EndScreen::listenToTouchInput()
 
 void EndScreen::newHighScore()
 {
-	//SystemFunctions::scoreToEEPROM(130, 1);
 	for(int i = 3; i >= 1; i--){
 		if(SystemFunctions::readScore(i) < internalPlayer.getScore() && SystemFunctions::readScore(i) < externalPlayer.getScore())
 			internalPlayerPlace = i, externalPlayerPlace = i;

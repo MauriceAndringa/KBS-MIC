@@ -17,7 +17,7 @@
 
 // files
 #include "SystemFunctions.h"
-#include "Map.h"
+#include "Map.h" //TODO check if needed
 
 // Defines
 #define NUNCHUCKADRESS 0x52	// nunchuckaddress
@@ -28,7 +28,6 @@
 #define DOWN 3
 #define LEFT 4
 #define SELECT 5 // Declare values for easier understanding of result
-
 
 // enum for the possible screens
 typedef enum{

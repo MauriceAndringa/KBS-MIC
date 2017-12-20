@@ -1,7 +1,16 @@
+/* 
+ * Project_V2.ino
+ *
+ * Authors:
+ *			Erwin
+ *			Wesley
+ */
+
 // INCLUDES
 // Libraries
 #include <MI0283QT9.h>
 #include <Wire.h>
+#include <time.h>
 
 // Header Files
 #include "SystemFunctions.h"
@@ -13,7 +22,7 @@
 #include "EndScreen.h"
 
 // define if the microcontroller is a slave or master
-#define IS_SLAVE 0
+#define IS_SLAVE 1
 
 // Global Variables
 View currentView	= NONE;
@@ -21,8 +30,8 @@ View requestedView	= MENU;
 
 // Objects
 MI0283QT9 LCD;
-MainMenu mainMenu(&LCD, &currentView, &requestedView);
-Highscore highscore(&LCD, &currentView, &requestedView);
+MainMenu mainMenu(&LCD, &requestedView);
+Highscore highscore(&LCD, &requestedView);
 Bomb bomb(&LCD);
 Map level(&LCD, &bomb);
 EndScreen endScreen(&LCD, &requestedView);
@@ -42,8 +51,8 @@ void initializeRegisters();
 void initializeNunchuck();
 
 //Variables for functions
-uint8_t minute = 0;
-uint8_t secondTenth = 3;
+uint8_t minute = 3;
+uint8_t secondTenth = 0;
 uint8_t second = 0;
 unsigned long readyToRemoveSecondTimer;
 
@@ -53,18 +62,13 @@ int main (void)
 	// initialize variables
 	uint8_t internalBomblocation;
 	uint8_t externalBombLocation;
-	//uint8_t bombDropped = 0; // this variable keeps check if a bomb dropped.
-	uint8_t readyForEffect = 0; // this vaiable checks if the bomb animation is ready to be shown.
-	//uint32_t doNotDrawPlayer = 0; // this variables is a timer that stops the redraw of the player for 0.5 sec unless the player moves
 	uint8_t resultNunchuck;
 	uint32_t score = 0;
-	//uint8_t internalBomblocationX; // TODO remove if useless
-	//uint8_t internalBomblocationY; // TODO remove if useless
 	float			difficulty = 0.7;
 	unsigned long	internalPlayerDropBombTimer; // keeps the time when the bomb is dropped for internalPlayer
 	unsigned long	internalBombEffectTimer;
 	unsigned long	bombDropped = 0;		// this variable keeps check if a bomb dropped.
-	//unsigned long	readyForEffect = 0;		// this variable checks if the bomb animation is ready to be shown.
+	unsigned long	readyForEffect = 0;		// this variable checks if the bomb animation is ready to be shown.
 	unsigned long	doNotDrawPlayer = 0;	// this variables is a timer that stops the redraw of the player for 0.5 sec unless the player moves
 	unsigned long	removeSecondTimer = 0;	// this variable is a timer that removes a second a second from the screen timer
 	
@@ -93,8 +97,6 @@ int main (void)
 		// change led brightness if it is changed
 		SystemFunctions::screenBrightness();
 		
-		//Serial.print("current view: ");Serial.print(currentView);Serial.print(" Requested view: "); Serial.println(requestedView);
-		//Serial.print(internalPlayer.lives);Serial.print("  ");Serial.println(externalPlayer.lives);
 		// check if the the requested view has changed
 		if(currentView != requestedView){
 			
@@ -159,7 +161,6 @@ int main (void)
 			// check if the effect is ready to be removed
 			if(millis() >= internalBombEffectTimer + 500 && readyForEffect == 1){
 				bomb.removeAnimation(internalBomblocation);
-				//level.updateLevel(internalBomblocation, 2);
 				bombDropped = 0;
 				readyForEffect = 0;
 			}

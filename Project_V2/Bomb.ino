@@ -1,9 +1,10 @@
 /*
-* Bomb.cpp
-*
-* Created: 5-12-2017 13:33:25
-* Author: wsvdy, Erwin Jacobs
-*/
+ * Bomb.ino
+ *
+ * Authors:
+ *			Erwin
+ *			Wesley
+ */
 
 
 #include "Bomb.h"
@@ -25,11 +26,9 @@ void Bomb::drawBomb(uint8_t loc)
 uint32_t Bomb::explodeBomb(uint8_t loc)
 {
 	level.updateLevel(loc, BOMB_ANIMATION);
-	//drawBombAni(loc);
 	numberOfDestroyed = 0;
 	int i;
 	//check above
-	
 	for(i = -13; i > -27; i -= 13){
 		if(level.checkLocation(loc + i) == NON_DESTRUCTABLE)
 		break;
@@ -92,16 +91,15 @@ uint32_t Bomb::explodeBomb(uint8_t loc)
 	}
 	// check same location
 	if (externalPlayer.getLocation()==(loc))
-	externalPlayer.killPlayer();
+		externalPlayer.killPlayer();
 	if (internalPlayer.getLocation()==(loc))
-	internalPlayer.killPlayer();
-	//Serial.println(numberOfDestroyed);
+		internalPlayer.killPlayer();
+
 	return numberOfDestroyed;
 }
 
 void Bomb::removeAnimation(uint8_t loc)
-{
-	
+{	
 	level.updateLevel(loc, WALKWAY);
 	level.updateChunk(loc);
 	// check above

@@ -1,12 +1,10 @@
-/*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            /*
  * SystemFunctions.ino
  *
  * Authors: 
  *			Erwin
  *			Wesley
  */
-
-
 
 // variables
 volatile uint32_t seed;	//values needed for random numbers
@@ -28,14 +26,18 @@ ISR(WDT_vect)
 * Public Functions
 */
 
+// default constructor
+SystemFunctions::SystemFunctions()
+{
+} //SystemFunctions
+
+
 /*
 * Function to determine the screenbrightness.
 */
 void SystemFunctions::screenBrightness()
 {
-	
 	OCR1A = readAnalog(0);		//Save ADC value from A0 in OCR1A to change LCD brightness
-	
 }
 
 /*
@@ -181,11 +183,6 @@ void SystemFunctions::scoreToEEPROM(uint8_t score, uint8_t place)
 	eeprom_write_byte((uint8_t*)place+2, b);
 	eeprom_busy_wait();
 }
-
-// default constructor
-SystemFunctions::SystemFunctions()
-{
-} //SystemFunctions
 
 // default destructor
 SystemFunctions::~SystemFunctions()

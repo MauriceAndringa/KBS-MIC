@@ -1,9 +1,10 @@
 /* 
-* Map.cpp
-*
-* Created: 1-12-2017 15:04:12
-* Author: wsvdy
-*/
+ * Map.ino
+ *
+ * Authors:
+ *			Erwin
+ *			Wesley
+ */
 
 #include "Map.h"
 
@@ -28,14 +29,7 @@ Map::Map(MI0283QT9 *lcdPointer, Bomb *bombPointer)
 	Map::lcdPointer = lcdPointer;
 	Map::bombPointer = bombPointer;
 	readyToRemoveSecondTimer = 0;
-	//minute = 0;
-	//secondTenth = 0;
-	//second = 0;
 } //Map
-
-//Map::Map()
-//{
-//} //Map
 
 void Map::drawMap(float difficulty)
 {
@@ -96,6 +90,7 @@ void Map::drawMap(float difficulty)
 			j = 0;
 		} 
 	}
+	// draw the score and remaining live points for you and enemy
 	lcdPointer->drawText(268, 20,"Score:", RGB(0,255,0), RGB(0,0,0), 1);
 	lcdPointer->drawText(270, 35, "You:", RGB(255,0,0), RGB(0,0,0), 1);
 	lcdPointer->drawText(275, 45, "S:", RGB(255,0,0), RGB(0,0,0), 1);
@@ -111,71 +106,15 @@ void Map::updateChunk(uint8_t loc)
 	uint8_t y = SystemFunctions::calcY(loc); 
 	lcdPointer->fillRect(x+1,y+1,18,18, RGB(91,90,90));
 	
-	if(level[loc] == 4) // draw the bom on this location
+	// Keep the bomb on screen if you walk of it.
+	if(level[loc] == 4) 
 		bombPointer->drawBomb(loc);
-	//else if(level[loc] == 5) // draw the bomb explode animation
-		//bombPointer->drawBombAni(loc);
-		//lcdPointer->drawRect(x + 5,y + 5,10,5,RGB(255,0,255));
 }
 
 void Map::updateLevel(uint8_t loc, uint8_t value)
 {
 	level[loc] = value;		// change old value in new value
-	//Map::updateChunk(loc);	// call update Chunk
 }
-
-/* 
- * drawTimer 
- draws the time on screen is minutes and seconds
- * input:  na
- * output: na
- */
-/*
-void Map::drawTimer()
-{
-	lcdPointer->drawInteger(270, 10, minute, 10, RGB(0,255,0), RGB(0,0,0), 1);
-	lcdPointer->drawChar(276,10,':',RGB(0,255,0),RGB(0,0,0),1);
-	lcdPointer->drawInteger(284, 10, secondTenth, 10, RGB(0,255,0), RGB(0,0,0), 1);
-	lcdPointer->drawInteger(292, 10, second, 10, RGB(0,255,0), RGB(0,0,0), 1);
-}
-
-void Map::updateTimer()
-{
-	if(minute == 0 && secondTenth == 0 && second == 0){
-		exit(1);		
-	}
-	
-	if(millis() < readyToRemoveSecondTimer + 1000)
-		return;
-	
-	readyToRemoveSecondTimer = millis();
-	if(second > 0){
-		second--;
-		return;
-	}
-	
-	if(secondTenth == 0 && second == 0){
-		secondTenth = 5; second = 9;
-		minute--;
-		return;
-	}
-	
-	if(second == 0){
-		second = 9;
-		secondTenth --;
-		return;
-	}
-	
-	second--;
-}
-
-void Map::drawScore(){
-	//internalPlayerScore = internalPlayer.getScore();
-	//   externalPlayerScore = externalPlayer.getScore();
-	
-	lcdPointer->drawInteger(270, 30, internalPlayer.getScore(), 10, RGB(255,0,0), RGB(0,0,0), 1);
-	lcdPointer->drawInteger(270, 40, externalPlayer.getScore(), 10, RGB(30,144,255), RGB(0,0,0), 1);
-}*/
 
 /*
 * update the level in the level array
@@ -189,7 +128,7 @@ uint8_t Map::checkLocation(uint8_t location)
 	else if (level[location] == 2)
 		return 2; // return value 2 to indicate that there is a walk path on this location.
 	else if (level[location] == 3)
-		return 3; // return value 3 to indicate that there is a destructeble object on this location.
+		return 3; // return value 3 to indicate that there is a destructible object on this location.
 	else if(level[location] == 5)
 		return 5; // return value 5 to indicate that there is a bomb explosion animation on this location.
 	return 0;

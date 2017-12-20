@@ -1,13 +1,13 @@
 /* 
-* Player.cpp
-*
-* Created: 4-12-2017 11:35:12
-* Author: wsvdy
-*/
+ * Player.ino
+ *
+ * Authors:
+ *			Erwin
+ *			Wesley
+ */
 
 
 #include "Player.h"
-#include "Map.h"
 
 #define GRID 20;
 
@@ -32,8 +32,6 @@ void Player::drawPlayer()
 
 uint8_t Player::getLocation()
 {
-	//Serial.print ("Ploc");
-	//Serial.println(location.playerLoc);
 	return location.playerLoc;
 }
 

@@ -1,9 +1,10 @@
 /* 
-* MainMenu.h
-*
-* Created: 1-12-2017 13:04:02
-* Author: wsvdy
-*/
+ * MainMenu.h
+ *
+ * Authors:
+ *			Erwin
+ *			Wesley
+ */
 
 
 #ifndef __MAINMENU_H__
@@ -14,17 +15,8 @@
 
 class MainMenu
 {
-//variables
 public:
-protected:
-private:
-	MI0283QT9	*lcdPointer;
-	View		*currentViewPointer;
-	View		*requestedViewPointer;
-
-//functions
-public:
-	MainMenu(MI0283QT9 *lcdPointer, View *currentViewPointer, View *requestedViewPointer);
+	MainMenu(MI0283QT9 *lcdPointer, View *requestedViewPointer);
 	~MainMenu();
 	
 	void draw();
@@ -33,6 +25,9 @@ protected:
 private:
 	MainMenu( const MainMenu &c );
 	MainMenu& operator=( const MainMenu &c );
+
+	MI0283QT9	*lcdPointer;
+	View		*requestedViewPointer;
 
 }; //MainMenu
 

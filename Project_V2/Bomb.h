@@ -1,15 +1,15 @@
 /* 
-* Bomb.h
-*
-* Created: 5-12-2017 13:33:26
-* Author: wsvdy
-*/
+ * Bomb.h
+ *
+ * Authors:
+ *			Erwin
+ *			Wesley
+ */
 
 
 #ifndef __BOMB_H__
 #define __BOMB_H__
 
-//#include "Map.h"
 #define NON_DESTRUCTABLE 1
 #define WALKWAY 2
 #define DESTRUCTABLE 3

@@ -1,9 +1,10 @@
 /* 
-* EndScreen.h
-*
-* Created: 18-12-2017 14:45:35
-* Author: wsvdy
-*/
+ * EndScreen.h
+ *
+ * Authors:
+ *			Erwin
+ *			Wesley
+ */
 
 
 #ifndef __ENDSCREEN_H__

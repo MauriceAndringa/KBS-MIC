@@ -1,18 +1,18 @@
 /* 
-* MainMenu.cpp
-*
-* Created: 1-12-2017 13:04:02
-* Author: wsvdy
-*/
+ * MainMenu.ino
+ *
+ * Authors:
+ *			Erwin
+ *			Wesley
+ */
 
 
 #include "MainMenu.h"
 
 // default constructor
-MainMenu::MainMenu(MI0283QT9 *lcdPointer, View *currentViewPointer, View *requestedViewPointer)
+MainMenu::MainMenu(MI0283QT9 *lcdPointer, View *requestedViewPointer)
 {
 	MainMenu::lcdPointer			= lcdPointer;
-	MainMenu::currentViewPointer	= currentViewPointer;
 	MainMenu::requestedViewPointer	= requestedViewPointer;
 } //MainMenu
 
