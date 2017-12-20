@@ -25,7 +25,7 @@ MainMenu mainMenu(&LCD, &currentView, &requestedView);
 Highscore highscore(&LCD, &currentView, &requestedView);
 Bomb bomb(&LCD);
 Map level(&LCD, &bomb);
-EndScreen endScreen(&LCD);
+EndScreen endScreen(&LCD, &requestedView);
 
 
 #if (IS_SLAVE == 1)
@@ -180,6 +180,11 @@ int main (void)
 		if (currentView == MENU)
 		{
 			mainMenu.listenToTouchInput();
+		}
+		
+		if (currentView == ENDSCREEN)
+		{
+			endScreen.listenToTouchInput();
 		}
 	}
 }

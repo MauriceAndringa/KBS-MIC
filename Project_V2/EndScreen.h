@@ -14,10 +14,11 @@
 class EndScreen
 {
 public:
-	EndScreen(MI0283QT9 *lcdPointer);
+	EndScreen(MI0283QT9 *lcdPointer, View *requestedViewPointer);
 	~EndScreen();
 	
 	void draw();
+	void listenToTouchInput();
 protected:
 private:
 	EndScreen( const EndScreen &c );
@@ -26,7 +27,9 @@ private:
 	void newHighScore();
 	
 	MI0283QT9	*lcdPointer;
+	View *requestedViewPointer;
 	
+	uint8_t internalPlayerPlace, externalPlayerPlace;
 	
 	//////////////////////////////////////////////////////////////////////////
 	// Debug:

@@ -9,9 +9,10 @@
 #include "EndScreen.h"
 
 // default constructor
-EndScreen::EndScreen(MI0283QT9 *lcdPointer)
+EndScreen::EndScreen(MI0283QT9 *lcdPointer, View *requestedViewPointer)
 {
 	EndScreen::lcdPointer = lcdPointer;
+	EndScreen::requestedViewPointer	= requestedViewPointer;
 	youLose = 0;
 	internalPlayerPlace = 0;
 	externalPlayerPlace = 0;
@@ -32,6 +33,16 @@ void EndScreen::draw()
 	lcdPointer->drawInteger(195, 60, externalPlayer.getScore(), 10, RGB(255,255,0), RGB(0,0,0), 1);
 	
 	newHighScore();
+}
+
+void EndScreen::listenToTouchInput()
+{
+	
+	if(lcdPointer->touchRead()){
+		// check if screen is touched
+		*requestedViewPointer = MENU;
+		
+	}
 }
 
 void EndScreen::newHighScore()
