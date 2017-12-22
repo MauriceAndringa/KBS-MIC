@@ -83,7 +83,7 @@ int main (void)
 	//Startup sequence
 	init();
 	
-	comm.begin(19200);
+	
 	
 	//Initialize pins
 	initializePins();
@@ -98,6 +98,7 @@ int main (void)
 	LCD.begin();
 	LCD.fillScreen(RGB(255,255,255));
 	LCD.touchStartCal();
+	
 	
 	//Debug stuff
 	Serial.begin(9600);
@@ -128,16 +129,29 @@ int main (void)
 				
 				// draw the screen
 				case GAME:
+				comm.begin(9600);
 				#if !IS_SLAVE
+				while(1){
+					Serial.print(comm.read());
+					if(comm.read() == 1){
+						comm.write(2);
+						//Serial.println("\n\nNicE!\n");
+						break;
+					}
+				}
 					level.genBlocks(difficulty);
 				#else
+				//Serial.println("skl;djl;a");
 					while(1){
+						//Serial.print("Sending");
 						comm.write(1);
 						if(comm.read() == 2){
+							//Serial.println("\n\nNicE!\n")
 							break;
 						}
 					}
 					while(1){
+						Serial.print("Waiting");
 						tempLoc = comm.read();
 						tempVal = comm.read();
 						level.updateLevel(tempLoc, tempVal);

@@ -102,10 +102,14 @@ void Map::genBlocks(float difficulty)
 				level[i] = 0;
 				i--;
 			}
-		}
+		} else{
+			
 		// copy value from baselevel into level
 		level[i] = baseLevel[i];
+		}
 		SystemFunctions::sendMapData(i, level[i]);	
+		//Serial.print(i); Serial.print("\t");	Serial.println(level[i]);
+		
 	}
 }
 
