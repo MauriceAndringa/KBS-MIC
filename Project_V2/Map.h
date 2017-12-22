@@ -24,7 +24,8 @@ public:
 	//Map();
 	~Map();
 	
-	void drawMap(float difficulty);
+	void drawMap();
+	void genBlocks(float difficulty);
 	void updateChunk(uint8_t loc);
 	void updateLevel(uint8_t loc, uint8_t value);
 	uint8_t checkLocation(uint8_t location);

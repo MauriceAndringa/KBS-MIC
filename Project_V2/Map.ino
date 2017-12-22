@@ -36,29 +36,9 @@ Map::Map(MI0283QT9 *lcdPointer, Bomb *bombPointer)
  * input: float difficulty
  * returns: noting
  */
-void Map::drawMap(float difficulty)
+void Map::drawMap()
 {
 	lcdPointer->fillScreen(RGB(0,0,0));
-	
-	// generate a random seed and use it to generate randoms values.
-	srand(SystemFunctions::getRandomSeed());
-	
-	// generate a level
-	for(int i = 0; i < sizeof(baseLevel); i++){
-		
-		//check if something needs to be generated else copy from basemap.
-		if(baseLevel[i] == 0){
-			level[i] = ((rand() / (RAND_MAX + 1.0)) < difficulty) ? 3 : 2;
-			
-			// check if the generated value is a 1 (aka pillar) and if remove it and do it over.
-			if(level[i] == 1){
-				level[i] = 0;
-				i--;
-			}
-		}else
-			// copy value from baselevel into level
-			level[i] = baseLevel[i];
-	}
 	
 	int i = 0, j = 0, x = 0, y = 0, row = 0;
 	
@@ -103,6 +83,30 @@ void Map::drawMap(float difficulty)
 	lcdPointer->drawText(270, 70, "Enemy:", RGB(30,144,255), RGB(0,0,0), 1);
 	lcdPointer->drawText(275, 80, "S:", RGB(30,144,255), RGB(0,0,0), 1);
 	lcdPointer->drawText(275, 90, "L:", RGB(30,144,255), RGB(0,0,0), 1);
+}
+
+void Map::genBlocks(float difficulty)
+{
+	// generate a random seed and use it to generate randoms values.
+	srand(SystemFunctions::getRandomSeed());
+	
+	// generate a level
+	for(int i = 0; i < sizeof(baseLevel); i++){
+		
+		//check if something needs to be generated else copy from basemap.
+		if(baseLevel[i] == 0){
+			level[i] = ((rand() / (RAND_MAX + 1.0)) < difficulty) ? 3 : 2;
+			
+			// check if the generated value is a 1 (aka pillar) and if remove it and do it over.
+			if(level[i] == 1){
+				level[i] = 0;
+				i--;
+			}
+		}
+		// copy value from baselevel into level
+		level[i] = baseLevel[i];
+		SystemFunctions::sendMapData(i, level[i]);	
+	}
 }
 
 /*

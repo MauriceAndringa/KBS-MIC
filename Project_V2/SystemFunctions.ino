@@ -184,6 +184,25 @@ void SystemFunctions::scoreToEEPROM(uint8_t score, uint8_t place)
 	eeprom_busy_wait();
 }
 
+
+void SystemFunctions::sendMapData(uint8_t location, uint8_t val)
+{
+	/* type
+	* map location type
+	*/
+	comm.write(location);
+	comm.write(val);
+}
+
+uint8_t SystemFunctions::getData(uint16_t stream)
+{
+	return (uint8_t)(stream);
+}
+uint8_t SystemFunctions::getType(uint16_t stream)
+{
+	return (uint8_t)(stream>>8);
+}
+
 // default destructor
 SystemFunctions::~SystemFunctions()
 {
@@ -257,3 +276,4 @@ void SystemFunctions::sendRequest()
 	Wire.write(0x00);
 	Wire.endTransmission();
 }
+

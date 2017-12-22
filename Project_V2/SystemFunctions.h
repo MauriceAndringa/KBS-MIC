@@ -51,6 +51,9 @@ public:
 	static char* printScore(uint8_t place);
 	static uint16_t readScore(uint8_t place);
 	static void scoreToEEPROM(uint8_t score, uint8_t place);
+	static void sendMapData(uint8_t location, uint8_t val);
+	static uint8_t getData(uint16_t stream);
+	static uint8_t getType(uint16_t stream);
 	SystemFunctions();
 	~SystemFunctions();
 
@@ -60,6 +63,7 @@ private:
 	static void createRandomSeed();
 	static uint8_t decodeNunchuck(uint8_t x);
 	static void sendRequest();
+	
 
 	SystemFunctions( const SystemFunctions &c );
 	SystemFunctions& operator=( const SystemFunctions &c );

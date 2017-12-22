@@ -36,16 +36,6 @@ void Player::drawPlayer()
 }
 
 /*
- * getLocation function returns the location of the player
- * input: nothing
- * returns: noting
- */
-uint8_t Player::getLocation()
-{
-	return location.playerLoc;
-}
-
-/*
  * move function checks if the player is allowed to walk and to where
  * input: uint8_t direction of the movement
  * returns: noting
@@ -107,6 +97,28 @@ uint16_t Player::getScore()
 void Player::killPlayer()
 {
 	Player::lives -= 1;
+}
+
+/*
+ * getLocation get the array location of the player
+ * input: nothing
+ * returns: uint8_t of location
+ */
+uint8_t Player::getLocation()
+{
+	return location.playerLoc;
+}
+
+/*
+ * setLocation get the array location of the player
+ * input: uint8_t of location
+ * returns: nothing
+ */
+void Player::setLocation(uint8_t newLoc)
+{
+	if(levelPointer->checkLocation(newLoc) == 2){ // check if the location is a path to walk on location.
+		location.playerLoc = newLoc;
+	}
 }
 
 /*

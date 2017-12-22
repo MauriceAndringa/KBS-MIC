@@ -1,16 +1,17 @@
-/* 
- * Project_V2.ino
- *
- * Authors:
- *			Erwin
- *			Wesley
- */
+/*
+* Project_V2.ino
+*
+* Authors:
+*			Erwin
+*			Wesley
+*/
 
 // INCLUDES
 // Libraries
 #include <MI0283QT9.h>
 #include <Wire.h>
 #include <time.h>
+#include <SoftwareSerial.h>
 
 // Header Files
 #include "SystemFunctions.h"
@@ -22,7 +23,9 @@
 #include "EndScreen.h"
 
 // define if the microcontroller is a slave or master
-#define IS_SLAVE 1
+#define IS_SLAVE 0
+#define DPLAYER 1
+#define DMAP 2
 
 // Global Variables
 View currentView	= NONE;
@@ -35,14 +38,15 @@ Highscore highscore(&LCD, &requestedView);
 Bomb bomb(&LCD);
 Map level(&LCD, &bomb);
 EndScreen endScreen(&LCD, &requestedView);
+SoftwareSerial comm(2, 4);
 
 
 #if (IS_SLAVE == 1)
-	Player internalPlayer({14, 0, 14}, &LCD, &level, 1);
-	Player externalPlayer({128, 0, 128}, &LCD, &level, 0);
+Player internalPlayer({14, 0, 14}, &LCD, &level, 1);
+Player externalPlayer({128, 0, 128}, &LCD, &level, 0);
 #else
-	Player internalPlayer({128, 0, 128}, &LCD, &level, 1);
-	Player externalPlayer({14, 0, 14}, &LCD, &level, 0);
+Player internalPlayer({128, 0, 128}, &LCD, &level, 1);
+Player externalPlayer({14, 0, 14}, &LCD, &level, 0);
 #endif
 
 //Function declaration
@@ -55,6 +59,8 @@ uint8_t minute = 3;
 uint8_t secondTenth = 0;
 uint8_t second = 0;
 unsigned long readyToRemoveSecondTimer;
+uint8_t type, data;
+uint16_t datastream;
 
 //Code
 int main (void)
@@ -64,16 +70,20 @@ int main (void)
 	uint8_t externalBombLocation;
 	uint8_t resultNunchuck;
 	uint16_t score = 0;
+	
 	float			difficulty = 0.7;
 	unsigned long	internalPlayerDropBombTimer; // keeps the time when the bomb is dropped for internalPlayer
 	unsigned long	internalBombEffectTimer;
-	unsigned long	bombDropped = 0;		// this variable keeps check if a bomb dropped.
-	unsigned long	readyForEffect = 0;		// this variable checks if the bomb animation is ready to be shown.
-	unsigned long	doNotDrawPlayer = 0;	// this variables is a timer that stops the redraw of the player for 0.5 sec unless the player moves
-	unsigned long	removeSecondTimer = 0;	// this variable is a timer that removes a second a second from the screen timer
-	
+	unsigned long	bombDropped = 0;			// this variable keeps check if a bomb dropped.
+	unsigned long	readyForEffect = 0;			// this variable checks if the bomb animation is ready to be shown.
+	unsigned long	doNotDrawPlayer = 0;		// this variables is a timer that stops the redraw of the player for 0.5 sec unless the player moves
+	unsigned long	removeSecondTimer = 0;		// this variable is a timer that removes a second a second from the screen timer
+	uint8_t tempLoc;
+	uint8_t tempVal;
 	//Startup sequence
 	init();
+	
+	comm.begin(19200);
 	
 	//Initialize pins
 	initializePins();
@@ -94,6 +104,12 @@ int main (void)
 	
 	for (;;)
 	{
+		if (comm.available())
+		{
+			datastream=comm.read();
+			type = SystemFunctions::getType(datastream);
+			data = SystemFunctions::getType(datastream);
+		}
 		// change led brightness if it is changed
 		SystemFunctions::screenBrightness();
 		
@@ -107,51 +123,74 @@ int main (void)
 				
 				// draw the main menu
 				case MENU:
-					mainMenu.draw();
-					break;
+				mainMenu.draw();
+				break;
 				
 				// draw the screen
 				case GAME:
-					level.drawMap(difficulty);
-					internalPlayer.drawPlayer();
-					externalPlayer.drawPlayer();
-					break;
+				#if !IS_SLAVE
+					level.genBlocks(difficulty);
+				#else
+					while(1){
+						comm.write(1);
+						if(comm.read() == 2){
+							break;
+						}
+					}
+					while(1){
+						tempLoc = comm.read();
+						tempVal = comm.read();
+						level.updateLevel(tempLoc, tempVal);
+						if(tempLoc == 143)
+							break;
+					}
+				#endif
+				level.drawMap();
+				internalPlayer.drawPlayer();
+				externalPlayer.drawPlayer();
+				break;
 				
 				// draw the highscore screen
 				case HIGHSCORE:
-					highscore.draw();
-					break;
+				highscore.draw();
+				break;
 				
 				// draw the end screen
 				case ENDSCREEN:
-					endScreen.draw();
+				endScreen.draw();
 			}
 		}
 		
 		if(currentView == GAME){
+			if (type == DPLAYER)
+			{
+				externalPlayer.setLocation(data);
+			}
 			if(millis() >= doNotDrawPlayer + 4100){
 				internalPlayer.drawPlayer();
 				externalPlayer.drawPlayer();
 				doNotDrawPlayer = 0;
 			}
+			
+			
 			resultNunchuck = SystemFunctions::readNunchuck();
 			
 			if (resultNunchuck != 0 && resultNunchuck != 5)
 			{
 				internalPlayer.move(resultNunchuck);
-
-			} else
+				comm.write(internalPlayer.getLocation());
+				//TODO: add send function of player loc with internalPlayer.getLocation();
+				} else if(resultNunchuck == 5 && !bombDropped){ // check if button Z is pushed(button Z returns value 5)
+				internalPlayerDropBombTimer = millis();
+				doNotDrawPlayer = millis();
+				internalBomblocation = internalPlayer.getLocation();
+				
+				level.updateLevel(internalBomblocation, 4);
+				bomb.drawBomb(internalBomblocation);
+				bombDropped = 1;
+			}
 			
-				// check if button Z is pushed(button Z returns value 5)
-				if(resultNunchuck == 5 && !bombDropped){
-					internalPlayerDropBombTimer = millis();
-					doNotDrawPlayer = millis();
-					internalBomblocation = internalPlayer.getLocation();
-					
-					level.updateLevel(internalBomblocation, 4);
-					bomb.drawBomb(internalBomblocation);
-					bombDropped = 1;
-				}
+			
 			// check if the bomb is ready to explode
 			if(millis() >= internalPlayerDropBombTimer + 3000 && bombDropped && !readyForEffect){
 				internalBombEffectTimer = millis();
@@ -164,14 +203,15 @@ int main (void)
 				bombDropped = 0;
 				readyForEffect = 0;
 			}
+			
 			drawTimer();
 			updateTimer();
 			internalPlayer.updateScore(&score);
 			drawScore();
 			if (externalPlayer.lives<=0)
-				requestedView = ENDSCREEN;
+			requestedView = ENDSCREEN;
 			if (internalPlayer.lives<=0)
-				requestedView = ENDSCREEN;
+			requestedView = ENDSCREEN;
 		}
 		if (currentView == HIGHSCORE)
 		{
@@ -220,12 +260,12 @@ void initializeNunchuck()
 }
 
 
-/* 
- * drawTimer 
- draws the time on screen is minutes and seconds
- * input:  na
- * output: na
- */
+/*
+* drawTimer
+draws the time on screen is minutes and seconds
+* input:  na
+* output: na
+*/
 void drawTimer()
 {
 	LCD.drawInteger(270, 10, minute, 10, RGB(0,255,0), RGB(0,0,0), 1);
@@ -237,11 +277,11 @@ void drawTimer()
 void updateTimer()
 {
 	if(minute == 0 && secondTenth == 0 && second == 0){
-		requestedView = ENDSCREEN;		
+		requestedView = ENDSCREEN;
 	}
 	
 	if(millis() < readyToRemoveSecondTimer + 1000)
-		return;
+	return;
 	
 	readyToRemoveSecondTimer = millis();
 	if(second > 0){
