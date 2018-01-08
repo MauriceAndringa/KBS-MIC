@@ -43,6 +43,7 @@ MI0283QT9 LCD;
 MainMenu mainMenu(&LCD, &requestedView);
 Highscore highscore(&LCD, &requestedView);
 Bomb bomb(&LCD);
+Bomb exBomb(&LCD);
 Map level(&LCD, &bomb);
 EndScreen endScreen(&LCD, &requestedView);
 SoftwareSerial comm(2, 4);
@@ -206,9 +207,13 @@ int main (void)
 					exPlayerLoc = comm.read();
 					break;
 					case BOMB:
-					
+					externalBombLocation = comm.read();
+					level.updateLevel(externalBombLocation, 4);
+					exBomb.drawBomb(externalBombLocation);
 					break;
 					case BOMBDETONATE:
+					externalBombLocation = comm.read();
+					exBomb.explodeBomb(externalBombLocation);
 					break;
 					case BLOCKDELETE:
 					break;
@@ -234,6 +239,7 @@ int main (void)
 			if (resultNunchuck != 0 && resultNunchuck != 5)
 			{
 				internalPlayer.move(resultNunchuck);
+				comm.write(EXPLAYER);
 				comm.write(internalPlayer.getLocation());
 				//TODO: add send function of player loc with internalPlayer.getLocation();
 				} else if(resultNunchuck == 5 && !bombDropped){ // check if button Z is pushed(button Z returns value 5)
@@ -244,6 +250,8 @@ int main (void)
 				level.updateLevel(internalBomblocation, 4);
 				bomb.drawBomb(internalBomblocation);
 				bombDropped = 1;
+				comm.write(BOMB);
+				comm.write(internalBomblocation);
 			}
 			
 			
@@ -252,6 +260,8 @@ int main (void)
 				internalBombEffectTimer = millis();
 				score = (bomb.explodeBomb(internalBomblocation) * 10);
 				readyForEffect = 1;
+				comm.write(BOMBDETONATE);
+				comm.write(internalBomblocation);
 			}
 			// check if the effect is ready to be removed
 			if(millis() >= internalBombEffectTimer + 500 && readyForEffect == 1){
