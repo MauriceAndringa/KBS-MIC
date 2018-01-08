@@ -68,7 +68,6 @@ uint8_t secondTenth = 0;
 uint8_t second = 0;
 unsigned long readyToRemoveSecondTimer;
 uint8_t type, exPlayerLoc;
-uint16_t datastream;
 
 //Code
 int main (void)
@@ -82,10 +81,11 @@ int main (void)
 	float			difficulty = 0.7;
 	unsigned long	internalPlayerDropBombTimer; // keeps the time when the bomb is dropped for internalPlayer
 	unsigned long	internalBombEffectTimer;
-	unsigned long	bombDropped = 0;			// this variable keeps check if a bomb dropped.
-	unsigned long	readyForEffect = 0;			// this variable checks if the bomb animation is ready to be shown.
-	unsigned long	doNotDrawPlayer = 0;		// this variables is a timer that stops the redraw of the player for 0.5 sec unless the player moves
-	unsigned long	removeSecondTimer = 0;		// this variable is a timer that removes a second a second from the screen timer
+	unsigned long	externalBombEffectTimer;
+	uint8_t			bombDropped = 0, exBombDropped = 0;			// this variable keeps check if a bomb dropped.
+	uint8_t			readyForEffect = 0, exReadyForEffect = 0;			// this variable checks if the bomb animation is ready to be shown.
+	uint8_t			doNotDrawPlayer = 0;		// this variables is a timer that stops the redraw of the player for 0.5 sec unless the player moves
+	unsigned long	countDownTimer = 0;		// this variable is a timer that removes a second a second from the screen timer
 	uint8_t tempLoc = 0;
 	uint8_t tempVal = 0;
 	//Startup sequence
@@ -182,7 +182,6 @@ int main (void)
 				level.drawMap();
 				internalPlayer.drawPlayer();
 				externalPlayer.drawPlayer();
-				datastream=0;
 				break;
 				
 				// draw the highscore screen
@@ -214,6 +213,8 @@ int main (void)
 					case BOMBDETONATE:
 					externalBombLocation = comm.read();
 					exBomb.explodeBomb(externalBombLocation);
+					externalBombEffectTimer = millis();
+					exReadyForEffect = 1;
 					break;
 					case BLOCKDELETE:
 					break;
@@ -268,6 +269,11 @@ int main (void)
 				bomb.removeAnimation(internalBomblocation);
 				bombDropped = 0;
 				readyForEffect = 0;
+			}
+			if(millis() >= externalBombEffectTimer + 500 && exReadyForEffect == 1){
+				exBomb.removeAnimation(externalBombEffectTimer);
+				exBombDropped = 0;
+				exReadyForEffect = 0;
 			}
 			
 			drawTimer();
