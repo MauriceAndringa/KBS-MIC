@@ -26,6 +26,7 @@
 #define IS_SLAVE 0
 #define DPLAYER 1
 #define DMAP 2
+#define START 3
 
 // Global Variables
 View currentView	= NONE;
@@ -139,12 +140,16 @@ int main (void)
 						}
 					}
 					level.genBlocks(difficulty);
+					while(1){
+						if (comm.read()==2)
+						break;
+					}
 				#else
 				//Serial.println("skl;djl;a");
 					while(1){
 						//Serial.print("Sending");
 						comm.write(1);
-						if(comm.read() == 2){
+						if(comm.read() == START){
 							//Serial.println("\n\nNicE!\n")
 							break;
 						}
@@ -167,6 +172,7 @@ int main (void)
 						//drawPercentage(tempLoc);
 						//Serial.println(tempLoc);
 						if(tempLoc >= 142)
+							comm.write(START);
 							break;
 					}
 				#endif
