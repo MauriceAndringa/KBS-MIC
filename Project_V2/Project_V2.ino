@@ -27,6 +27,12 @@
 #define DPLAYER 1
 #define DMAP 2
 #define START 3
+#define EXPLAYER 1
+#define BOMB 2
+#define BOMBDETONATE 3
+#define BLOCKDELETE 4
+#define DELETEEXLIVE 5
+#define SCOREEXPLAYER 6
 
 // Global Variables
 View currentView	= NONE;
@@ -104,11 +110,7 @@ int main (void)
 	
 	for (;;)
 	{
-		if (comm.available())
-		{
-			data=comm.read();
-			
-		}
+
 		// change led brightness if it is changed
 		SystemFunctions::screenBrightness();
 		
@@ -130,51 +132,51 @@ int main (void)
 				comm.begin(9600);
 				SystemFunctions::drawPercentage(0);
 				#if !IS_SLAVE
-					while(1){
-						//Serial.print(comm.read());
-						if(comm.read() == 1){
-							comm.write(2);
-							//Serial.println("\n\nNicE!\n");
-							break;
-						}
+				while(1){
+					//Serial.print(comm.read());
+					if(comm.read() == 1){
+						comm.write(2);
+						//Serial.println("\n\nNicE!\n");
+						break;
 					}
-					level.genBlocks(difficulty);
-					while(1){ // wait until Slave is ready to start the game, if not wait here.
-						if(comm.read() == START)
-							break;
-					}
+				}
+				level.genBlocks(difficulty);
+				while(1){ // wait until Slave is ready to start the game, if not wait here.
+					if(comm.read() == START)
+					break;
+				}
 				#else
 				//Serial.println("skl;djl;a");
-					while(1){
-						//Serial.print("Sending");
+				while(1){
+					//Serial.print("Sending");
+					comm.write(1);
+					if(comm.read() == 2){
+						//Serial.println("\n\nNicE!\n")
+						break;
+					}
+				}
+				while(1){
+					//Serial.print("Waiting");
+					SystemFunctions::drawPercentage(tempLoc);
+					if(comm.available()){
+						tempVal = comm.read();
+						while(tempVal == 255)
+						tempVal = comm.read();
+						//delay(1);
+						tempLoc = comm.read();
+						while(tempLoc == 255)
+						tempLoc = comm.read();
+						level.updateLevel(tempLoc, tempVal);
 						comm.write(1);
-						if(comm.read() == 2){
-							//Serial.println("\n\nNicE!\n")
-							break;
-						}
+						//Serial.print(tempLoc);Serial.print('\t');Serial.println(tempVal);
 					}
-					while(1){
-						//Serial.print("Waiting");
-						SystemFunctions::drawPercentage(tempLoc);
-						if(comm.available()){
-							tempVal = comm.read();
-							while(tempVal == 255)
-								tempVal = comm.read();
-							//delay(1);
-							tempLoc = comm.read();
-							while(tempLoc == 255)
-								tempLoc = comm.read();
-							level.updateLevel(tempLoc, tempVal);
-							comm.write(1);
-							//Serial.print(tempLoc);Serial.print('\t');Serial.println(tempVal);
-						}
-						//drawPercentage(tempLoc);
-						//Serial.println(tempLoc);
-						if(tempLoc >= 142){
-							comm.write(START); // send to master that the Slave is ready do start the game.
-							break;
-						}
+					//drawPercentage(tempLoc);
+					//Serial.println(tempLoc);
+					if(tempLoc >= 142){
+						comm.write(START); // send to master that the Slave is ready do start the game.
+						break;
 					}
+				}
 				#endif
 				level.drawMap();
 				internalPlayer.drawPlayer();
@@ -196,7 +198,25 @@ int main (void)
 		
 		
 		if(currentView == GAME){
-			Serial.println(data);
+			if (comm.available())
+			{
+				type = SystemFunctions::getType();
+				switch (type){
+					case EXPLAYER:
+					break;
+					case BOMB:
+					break;
+					case BOMBDETONATE:
+					break;
+					case BLOCKDELETE:
+					break;
+					case DELETEEXLIVE:
+					break;
+					case SCOREEXPLAYER:
+					break;
+					
+				}
+			}
 
 			externalPlayer.setLocation(data);
 			
