@@ -23,7 +23,7 @@
 #include "EndScreen.h"
 
 // define if the microcontroller is a slave or master
-#define IS_SLAVE 1
+#define IS_SLAVE 0
 #define DPLAYER 1
 #define DMAP 2
 #define START 3
@@ -222,6 +222,7 @@ int main (void)
 					break;
 					case SCOREEXPLAYER:
 					exScore = comm.read();
+					Serial.println(exScore);
 					externalPlayer.updateScore(&exScore);
 					break;
 					
@@ -280,7 +281,7 @@ int main (void)
 			
 			drawTimer();
 			updateTimer();
-			internalPlayer.updateScore(&score);
+			if(score > 0) internalPlayer.updateScore(&score);
 			drawScore();
 			if (externalPlayer.lives<=0)
 			requestedView = ENDSCREEN;
