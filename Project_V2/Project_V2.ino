@@ -23,7 +23,7 @@
 #include "EndScreen.h"
 
 // define if the microcontroller is a slave or master
-#define IS_SLAVE 1
+#define IS_SLAVE 0
 #define DPLAYER 1
 #define DMAP 2
 
@@ -53,7 +53,6 @@ Player externalPlayer({14, 0, 14}, &LCD, &level, 0);
 void initializePins();
 void initializeRegisters();
 void initializeNunchuck();
-void drawPercentage(uint8_t temploc);
 
 //Variables for functions
 uint8_t minute = 3;
@@ -100,7 +99,7 @@ int main (void)
 	
 	
 	//Debug stuff
-	Serial.begin(4800);
+	Serial.begin(9600);
 	
 	for (;;)
 	{
@@ -129,7 +128,7 @@ int main (void)
 				// draw the screen
 				case GAME:
 				comm.begin(9600);
-				drawPercentage(0);
+				SystemFunctions::drawPercentage(0);
 				#if !IS_SLAVE
 					while(1){
 						//Serial.print(comm.read());
@@ -152,7 +151,7 @@ int main (void)
 					}
 					while(1){
 						//Serial.print("Waiting");
-						drawPercentage(tempLoc);
+						SystemFunctions::drawPercentage(tempLoc);
 						if(comm.available()){
 							tempVal = comm.read();
 							while(tempVal == 255)
@@ -286,16 +285,7 @@ void initializeNunchuck()
 	Wire.endTransmission();     // stop transmitting
 }
 
-void drawPercentage(uint8_t temploc)
-{
-	if(IS_SLAVE)
-		LCD.drawText(50,5,"Recieving", RGB(0,0,255), RGB(0,0,0), 3);
-	else
-		LCD.drawText(50,5,"Sending", RGB(0,0,255), RGB(0,0,0), 3);
-		
-	LCD.drawInteger(50,50,temploc, 10, RGB(0,0,255), RGB(0,0,0), 1);
-	LCD.drawText(75,50,"/142 data", RGB(0,0,255), RGB(0,0,0), 1);
-}
+
 
 /*
 * drawTimer

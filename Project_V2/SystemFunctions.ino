@@ -204,6 +204,17 @@ uint8_t SystemFunctions::getType(uint16_t stream)
 	return (uint8_t)(stream>>8);
 }
 
+void SystemFunctions::drawPercentage(uint8_t temploc)
+{
+	if(IS_SLAVE)
+	LCD.drawText(50,5,"Receiving", RGB(0,0,255), RGB(0,0,0), 3);
+	else
+	LCD.drawText(50,5,"Sending", RGB(0,0,255), RGB(0,0,0), 3);
+	
+	LCD.drawInteger(50,50,temploc, 10, RGB(0,0,255), RGB(0,0,0), 1);
+	LCD.drawText(75,50,"/142 data", RGB(0,0,255), RGB(0,0,0), 1);
+}
+
 // default destructor
 SystemFunctions::~SystemFunctions()
 {

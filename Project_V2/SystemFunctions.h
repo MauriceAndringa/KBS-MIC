@@ -54,6 +54,7 @@ public:
 	static void sendMapData(uint8_t location, uint8_t val);
 	static uint8_t getData(uint16_t stream);
 	static uint8_t getType(uint16_t stream);
+	static void drawPercentage(uint8_t temploc);
 	SystemFunctions();
 	~SystemFunctions();
 

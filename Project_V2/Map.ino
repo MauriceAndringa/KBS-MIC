@@ -108,7 +108,8 @@ void Map::genBlocks(float difficulty)
 			level[i] = baseLevel[i];
 		}
 		SystemFunctions::sendMapData(i, level[i]);
-		Serial.print(i); Serial.print("\t");Serial.println(level[i]);
+		//Serial.print(i); Serial.print("\t");Serial.println(level[i]);
+		SystemFunctions::drawPercentage(i);
 		while(1){
 			if(comm.read() == 1){
 				break;
