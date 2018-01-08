@@ -116,8 +116,12 @@ uint8_t Player::getLocation()
  */
 void Player::setLocation(uint8_t newLoc)
 {
-	if(levelPointer->checkLocation(newLoc) == 2){ // check if the location is a path to walk on location.
-		location.playerLoc = newLoc;
+	if (location.playerLoc!=newLoc)
+	{
+	location.oldPlayerLoc=location.playerLoc;
+	location.playerLoc = newLoc;
+	levelPointer->updateChunk(location.oldPlayerLoc);
+	drawPlayer();
 	}
 }
 

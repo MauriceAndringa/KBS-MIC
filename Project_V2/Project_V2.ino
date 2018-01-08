@@ -23,7 +23,7 @@
 #include "EndScreen.h"
 
 // define if the microcontroller is a slave or master
-#define IS_SLAVE 1
+#define IS_SLAVE 0
 #define DPLAYER 1
 #define DMAP 2
 #define START 3
@@ -106,9 +106,8 @@ int main (void)
 	{
 		if (comm.available())
 		{
-			datastream=comm.read();
-			type = SystemFunctions::getType(datastream);
-			data = SystemFunctions::getData(datastream);
+			data=comm.read();
+			
 		}
 		// change led brightness if it is changed
 		SystemFunctions::screenBrightness();
@@ -196,10 +195,9 @@ int main (void)
 		
 		if(currentView == GAME){
 			Serial.println(data);
-			if (type == DPLAYER)
-			{
-				externalPlayer.setLocation(data);
-			}
+
+			externalPlayer.setLocation(data);
+			
 			if(millis() >= doNotDrawPlayer + 4100){
 				internalPlayer.drawPlayer();
 				externalPlayer.drawPlayer();
