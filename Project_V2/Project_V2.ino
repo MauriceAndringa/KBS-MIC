@@ -66,7 +66,7 @@ uint8_t minute = 3;
 uint8_t secondTenth = 0;
 uint8_t second = 0;
 unsigned long readyToRemoveSecondTimer;
-uint8_t type, data;
+uint8_t type, exPlayerLoc;
 uint16_t datastream;
 
 //Code
@@ -200,11 +200,13 @@ int main (void)
 		if(currentView == GAME){
 			if (comm.available())
 			{
-				type = SystemFunctions::getType();
+				type = comm.read();
 				switch (type){
 					case EXPLAYER:
+					exPlayerLoc = comm.read();
 					break;
 					case BOMB:
+					
 					break;
 					case BOMBDETONATE:
 					break;
@@ -218,7 +220,7 @@ int main (void)
 				}
 			}
 
-			externalPlayer.setLocation(data);
+			externalPlayer.setLocation(exPlayerLoc);
 			
 			if(millis() >= doNotDrawPlayer + 4100){
 				internalPlayer.drawPlayer();
