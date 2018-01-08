@@ -139,8 +139,10 @@ int main (void)
 						}
 					}
 					level.genBlocks(difficulty);
-					comm.write(START);
-					
+					while(1){ // wait until Slave is ready to start the game, if not wait here.
+						if(comm.read() == START)
+							break;
+					}
 				#else
 				//Serial.println("skl;djl;a");
 					while(1){
@@ -169,7 +171,7 @@ int main (void)
 						//drawPercentage(tempLoc);
 						//Serial.println(tempLoc);
 						if(tempLoc >= 142){
-							comm.write(START);
+							comm.write(START); // send to master that the Slave is ready do start the game.
 							break;
 						}
 					}
