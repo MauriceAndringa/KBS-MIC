@@ -23,7 +23,7 @@
 #include "EndScreen.h"
 
 // define if the microcontroller is a slave or master
-#define IS_SLAVE 0
+#define IS_SLAVE 1
 #define DPLAYER 1
 #define DMAP 2
 #define START 3
@@ -67,7 +67,7 @@ uint8_t minute = 3;
 uint8_t secondTenth = 0;
 uint8_t second = 0;
 unsigned long readyToRemoveSecondTimer;
-uint8_t type, exPlayerLoc;
+
 uint16_t datastream;
 
 //Code
@@ -77,7 +77,8 @@ int main (void)
 	uint8_t internalBomblocation;
 	uint8_t externalBombLocation;
 	uint8_t resultNunchuck;
-	uint16_t score = 0;
+	uint8_t type, exPlayerLoc;
+	uint16_t score = 0, exScore = 0;
 	
 	float			difficulty = 0.7;
 	unsigned long	internalPlayerDropBombTimer; // keeps the time when the bomb is dropped for internalPlayer
@@ -220,6 +221,8 @@ int main (void)
 					case DELETEEXLIVE:
 					break;
 					case SCOREEXPLAYER:
+					exScore = comm.read();
+					externalPlayer.updateScore(&exScore);
 					break;
 					
 				}
