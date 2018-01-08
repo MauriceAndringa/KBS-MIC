@@ -30,7 +30,7 @@
 #define EXPLAYER 1
 #define BOMB 2
 #define BOMBDETONATE 3
-#define BLOCKDELETE 4
+#define MAPUPDATE 4
 #define DELETEEXLIVE 5
 #define SCOREEXPLAYER 6
 
@@ -209,14 +209,15 @@ int main (void)
 					externalBombLocation = comm.read();
 					level.updateLevel(externalBombLocation, 4);
 					exBomb.drawBomb(externalBombLocation);
+					Serial.println(externalBombLocation);
 					break;
 					case BOMBDETONATE:
-					externalBombLocation = comm.read();
+					//externalBombLocation = comm.read();
 					exBomb.explodeBomb(externalBombLocation);
 					externalBombEffectTimer = millis();
 					exReadyForEffect = 1;
 					break;
-					case BLOCKDELETE:
+					case MAPUPDATE:
 					break;
 					case DELETEEXLIVE:
 					break;
@@ -265,7 +266,7 @@ int main (void)
 				score = (bomb.explodeBomb(internalBomblocation) * 10);
 				readyForEffect = 1;
 				comm.write(BOMBDETONATE);
-				comm.write(internalBomblocation);
+				//comm.write(internalBomblocation);
 			}
 			// check if the effect is ready to be removed
 			if(millis() >= internalBombEffectTimer + 500 && readyForEffect == 1){
@@ -274,14 +275,14 @@ int main (void)
 				readyForEffect = 0;
 			}
 			if(millis() >= externalBombEffectTimer + 500 && exReadyForEffect == 1){
-				exBomb.removeAnimation(externalBombEffectTimer);
+				exBomb.removeAnimation(externalBombLocation);
 				exBombDropped = 0;
 				exReadyForEffect = 0;
 			}
 			
 			drawTimer();
 			updateTimer();
-			if(score > 0) internalPlayer.updateScore(&score);
+			//if(score > 0) internalPlayer.updateScore(&score);
 			drawScore();
 			if (externalPlayer.lives<=0)
 			requestedView = ENDSCREEN;
