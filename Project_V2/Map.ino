@@ -28,7 +28,7 @@ Map::Map(MI0283QT9 *lcdPointer, Bomb *bombPointer)
 {
 	Map::lcdPointer = lcdPointer;
 	Map::bombPointer = bombPointer;
-	readyToRemoveSecondTimer = 0;
+	readyToRemoveCountDownTimer = 0;
 } //Map
 
 /*
