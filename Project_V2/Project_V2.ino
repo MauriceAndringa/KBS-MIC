@@ -23,7 +23,7 @@
 #include "EndScreen.h"
 
 // define if the microcontroller is a slave or master
-#define IS_SLAVE 0
+#define IS_SLAVE 1
 #define DPLAYER 1
 #define DMAP 2
 #define START 3
@@ -108,7 +108,7 @@ int main (void)
 		{
 			datastream=comm.read();
 			type = SystemFunctions::getType(datastream);
-			data = SystemFunctions::getType(datastream);
+			data = SystemFunctions::getData(datastream);
 		}
 		// change led brightness if it is changed
 		SystemFunctions::screenBrightness();
@@ -147,7 +147,7 @@ int main (void)
 					while(1){
 						//Serial.print("Sending");
 						comm.write(1);
-						if(comm.read() == START){
+						if(comm.read() == 2){
 							//Serial.println("\n\nNicE!\n")
 							break;
 						}
@@ -169,13 +169,10 @@ int main (void)
 						}
 						//drawPercentage(tempLoc);
 						//Serial.println(tempLoc);
-						if(tempLoc >= 142)
+						if(tempLoc >= 142){
+							comm.write(START);
 							break;
-					}
-					while (1)
-					{
-					if (comm.read()==START)
-						break;
+						}
 					}
 				#endif
 				level.drawMap();
@@ -195,7 +192,10 @@ int main (void)
 			}
 		}
 		
+		
+		
 		if(currentView == GAME){
+			Serial.println(data);
 			if (type == DPLAYER)
 			{
 				externalPlayer.setLocation(data);
@@ -247,6 +247,11 @@ int main (void)
 			if (internalPlayer.lives<=0)
 			requestedView = ENDSCREEN;
 		}
+		
+		
+		
+		
+		
 		if (currentView == HIGHSCORE)
 		{
 			highscore.listenToTouchInput();
