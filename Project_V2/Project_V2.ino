@@ -23,7 +23,7 @@
 #include "EndScreen.h"
 
 // define if the microcontroller is a slave or master
-#define IS_SLAVE 0
+#define IS_SLAVE 1
 #define DPLAYER 1
 #define DMAP 2
 
@@ -53,6 +53,7 @@ Player externalPlayer({14, 0, 14}, &LCD, &level, 0);
 void initializePins();
 void initializeRegisters();
 void initializeNunchuck();
+void drawPercentage(uint8_t temploc);
 
 //Variables for functions
 uint8_t minute = 3;
@@ -78,12 +79,10 @@ int main (void)
 	unsigned long	readyForEffect = 0;			// this variable checks if the bomb animation is ready to be shown.
 	unsigned long	doNotDrawPlayer = 0;		// this variables is a timer that stops the redraw of the player for 0.5 sec unless the player moves
 	unsigned long	removeSecondTimer = 0;		// this variable is a timer that removes a second a second from the screen timer
-	uint8_t tempLoc;
-	uint8_t tempVal;
+	uint8_t tempLoc = 0;
+	uint8_t tempVal = 0;
 	//Startup sequence
 	init();
-	
-	
 	
 	//Initialize pins
 	initializePins();
@@ -130,16 +129,17 @@ int main (void)
 				// draw the screen
 				case GAME:
 				comm.begin(9600);
+				drawPercentage(0);
 				#if !IS_SLAVE
-				while(1){
-					//Serial.print(comm.read());
-					if(comm.read() == 1){
-						comm.write(2);
-						//Serial.println("\n\nNicE!\n");
-						break;
+					while(1){
+						//Serial.print(comm.read());
+						if(comm.read() == 1){
+							comm.write(2);
+							//Serial.println("\n\nNicE!\n");
+							break;
+						}
 					}
-				}
-				level.genBlocks(difficulty);
+					level.genBlocks(difficulty);
 				#else
 				//Serial.println("skl;djl;a");
 					while(1){
@@ -151,10 +151,22 @@ int main (void)
 						}
 					}
 					while(1){
-						Serial.print("Waiting");
-						tempLoc = comm.read();
-						tempVal = comm.read();
-						level.updateLevel(tempLoc, tempVal);
+						//Serial.print("Waiting");
+						drawPercentage(tempLoc);
+						if(comm.available()){
+							tempVal = comm.read();
+							while(tempVal == 255)
+								tempVal = comm.read();
+							//delay(1);
+							tempLoc = comm.read();
+							while(tempLoc == 255)
+								tempLoc = comm.read();
+							level.updateLevel(tempLoc, tempVal);
+							comm.write(1);
+							//Serial.print(tempLoc);Serial.print('\t');Serial.println(tempVal);
+						}
+						//drawPercentage(tempLoc);
+						//Serial.println(tempLoc);
 						if(tempLoc >= 142)
 							break;
 					}
@@ -274,6 +286,16 @@ void initializeNunchuck()
 	Wire.endTransmission();     // stop transmitting
 }
 
+void drawPercentage(uint8_t temploc)
+{
+	if(IS_SLAVE)
+		LCD.drawText(50,5,"Recieving", RGB(0,0,255), RGB(0,0,0), 3);
+	else
+		LCD.drawText(50,5,"Sending", RGB(0,0,255), RGB(0,0,0), 3);
+		
+	LCD.drawInteger(50,50,temploc, 10, RGB(0,0,255), RGB(0,0,0), 1);
+	LCD.drawText(75,50,"/142 data", RGB(0,0,255), RGB(0,0,0), 1);
+}
 
 /*
 * drawTimer

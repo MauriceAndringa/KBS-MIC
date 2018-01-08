@@ -102,7 +102,7 @@ void Map::genBlocks(float difficulty)
 				level[i] = 0;
 				i--;
 			}
-			} else{
+		} else{
 			
 			// copy value from baselevel into level
 			level[i] = baseLevel[i];
