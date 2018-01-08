@@ -190,8 +190,9 @@ void SystemFunctions::sendMapData(uint8_t location, uint8_t val)
 	/* type
 	* map location type
 	*/
+		comm.write(val);
+
 	comm.write(location);
-	comm.write(val);
 }
 
 uint8_t SystemFunctions::getData(uint16_t stream)

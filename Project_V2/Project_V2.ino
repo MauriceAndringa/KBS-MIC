@@ -101,7 +101,7 @@ int main (void)
 	
 	
 	//Debug stuff
-	Serial.begin(9600);
+	Serial.begin(4800);
 	
 	for (;;)
 	{
@@ -132,14 +132,14 @@ int main (void)
 				comm.begin(9600);
 				#if !IS_SLAVE
 				while(1){
-					Serial.print(comm.read());
+					//Serial.print(comm.read());
 					if(comm.read() == 1){
 						comm.write(2);
 						//Serial.println("\n\nNicE!\n");
 						break;
 					}
 				}
-					level.genBlocks(difficulty);
+				level.genBlocks(difficulty);
 				#else
 				//Serial.println("skl;djl;a");
 					while(1){
@@ -155,13 +155,14 @@ int main (void)
 						tempLoc = comm.read();
 						tempVal = comm.read();
 						level.updateLevel(tempLoc, tempVal);
-						if(tempLoc == 143)
+						if(tempLoc >= 142)
 							break;
 					}
 				#endif
 				level.drawMap();
 				internalPlayer.drawPlayer();
 				externalPlayer.drawPlayer();
+				datastream=0;
 				break;
 				
 				// draw the highscore screen

@@ -1,10 +1,10 @@
-/* 
- * Map.ino
- *
- * Authors:
- *			Erwin
- *			Wesley
- */
+/*
+* Map.ino
+*
+* Authors:
+*			Erwin
+*			Wesley
+*/
 
 #include "Map.h"
 
@@ -32,10 +32,10 @@ Map::Map(MI0283QT9 *lcdPointer, Bomb *bombPointer)
 } //Map
 
 /*
- * drawMap function draws the game on the display
- * input: float difficulty
- * returns: noting
- */
+* drawMap function draws the game on the display
+* input: float difficulty
+* returns: noting
+*/
 void Map::drawMap()
 {
 	lcdPointer->fillScreen(RGB(0,0,0));
@@ -47,21 +47,21 @@ void Map::drawMap()
 		x = i - (row * 13);
 		
 		switch(level[i]){
-				
+			
 			case 1:
-				// pillar
-				lcdPointer->fillRect((x * 20), y, 20, 20, COLOUR_PILLAR);
-				break;
-				
+			// pillar
+			lcdPointer->fillRect((x * 20), y, 20, 20, COLOUR_PILLAR);
+			break;
+			
 			case 2:
-				// road
-				lcdPointer->fillRect((x * 20), y, 20, 20, COLOUR_ROAD);
-				break;
+			// road
+			lcdPointer->fillRect((x * 20), y, 20, 20, COLOUR_ROAD);
+			break;
 			
 			case 3:
-				// destructible wall
-				lcdPointer->fillRect((x * 20), y, 20, 20, COLOUR_DESTROYABLE);
-				break;
+			// destructible wall
+			lcdPointer->fillRect((x * 20), y, 20, 20, COLOUR_DESTROYABLE);
+			break;
 		}
 		
 		lcdPointer->drawRect((x * 20), y, 20, 20, COLOUR_GRID);
@@ -73,7 +73,7 @@ void Map::drawMap()
 			row++;
 			y = 20 * row;
 			j = 0;
-		} 
+		}
 	}
 	// draw the score and remaining live points for you and enemy
 	lcdPointer->drawText(268, 20,"Score:", RGB(0,255,0), RGB(0,0,0), 1);
@@ -102,38 +102,44 @@ void Map::genBlocks(float difficulty)
 				level[i] = 0;
 				i--;
 			}
-		} else{
+			} else{
 			
-		// copy value from baselevel into level
-		level[i] = baseLevel[i];
+			// copy value from baselevel into level
+			level[i] = baseLevel[i];
 		}
-		SystemFunctions::sendMapData(i, level[i]);	
-		//Serial.print(i); Serial.print("\t");	Serial.println(level[i]);
+		SystemFunctions::sendMapData(i, level[i]);
+		Serial.print(i); Serial.print("\t");Serial.println(level[i]);
+		while(1){
+			if(comm.read() == 1){
+				break;
+			}
+		}
+		
 		
 	}
 }
 
 /*
- * updateChunk function redraws the map where the user was
- * input: uint8_t location
- * returns: noting
- */
+* updateChunk function redraws the map where the user was
+* input: uint8_t location
+* returns: noting
+*/
 void Map::updateChunk(uint8_t loc)
 {
 	uint8_t x = SystemFunctions::calcX(loc);
-	uint8_t y = SystemFunctions::calcY(loc); 
+	uint8_t y = SystemFunctions::calcY(loc);
 	lcdPointer->fillRect(x+1,y+1,18,18, RGB(91,90,90));
 	
 	// Keep the bomb on screen if you walk of it.
-	if(level[loc] == 4) 
-		bombPointer->drawBomb(loc);
+	if(level[loc] == 4)
+	bombPointer->drawBomb(loc);
 }
 
 /*
- * updateLevel function updates the level array
- * input: uint8_t location and uint_t value
- * returns: noting
- */
+* updateLevel function updates the level array
+* input: uint8_t location and uint_t value
+* returns: noting
+*/
 void Map::updateLevel(uint8_t loc, uint8_t value)
 {
 	level[loc] = value;		// change old value in new value
@@ -147,13 +153,13 @@ void Map::updateLevel(uint8_t loc, uint8_t value)
 uint8_t Map::checkLocation(uint8_t location)
 {
 	if(level[location] == 1)
-		return 1; // return value 1 to indicate that there is a pillar on this location.
+	return 1; // return value 1 to indicate that there is a pillar on this location.
 	else if (level[location] == 2)
-		return 2; // return value 2 to indicate that there is a walk path on this location.
+	return 2; // return value 2 to indicate that there is a walk path on this location.
 	else if (level[location] == 3)
-		return 3; // return value 3 to indicate that there is a destructible object on this location.
+	return 3; // return value 3 to indicate that there is a destructible object on this location.
 	else if(level[location] == 5)
-		return 5; // return value 5 to indicate that there is a bomb explosion animation on this location.
+	return 5; // return value 5 to indicate that there is a bomb explosion animation on this location.
 	return 0;
 }
 
