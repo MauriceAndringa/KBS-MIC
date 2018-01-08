@@ -75,11 +75,6 @@ void Player::move(uint8_t direction)
  */
 void Player::updateScore(uint16_t *score)
 {
-	Serial.println(*score);
-	//Serial.println(score);
-	comm.write(SCOREPLAYER);
-	comm.write(*score);
-	
 	Player::score += *score;
 	*score = 0;
 }
