@@ -14,6 +14,7 @@
 #include <stdint.h>
 
 #define WALK_DELAY 100
+#define SCOREPLAYER 6
 
 typedef struct {
 	uint8_t playerLoc;
