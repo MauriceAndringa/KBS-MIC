@@ -140,10 +140,8 @@ int main (void)
 						}
 					}
 					level.genBlocks(difficulty);
-					while(1){
-						if (comm.read()==2)
-						break;
-					}
+					comm.write(START);
+					
 				#else
 				//Serial.println("skl;djl;a");
 					while(1){
@@ -172,8 +170,12 @@ int main (void)
 						//drawPercentage(tempLoc);
 						//Serial.println(tempLoc);
 						if(tempLoc >= 142)
-							comm.write(START);
 							break;
+					}
+					while (1)
+					{
+					if (comm.read()==START)
+						break;
 					}
 				#endif
 				level.drawMap();
