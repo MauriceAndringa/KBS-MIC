@@ -30,7 +30,7 @@
 #define EXPLAYER 1
 #define BOMB 2
 #define BOMBDETONATE 3
-#define MAPUPDATE 4
+#define BLOCKDELETE 4
 #define DELETEEXLIVE 5
 #define SCOREEXPLAYER 6
 
@@ -209,7 +209,6 @@ int main (void)
 					externalBombLocation = comm.read();
 					level.updateLevel(externalBombLocation, 4);
 					exBomb.drawBomb(externalBombLocation);
-					Serial.println(externalBombLocation);
 					break;
 					case BOMBDETONATE:
 					//externalBombLocation = comm.read();
@@ -217,13 +216,14 @@ int main (void)
 					externalBombEffectTimer = millis();
 					exReadyForEffect = 1;
 					break;
-					case MAPUPDATE:
+					case BLOCKDELETE:
 					break;
 					case DELETEEXLIVE:
 					break;
 					case SCOREEXPLAYER:
 					exScore = comm.read();
 					externalPlayer.updateScore(&exScore);
+					exScore = 0;
 					break;
 					
 				}
@@ -282,9 +282,9 @@ int main (void)
 			drawTimer();
 			updateTimer();
 			if(score > 0){
-				internalPlayer.updateScore(&score);
 				comm.write(SCOREEXPLAYER);
 				comm.write(score);
+				internalPlayer.updateScore(&score);
 			}
 			drawScore();
 			if (externalPlayer.lives<=0)
