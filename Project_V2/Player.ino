@@ -18,8 +18,7 @@ Player::Player(PLAYER_LOCATION location, MI0283QT9 *lcdPointer, Map *levelPointe
 	Player::lcdPointer = lcdPointer;
 	Player::levelPointer = levelPointer;
 	Player::is_slave = is_slave;
-	Player::score = 0;
-	Player::lives = 3;
+	initializeValues();
 } //Player
 
 /*
@@ -125,6 +124,11 @@ void Player::setLocation(uint8_t newLoc)
 	}
 }
 
+void Player::initializeValues()
+{
+	Player::score = 0;
+	Player::lives = 3;
+}
 /*
  * moveUp function moves the player one place up
  * input: nothing

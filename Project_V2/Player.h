@@ -36,6 +36,7 @@ public:
 	void killPlayer();
 	uint8_t getLocation();
 	void setLocation(uint8_t newLoc);
+	void initializeValues();
 	
 	uint8_t lives;
 protected:

@@ -61,9 +61,10 @@ Player externalPlayer({14, 0, 14}, &LCD, &level, 0);
 void initializePins();
 void initializeRegisters();
 void initializeNunchuck();
+void initializaGameValues();
 
 //Variables for functions
-uint8_t minute = 3;
+uint8_t minute = 0;
 uint8_t secondTenth = 0;
 uint8_t second = 0;
 unsigned long readyToRemoveCountDownTimer;
@@ -131,6 +132,7 @@ int main (void)
 				// draw the screen
 				case GAME:
 				comm.begin(9600);
+				initializaGameValues();
 				SystemFunctions::drawPercentage(0);
 				#if !IS_SLAVE
 				while(1){
@@ -175,6 +177,8 @@ int main (void)
 					//Serial.println(tempLoc);
 					if(tempLoc >= 142){
 						comm.write(START); // send to master that the Slave is ready do start the game.
+						tempVal = 0;
+						tempLoc = 0;
 						break;
 					}
 				}
@@ -194,8 +198,6 @@ int main (void)
 				endScreen.draw();
 			}
 		}
-		
-		
 		
 		if(currentView == GAME){
 			if (comm.available())
@@ -222,6 +224,7 @@ int main (void)
 					break;
 					case SCOREEXPLAYER:
 					exScore = comm.read();
+					Serial.println(exScore);
 					externalPlayer.updateScore(&exScore);
 					exScore = 0;
 					break;
@@ -344,7 +347,20 @@ void initializeNunchuck()
 	Wire.endTransmission();     // stop transmitting
 }
 
-
+/*
+ * initializaGameValues
+ * set the game values eg time and lives
+ * input:  na
+ * output: na
+ */ 
+void initializaGameValues()
+{
+	minute = 3;
+	secondTenth = 0;
+	second = 0;
+	internalPlayer.initializeValues();
+	externalPlayer.initializeValues();
+}
 
 /*
 * drawTimer
