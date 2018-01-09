@@ -31,7 +31,7 @@ private:
 	View *requestedViewPointer;
 	
 	uint8_t internalPlayerPlace, externalPlayerPlace;
-	
+	uint16_t thirdHighscore, secondHighscore, firstHighscore;
 	//////////////////////////////////////////////////////////////////////////
 	// Debug:
 	bool youLose;

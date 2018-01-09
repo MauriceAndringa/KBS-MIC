@@ -63,6 +63,21 @@ void EndScreen::listenToTouchInput()
  */
 void EndScreen::newHighScore()
 {
+	thirdHighscore = SystemFunctions::readScore(3);
+	// check if one or both of the score are higher then the lowest score on the scoreboard
+	if(internalPlayer.getScore() > externalPlayer.getScore()){
+		if(thirdHighscore > internalPlayer.getScore())
+			return;// return and don't write to EEPROM as the internalPlayer has a higher score, but hasn't a higher score then place 3 on scoreboard
+	}
+	else if(externalPlayer.getScore() > internalPlayer.getScore()){
+		if(thirdHighscore > externalPlayer.getScore())
+			return; // return and don't write to EEPROM as the externalPlayer has a higher score, but hasn't a higher score then place 3 on scoreboard
+	}
+	else if(thirdHighscore > internalPlayer.getScore())
+		return; // return and don't write to EEPROM as both the internal and external player don't have a high enough score for the scoreboard
+	
+	// determent the place of internalPlayer and externalPlayer
+	internalPlayerPlace = 0, externalPlayerPlace = 0;
 	for(int i = 3; i >= 1; i--){
 		if(SystemFunctions::readScore(i) < internalPlayer.getScore() && SystemFunctions::readScore(i) < externalPlayer.getScore())
 			internalPlayerPlace = i, externalPlayerPlace = i;
@@ -71,8 +86,18 @@ void EndScreen::newHighScore()
 		else if (SystemFunctions::readScore(i) < externalPlayer.getScore())
 			externalPlayerPlace = i;
 	}
+	
+	// now we can start writing to EEPROM
+	if(internalPlayerPlace == externalPlayerPlace){
+		SystemFunctions::scoreToEEPROM(internalPlayer.getScore(), internalPlayerPlace);
+		if(!((externalPlayerPlace + 1) == 4))
+			SystemFunctions::scoreToEEPROM(externalPlayer.getScore(), externalPlayerPlace + 1);
+	}else if(internalPlayerPlace != 0)
+		SystemFunctions::scoreToEEPROM(internalPlayer.getScore(), internalPlayerPlace);
+	else if(externalPlayerPlace != 0)
+		SystemFunctions::scoreToEEPROM(externalPlayer.getScore(), externalPlayerPlace);
 
-	if(internalPlayerPlace != externalPlayerPlace){
+	/*if(internalPlayerPlace != externalPlayerPlace){
 		if(internalPlayerPlace > 0)
 			SystemFunctions::scoreToEEPROM(internalPlayer.getScore(), internalPlayerPlace);
 		
@@ -89,7 +114,7 @@ void EndScreen::newHighScore()
 		SystemFunctions::scoreToEEPROM(externalPlayer.getScore(), externalPlayerPlace);
 		if(internalPlayerPlace + 1 <= 3)
 			SystemFunctions::scoreToEEPROM(internalPlayer.getScore(), internalPlayerPlace + 1);
-	}
+	}*/
 	return;
 }
 
