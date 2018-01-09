@@ -41,7 +41,7 @@ void Highscore::draw()
 		lcdPointer->drawText(120, 60+(20*i), SystemFunctions::printScore(i), RGB(255,255,0), RGB(0,0,0),1);	// print score
 	}
 	
-	free(&i); // free memory space of i
+	//free(&i); // free memory space of i
 	
 }
 

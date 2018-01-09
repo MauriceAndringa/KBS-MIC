@@ -23,7 +23,7 @@
 #include "EndScreen.h"
 
 // define if the microcontroller is a slave or master
-#define IS_SLAVE 1
+#define IS_SLAVE 0
 #define DPLAYER 1
 #define DMAP 2
 #define START 3
@@ -206,9 +206,18 @@ int main (void)
 				switch (type){
 					case EXPLAYER:
 					exPlayerLoc = comm.read();
+					if (exPlayerLoc>142)
+					{
+						exPlayerLoc=externalPlayer.getLocation();
+					}
+					Serial.println(exPlayerLoc);
 					break;
 					case BOMB:
 					externalBombLocation = comm.read();
+					if (externalBombLocation>142)
+					{
+						externalBombLocation=externalPlayer.getLocation();
+					}
 					level.updateLevel(externalBombLocation, 4);
 					exBomb.drawBomb(externalBombLocation);
 					break;
@@ -224,7 +233,7 @@ int main (void)
 					break;
 					case SCOREEXPLAYER:
 					exScore = comm.read();
-					Serial.println(exScore);
+					//Serial.println(exScore);
 					externalPlayer.updateScore(&exScore);
 					exScore = 0;
 					break;
