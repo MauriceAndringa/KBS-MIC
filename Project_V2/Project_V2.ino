@@ -161,10 +161,10 @@ int main (void)
 					SystemFunctions::drawPercentage(tempLoc);
 					if(comm.available()){
 						tempVal = comm.read();
-						while(tempVal == 255)
+						while(tempVal == 255) // wait until tempVal has changed
 						tempVal = comm.read();
 						//delay(1);
-						tempLoc = comm.read();
+						tempLoc = comm.read(); // wait until tempLoc has changed
 						while(tempLoc == 255)
 						tempLoc = comm.read();
 						level.updateLevel(tempLoc, tempVal);
@@ -279,7 +279,8 @@ int main (void)
 				exReadyForEffect = 0;
 			}
 			
-			drawTimer();
+			// check als deze twee in 1 functie kunnen door alleen te tekenen wanneer er een update is.
+			drawTimer(); 
 			updateTimer();
 			if(score > 0){
 				comm.write(SCOREEXPLAYER);
