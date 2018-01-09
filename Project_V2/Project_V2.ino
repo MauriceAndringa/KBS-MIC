@@ -33,6 +33,8 @@
 #define BLOCKDELETE 4
 #define DELETEEXLIVE 5
 #define SCOREEXPLAYER 6
+#define FREQUENCY 17	// 56 kHz
+//#define FREQUENCY 51	// 38 kHz
 
 // Global Variables
 View currentView	= NONE;
@@ -68,6 +70,13 @@ uint8_t minute = 0;
 uint8_t secondTenth = 0;
 uint8_t second = 0;
 unsigned long readyToRemoveCountDownTimer;
+
+//PWM Interrupt
+ ISR(TIMER2_COMPA_vect)
+ {
+	  PORTD ^= (1 << DDD3);
+ }
+
 
 //Code
 int main (void)
@@ -331,6 +340,7 @@ int main (void)
 void initializePins()
 {
 	DDRB |=  (1 <<DDB1);		//Outputpoort van achtergrondlicht
+	DDRD |=  (1 <<DDD2);		//Outputpoort van frequentie voor IR
 	DDRC &= ~(1 << DDC0);		//Inputpoort van potmeter (analogPin0), en 2 analoge poorten voor het genereren van willerkeurige input.
 	PORTC |= (1 <<PORTC0);		//instellen pull-up weerstand
 }
@@ -341,10 +351,22 @@ void initializeRegisters()
 	ADCSRA = (1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0);	//ADCklok=CPUklok/128
 	ADCSRA |= (1<<ADEN);						//Enable ADC
 	
-	//PWM register
+	cli();
+	//PWM register Screen Brightness
 	TCCR1A |= (1<<COM0A1);
 	TCCR1A |= (1<<WGM01)|(1<<WGM00);
 	TCCR1B |= (1<<CS01);
+	
+	//PWM register for IR
+	TCCR2A = 0;	// set entire TCCR2A register to 0
+	TCCR2B = 0;	// same for TCCR2B
+	TCNT2  = 0;	//initialize counter value to 0
+	OCR2A = FREQUENCY;	//
+	TCCR2A |= (1 << WGM21);
+	TCCR2B |= (1 << CS21); 
+	TIMSK2 |= (1 << OCIE2A);
+	
+	sei(); 
 }
 
 void initializeNunchuck()
