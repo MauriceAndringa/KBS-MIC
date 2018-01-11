@@ -15,8 +15,6 @@ EndScreen::EndScreen(MI0283QT9 *lcdPointer, View *requestedViewPointer)
 	EndScreen::lcdPointer = lcdPointer;
 	EndScreen::requestedViewPointer	= requestedViewPointer;
 	youLose = 0;
-	internalPlayerPlace = 0;
-	externalPlayerPlace = 0;
 } //EndScreen
 
 /*
@@ -63,6 +61,9 @@ void EndScreen::listenToTouchInput()
  */
 void EndScreen::newHighScore()
 {
+	Serial.print("internalPlayer: ");Serial.println(internalPlayer.getScore());
+	Serial.print("externalPlayer: ");Serial.println(externalPlayer.getScore());
+	
 	thirdHighscore = SystemFunctions::readScore(3);
 	// check if one or both of the score are higher then the lowest score on the scoreboard
 	if(internalPlayer.getScore() > externalPlayer.getScore()){
@@ -76,46 +77,52 @@ void EndScreen::newHighScore()
 	else if(thirdHighscore > internalPlayer.getScore())
 		return; // return and don't write to EEPROM as both the internal and external player don't have a high enough score for the scoreboard
 	
-	// determent the place of internalPlayer and externalPlayer
-	internalPlayerPlace = 0, externalPlayerPlace = 0;
-	for(int i = 3; i >= 1; i--){
-		if(SystemFunctions::readScore(i) < internalPlayer.getScore() && SystemFunctions::readScore(i) < externalPlayer.getScore())
-			internalPlayerPlace = i, externalPlayerPlace = i;
-		else if(SystemFunctions::readScore(i) < internalPlayer.getScore())
-			internalPlayerPlace = i;
-		else if (SystemFunctions::readScore(i) < externalPlayer.getScore())
-			externalPlayerPlace = i;
-	}
+	// update 
+	internalPlayerPlace = calculatePlayerPlace(internalPlayer.getScore());
+	updateHighscore(internalPlayerPlace, &internalPlayer);	
 	
-	// now we can start writing to EEPROM
-	if(internalPlayerPlace == externalPlayerPlace){
-		SystemFunctions::scoreToEEPROM(internalPlayer.getScore(), internalPlayerPlace);
-		if(!((externalPlayerPlace + 1) == 4))
-			SystemFunctions::scoreToEEPROM(externalPlayer.getScore(), externalPlayerPlace + 1);
-	}else if(internalPlayerPlace != 0)
-		SystemFunctions::scoreToEEPROM(internalPlayer.getScore(), internalPlayerPlace);
-	else if(externalPlayerPlace != 0)
-		SystemFunctions::scoreToEEPROM(externalPlayer.getScore(), externalPlayerPlace);
-
-	/*if(internalPlayerPlace != externalPlayerPlace){
-		if(internalPlayerPlace > 0)
-			SystemFunctions::scoreToEEPROM(internalPlayer.getScore(), internalPlayerPlace);
-		
-		if(!externalPlayerPlace > 0)
-			SystemFunctions::scoreToEEPROM(externalPlayer.getScore(), externalPlayerPlace);
-		return;
-	}
-	
-	if(internalPlayer.getScore() > externalPlayer.getScore()){
-		SystemFunctions::scoreToEEPROM(internalPlayer.getScore(), internalPlayerPlace);
-		if(externalPlayerPlace + 1 <= 3)
-			SystemFunctions::scoreToEEPROM(externalPlayer.getScore(), externalPlayerPlace + 1);
-	} else {
-		SystemFunctions::scoreToEEPROM(externalPlayer.getScore(), externalPlayerPlace);
-		if(internalPlayerPlace + 1 <= 3)
-			SystemFunctions::scoreToEEPROM(internalPlayer.getScore(), internalPlayerPlace + 1);
-	}*/
+	externalPlayerPlace = calculatePlayerPlace(externalPlayer.getScore());
+	updateHighscore(externalPlayerPlace, &externalPlayer);
 	return;
+}
+
+/*
+ * calculatePlayerPlace function calculates the place of the player
+ * input: score of the player
+ * returns: place of the player
+ */
+uint8_t EndScreen::calculatePlayerPlace(uint16_t score)
+{
+	EndScreen::place = 0;
+	for(int i = 3; i >= 1; i--){
+		if(SystemFunctions::readScore(i) < score)
+			place = i;
+	}
+	return place;
+}
+
+/*
+ * updateHigscore updates the highscore
+ * input: player place (from calculatePlayerPlace) and pointer to player object
+ * returns: na
+ */
+void EndScreen::updateHighscore(uint8_t place, Player *player)
+{
+	// return if place is equal to 0
+	if(place == 0)
+		return;
+		
+	if(place == 1){
+		SystemFunctions::scoreToEEPROM(SystemFunctions::readScore(place + 1), place + 2);
+		SystemFunctions::scoreToEEPROM(SystemFunctions::readScore(place), place + 1);
+		SystemFunctions::scoreToEEPROM(player->getScore(), place);
+	}
+	else if(internalPlayerPlace == 2){
+		SystemFunctions::scoreToEEPROM(SystemFunctions::readScore(place), place + 1);
+		SystemFunctions::scoreToEEPROM(player->getScore(), place);
+	}
+	else if(internalPlayerPlace == 1)
+		SystemFunctions::scoreToEEPROM(player->getScore(), place);
 }
 
 // default destructor

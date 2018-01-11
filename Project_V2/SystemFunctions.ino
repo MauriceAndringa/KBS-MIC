@@ -195,15 +195,6 @@ void SystemFunctions::sendMapData(uint8_t location, uint8_t val)
 	comm.write(location);
 }
 
-uint8_t SystemFunctions::getData(uint16_t stream)
-{
-	return (uint8_t)(stream);
-}
-uint8_t SystemFunctions::getType(uint16_t stream)
-{
-	return (uint8_t)(stream>>8);
-}
-
 void SystemFunctions::drawPercentage(uint8_t temploc)
 {
 	if(IS_SLAVE)

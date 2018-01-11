@@ -23,7 +23,7 @@
 #include "EndScreen.h"
 
 // define if the microcontroller is a slave or master
-#define IS_SLAVE 0
+#define IS_SLAVE 1
 #define DPLAYER 1
 #define DMAP 2
 #define START 3
@@ -138,10 +138,8 @@ int main (void)
 				SystemFunctions::drawPercentage(0);
 				#if !IS_SLAVE
 				while(1){
-					//Serial.print(comm.read(), BIN);
 					if(comm.read() == 1){
 						comm.write(2);
-						Serial.println("\n\nNicE!\n");
 						break;
 					}
 				}
@@ -151,32 +149,25 @@ int main (void)
 					break;
 				}
 				#else
-				Serial.println("skl;djl;a");
 				while(1){
-					Serial.print("Sending");
 					comm.write(1);
-					if(comm.read() == 2){
-						Serial.println("\n\nNicE!\n");
+					if(comm.read() == 2)
 						break;
-					}
 				}
 				while(1){
-					Serial.print("Waiting");
 					SystemFunctions::drawPercentage(tempLoc);
 					if(comm.available()){
 						tempVal = comm.read();
 						while(tempVal == 255) // wait until tempVal has changed
 						tempVal = comm.read();
-						//delay(1);
+						
 						tempLoc = comm.read(); // wait until tempLoc has changed
 						while(tempLoc == 255)
 						tempLoc = comm.read();
 						level.updateLevel(tempLoc, tempVal);
-						comm.write(1);
-						//Serial.print(tempLoc);Serial.print('\t');Serial.println(tempVal);
+						// TODO check if needed
+						comm.write(1); // write to master that slave is ready to recieve next value
 					}
-					//drawPercentage(tempLoc);
-					//Serial.println(tempLoc);
 					if(tempLoc >= 142){
 						comm.write(START); // send to master that the Slave is ready do start the game.
 						tempVal = 0;
@@ -212,7 +203,6 @@ int main (void)
 					{
 						exPlayerLoc=externalPlayer.getLocation();
 					}
-					Serial.println(exPlayerLoc);
 					break;
 					case BOMB:
 					externalBombLocation = comm.read();
@@ -224,22 +214,14 @@ int main (void)
 					exBomb.drawBomb(externalBombLocation);
 					break;
 					case BOMBDETONATE:
-					//externalBombLocation = comm.read();
 					exBomb.explodeBomb(externalBombLocation);
 					externalBombEffectTimer = millis();
 					exReadyForEffect = 1;
 					break;
-					case BLOCKDELETE:
-					break;
-					case DELETEEXLIVE:
-					break;
 					case SCOREEXPLAYER:
 					exScore = comm.read();
-					//Serial.println(exScore);
 					externalPlayer.updateScore(&exScore);
-					exScore = 0;
-					break;
-					
+					exScore = 0;					
 				}
 			}
 
@@ -259,7 +241,6 @@ int main (void)
 				internalPlayer.move(resultNunchuck);
 				comm.write(EXPLAYER);
 				comm.write(internalPlayer.getLocation());
-				//TODO: add send function of player loc with internalPlayer.getLocation();
 				} else if(resultNunchuck == 5 && !bombDropped){ // check if button Z is pushed(button Z returns value 5)
 				internalPlayerDropBombTimer = millis();
 				doNotDrawPlayer = millis();
@@ -293,7 +274,6 @@ int main (void)
 				exReadyForEffect = 0;
 			}
 			
-			// check als deze twee in 1 functie kunnen door alleen te tekenen wanneer er een update is.
 			drawTimer(); 
 			updateTimer();
 			if(score > 0){
@@ -308,24 +288,14 @@ int main (void)
 			requestedView = ENDSCREEN;
 		}
 		
-		
-		
-		
-		
 		if (currentView == HIGHSCORE)
-		{
 			highscore.listenToTouchInput();
-		}
 		
 		if (currentView == MENU)
-		{
 			mainMenu.listenToTouchInput();
-		}
 		
 		if (currentView == ENDSCREEN)
-		{
 			endScreen.listenToTouchInput();
-		}
 	}
 }
 
